@@ -23,6 +23,9 @@ public:
   static Vector cross(const Vector &v1, const Vector &v2);
   static double dot(const Vector &v1, const Vector &v2);
 
+  double magnitude();
+  Vector normalise();
+
   // constructor
   Vector(const long double &x, const long double &y, const long double &z);
 };
