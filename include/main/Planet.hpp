@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Orbit.hpp"
-#include "Vector.hpp"
+#include "main/Orbit.hpp"
+#include "main/Vector.hpp"
 #include <string>
 
 class Planet {
@@ -9,7 +9,7 @@ class Planet {
 public:
   // methods
 
-  virtual void drawPlanet();
+  virtual void drawPlanet() = 0;
   void updateRotation();
 
   // Getters and Setters

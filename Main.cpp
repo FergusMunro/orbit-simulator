@@ -1,9 +1,11 @@
-#include "Planet.hpp"
+#include "main/Vector.hpp"
 #include <iostream>
 
 int main() {
 
-  Planet planet;
+  Vector vector = Vector(1, 2, 3);
+
+  std::cout << vector.x << std::endl;
 
   return 0;
 }

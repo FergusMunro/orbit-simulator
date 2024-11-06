@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PlanetManager.hpp"
+#include "main/PlanetManager.hpp"
 
 class GUI {
 public:

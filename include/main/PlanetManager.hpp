@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Planet.hpp"
+#include "main/Planet.hpp"
 #include <forward_list>
 
 class PlanetManager {

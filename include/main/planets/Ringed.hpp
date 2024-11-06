@@ -1,14 +1,16 @@
 #pragma once
 
-#include "Planet.hpp"
+#include "main/Planet.hpp"
 
-class Asteroid : public Planet {
+class Ringed : public Planet {
 
 public:
-  Asteroid();
+  Ringed();
   void drawPlanet() override;
   int getSize();
 
 private:
   int size();
+
+  void drawRings();
 };

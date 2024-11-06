@@ -1,4 +1,4 @@
-#include "Vector.hpp"
+#include "main/Vector.hpp"
 #include <cmath>
 
 Vector::Vector(const long double &_x, const long double &_y,
@@ -29,34 +29,42 @@ Vector const Vector::operator-(const Vector &vectorToSubtract) {
 Vector const Vector::operator*(double scalar) {
   Vector vector = Vector(x * scalar, y * scalar, z * scalar);
 
+  // again very simmilar to add function, but this time multiplies each value of
+  // vector by scalar
+
   return vector;
 }
 
 double Vector::dot(const Vector &v1, const Vector &v2) {
 
   return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+  // this function just applies the formula
 }
 
 Vector Vector::cross(const Vector &v1, const Vector &v2) {
 
   Vector crossProduct =
-      Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x - v2.z,
-             v1.x * v2.y - v1.y * v1.x);
+      Vector(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
+             v1.x * v2.y - v1.y * v2.x);
 
   return crossProduct;
+
+  // this function also just uses the right formula
 }
 
 double Vector::magnitude() {
   double mag = x * x + y * y + z * z;
 
   return sqrt(mag);
+
+  // uses pythagoras to find magnitude
 }
 
 Vector Vector::normalise() {
 
   double mag = this->magnitude();
 
-  mag = 1 / mag;
+  mag = 1.0 / mag;
 
   return *this * mag;
 

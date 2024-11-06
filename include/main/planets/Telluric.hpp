@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Planet.hpp"
+#include "main/Planet.hpp"
 
 class Telluric : public Planet {
 

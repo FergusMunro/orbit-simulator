@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Planet.hpp"
+#include "main/Planet.hpp"
 
-class Comet : public Planet {
+class Star : public Planet {
 
 public:
-  Comet();
+  Star();
   void drawPlanet() override;
   int getSize();
 
 private:
   int size();
-
-  void drawTrail();
 };

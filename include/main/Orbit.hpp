@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.hpp"
+#include "main/Vector.hpp"
 class Planet;
 
 class Orbit {

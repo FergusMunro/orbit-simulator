@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Planet.hpp"
+#include "main/Planet.hpp"
 
-class Star : public Planet {
+class Gas : public Planet {
 
 public:
-  Star();
+  Gas();
   void drawPlanet() override;
   int getSize();
 

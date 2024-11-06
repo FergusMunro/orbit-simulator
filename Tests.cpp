@@ -1,6 +1,2 @@
-#include <iostream>
-
-int main() {
-  std::cout << "hello";
-  return 0;
-}
+#define CATCH_CONFIG_MAIN
+#include "catch.h"
