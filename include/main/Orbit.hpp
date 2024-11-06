@@ -8,15 +8,21 @@ public:
   // methods
 
   // mathematical functions
-  Vector convertToVelocity(Planet &orbitedPlanet);
-  Vector convertFromVelocity(Vector &position, Vector &velocity,
-                             Planet &orbitedPlanet);
+  Vector convertToVelocity(const Planet &orbitedPlanet);
+  Vector convertFromVelocity(const Vector &position, const Vector &velocity,
+                             const Planet &orbitedPlanet);
 
   // other methods
-  void drawOrbit(Planet &orbitedPlanet);
+  void drawOrbit(const Planet &orbitedPlanet);
   void toggleKeplersFirst();
   void toggleKeplersSecond();
   void toggleConstantSweeping();
+
+  Orbit(const Vector &_position, const Vector &_velocity,
+        Planet &orbitedPlanet);
+
+  Orbit(int _angularMomentum, int _inclination, double _eccentricity,
+        int _rightAscension, int _argp, int _trueanomaly);
 
 private:
   // orbital elements
