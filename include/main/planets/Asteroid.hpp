@@ -5,10 +5,10 @@
 class Asteroid : public Planet {
 
 public:
-  Asteroid();
+  Asteroid(const Vector &_position, const Vector &_velocity);
   void drawPlanet() override;
   int getSize();
 
 private:
-  int size();
+  int size;
 };
