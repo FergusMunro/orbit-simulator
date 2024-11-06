@@ -1,0 +1,42 @@
+#include "main/PlanetManager.hpp"
+
+PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
+
+void PlanetManager::addPlanet(const Planet &planetToAdd) {
+  // TODO
+}
+
+void PlanetManager::removePlanet(Planet &planetToRemove) {
+  // TODO
+}
+
+void PlanetManager::removeAll() {
+  // TODO
+}
+
+void PlanetManager::setTimeSpeed(int _timeSpeed) {
+
+  if (_timeSpeed < 0) {
+    // do nothing
+  } else {
+    timeSpeed = _timeSpeed;
+  }
+}
+
+Vector const
+PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
+                                                  const Planet &planet2) {
+  // TODO
+  return Vector(0, 0, 0);
+}
+double const
+PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
+                                            const Planet &planet2) {
+  // TODO
+  return 0;
+}
+
+bool const PlanetManager::areIntersecting(const Planet &planet1,
+                                          const Planet &planet2) {
+  return false;
+}
