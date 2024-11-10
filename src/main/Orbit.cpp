@@ -1,5 +1,7 @@
 #include "main/Orbit.hpp"
 
+Orbit::Orbit() {}
+
 // constructor for passing velocity and position directly
 Orbit::Orbit(const Vector &_position, const Vector &_velocity,
              Planet &orbitedPlanet) {

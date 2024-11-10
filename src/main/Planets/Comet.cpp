@@ -1,8 +1,8 @@
+#include "main/planets/Comet.hpp"
 #include "main/Planet.hpp"
-#include "main/planets/Asteroid.hpp"
 #include <cmath>
 
-Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
+Comet::Comet(const Vector &_position, const Vector &_velocity)
     : Planet(_position, _velocity) {
 
   size = 4 * pow(10, 3);
@@ -12,3 +12,10 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
 
   // radius and mass based off of halley's comet
 }
+
+void Comet::drawPlanet() {
+  // TODO
+}
+
+// getters and setters
+int Comet::getSize() { return size; }

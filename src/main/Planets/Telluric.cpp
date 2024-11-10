@@ -1,8 +1,8 @@
+#include "main/planets/Telluric.hpp"
 #include "main/Planet.hpp"
-#include "main/planets/Asteroid.hpp"
 #include <cmath>
 
-Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
+Telluric::Telluric(const Vector &_position, const Vector &_velocity)
     : Planet(_position, _velocity) {
 
   size = 6 * pow(10, 6);
@@ -12,3 +12,10 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
 
   // based off of earth
 }
+
+void Telluric::drawPlanet() {
+  // TODO
+}
+
+// getters and setters
+int Telluric::getSize() { return size; }

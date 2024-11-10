@@ -18,6 +18,8 @@ public:
   void toggleKeplersSecond();
   void toggleConstantSweeping();
 
+  Orbit();
+
   Orbit(const Vector &_position, const Vector &_velocity,
         Planet &orbitedPlanet);
 

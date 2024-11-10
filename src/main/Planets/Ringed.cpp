@@ -1,8 +1,8 @@
+#include "main/planets/Ringed.hpp"
 #include "main/Planet.hpp"
-#include "main/planets/Asteroid.hpp"
 #include <cmath>
 
-Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
+Ringed::Ringed(const Vector &_position, const Vector &_velocity)
     : Planet(_position, _velocity) {
 
   size = 6 * pow(10, 7);
@@ -12,3 +12,10 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
 
   // based off of saturn
 }
+
+void Ringed::drawPlanet() {
+  // TODO
+}
+
+// getters and setters
+int Ringed::getSize() { return size; }

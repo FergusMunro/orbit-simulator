@@ -1,9 +1,11 @@
 #include "main/Planet.hpp"
+#include "main/Orbit.hpp"
 #include "main/Vector.hpp"
 
 Planet::Planet(const Vector &_position, const Vector &_velocity)
     : position(_position), velocity(_velocity) {
   rotation = 0;
+  pOrbitedPlanet = NULL;
 }
 
 void Planet::updateRotation() {
@@ -22,3 +24,5 @@ Vector Planet::getPosition() { return position; }
 void Planet::setPosition(Vector &_position) { position = _position; }
 Vector Planet::getVelocity() { return velocity; }
 void Planet::setVelocity(Vector &_velocity) { velocity = _velocity; }
+
+void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }

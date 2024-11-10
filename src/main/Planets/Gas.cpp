@@ -1,8 +1,8 @@
+#include "main/planets/Gas.hpp"
 #include "main/Planet.hpp"
-#include "main/planets/Asteroid.hpp"
 #include <cmath>
 
-Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
+Gas::Gas(const Vector &_position, const Vector &_velocity)
     : Planet(_position, _velocity) {
 
   size = 7 * pow(10, 7);
@@ -12,3 +12,10 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
 
   // based off of jupiter
 }
+
+void Gas::drawPlanet() {
+  // TODO
+}
+
+// getters and setters
+int Gas::getSize() { return size; }

@@ -1,7 +1,7 @@
+#include "main/planets/Satellite.hpp"
 #include "main/Planet.hpp"
-#include "main/planets/Asteroid.hpp"
 
-Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
+Satellite::Satellite(const Vector &_position, const Vector &_velocity)
     : Planet(_position, _velocity) {
 
   size = 1;
@@ -11,3 +11,10 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity)
 
   // based of very small satellite
 }
+
+void Satellite::drawPlanet() {
+  // TODO
+}
+
+// getters and setters
+int Satellite::getSize() { return size; }

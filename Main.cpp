@@ -1,11 +1,8 @@
-#include "main/Vector.hpp"
-#include <iostream>
+#include "main/GUI.hpp"
 
 int main() {
 
-  Vector vector = Vector(1, 2, 3);
-
-  std::cout << vector.x << std::endl;
+  GUI::run();
 
   return 0;
 }

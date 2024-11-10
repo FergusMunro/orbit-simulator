@@ -21,6 +21,8 @@ public:
   Vector getVelocity();
   void setVelocity(Vector &_velocity);
 
+  void setOrbitedPlanet(Planet *planet);
+
   // constructors
   Planet(const Vector &position, const Vector &velocity);
 
@@ -34,4 +36,6 @@ protected:
   int rotation;
   int rotation_rate;
   std::string pathToTexture;
+
+  Planet *pOrbitedPlanet;
 };
