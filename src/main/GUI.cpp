@@ -1,8 +1,8 @@
 #include "main/GUI.hpp"
-#include "main/Planet.hpp"
+#include "main/planets/Telluric.hpp"
 
 GUI::GUI() {
-  planetManager.addPlanet(Telluric(Vector(0, 0, 0), Vector(0, 0, 0)));
+  pm.addPlanet(Telluric(Vector(0, 0, 0), Vector(0, 0, 0)));
   // basic driver code to set up a basic simulation
 }
 

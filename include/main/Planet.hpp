@@ -29,7 +29,7 @@ public:
 protected:
   // attributes
 
-  int mass;
+  long double mass;
   Orbit orbit;
   Vector position;
   Vector velocity;

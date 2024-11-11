@@ -20,6 +20,20 @@ void Orbit::drawOrbit(const Planet &orbitedPlanet) {
   // TODO
 }
 
+Vector Orbit::convertToVelocity(const Planet &orbitedPlanet) {
+  // TODO
+
+  return Vector(0, 0, 0);
+}
+
+Vector Orbit::convertFromVelocity(const Vector &position,
+                                  const Vector &velocity,
+                                  const Planet &orbitedPlanet) {
+  // TODO
+
+  return Vector(0, 0, 0);
+}
+
 void Orbit::toggleKeplersFirst() {
   if (keplersFirst == true) {
     keplersFirst = false;

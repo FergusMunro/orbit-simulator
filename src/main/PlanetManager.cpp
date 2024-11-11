@@ -14,6 +14,14 @@ void PlanetManager::removeAll() {
   // TODO
 }
 
+void PlanetManager::updatePositions() {
+  // TODO
+}
+
+void const PlanetManager::drawPlanets() {
+  // TODO
+}
+
 void PlanetManager::setTimeSpeed(int _timeSpeed) {
 
   if (_timeSpeed < 0) {
