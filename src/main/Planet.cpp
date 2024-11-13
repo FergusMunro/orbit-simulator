@@ -26,3 +26,4 @@ Vector Planet::getVelocity() { return velocity; }
 void Planet::setVelocity(Vector &_velocity) { velocity = _velocity; }
 
 void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }
+Planet *Planet::getOrbitedPlanet() { return pOrbitedPlanet; }

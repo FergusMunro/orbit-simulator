@@ -22,7 +22,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/li
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC raylib)
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 
 add_test(tests, "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/*")
+

@@ -22,6 +22,7 @@ public:
   void setVelocity(Vector &_velocity);
 
   void setOrbitedPlanet(Planet *planet);
+  Planet *getOrbitedPlanet();
 
   // constructors
   Planet(const Vector &position, const Vector &velocity);
