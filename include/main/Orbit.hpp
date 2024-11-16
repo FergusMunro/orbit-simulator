@@ -38,7 +38,7 @@ private:
 
   // other attributes
 
-  bool keplersFirst;
-  int keplersSecond;
-  int sweepWidth;
+  bool keplersFirst = false;
+  int keplersSecond = 1;
+  int sweepWidth = 1;
 };
