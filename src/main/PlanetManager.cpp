@@ -1,5 +1,4 @@
 #include "main/PlanetManager.hpp"
-#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
@@ -20,7 +19,6 @@ void PlanetManager::updatePositions() {
   if (!planets.empty()) {
 
     for (const auto &planetPtr : planets) {
-      std::cout << planetPtr->getMass() << "\n";
     }
   }
 }

@@ -17,4 +17,4 @@ void Satellite::drawPlanet() {
 }
 
 // getters and setters
-int Satellite::getSize() { return size; }
+__float128 Satellite::getSize() { return size; }

@@ -18,4 +18,4 @@ void Comet::drawPlanet() {
 }
 
 // getters and setters
-int Comet::getSize() { return size; }
+__float128 Comet::getSize() { return size; }

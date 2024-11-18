@@ -18,8 +18,8 @@ void Planet::updateRotation() {
 }
 
 // getters and setters
-int Planet::getMass() { return mass; }
-void Planet::setMass(int _mass) { mass = _mass; }
+__float128 Planet::getMass() { return mass; }
+void Planet::setMass(__float128 _mass) { mass = _mass; }
 Vector Planet::getPosition() { return position; }
 void Planet::setPosition(Vector &_position) { position = _position; }
 Vector Planet::getVelocity() { return velocity; }

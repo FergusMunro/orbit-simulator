@@ -7,10 +7,10 @@ class Ringed : public Planet {
 public:
   Ringed(const Vector &_position, const Vector &_velocity);
   void drawPlanet() override;
-  int getSize();
+  __float128 getSize();
 
 private:
-  int size;
+  __float128 size;
 
   void drawRings();
 };

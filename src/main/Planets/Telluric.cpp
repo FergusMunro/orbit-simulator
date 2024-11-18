@@ -18,4 +18,4 @@ void Telluric::drawPlanet() {
 }
 
 // getters and setters
-int Telluric::getSize() { return size; }
+__float128 Telluric::getSize() { return size; }

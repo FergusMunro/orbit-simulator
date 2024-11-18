@@ -14,8 +14,8 @@ public:
 
   // Getters and Setters
 
-  int getMass();
-  void setMass(int _mass);
+  __float128 getMass();
+  void setMass(__float128 _mass);
   Vector getPosition();
   void setPosition(Vector &_position);
   Vector getVelocity();
@@ -30,7 +30,7 @@ public:
 protected:
   // attributes
 
-  long double mass;
+  __float128 mass;
   Orbit orbit;
   Vector position;
   Vector velocity;

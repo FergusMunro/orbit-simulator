@@ -18,4 +18,4 @@ void Gas::drawPlanet() {
 }
 
 // getters and setters
-int Gas::getSize() { return size; }
+__float128 Gas::getSize() { return size; }

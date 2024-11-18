@@ -18,4 +18,4 @@ void Ringed::drawPlanet() {
 }
 
 // getters and setters
-int Ringed::getSize() { return size; }
+__float128 Ringed::getSize() { return size; }

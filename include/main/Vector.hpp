@@ -3,14 +3,14 @@
 class Vector {
 public:
   /* Attributes
-   * Long double is used to avoid any possibility
+   * __float128 is used to avoid any possibility
    * of size restrainsts, which could cause
    * unexpected behavoir if not accounted for
    */
 
-  long double x;
-  long double y;
-  long double z;
+  __float128 x;
+  __float128 y;
+  __float128 z;
 
   // operator overloading methods
 
@@ -27,5 +27,5 @@ public:
   Vector normalise();
 
   // constructor
-  Vector(const long double &x, const long double &y, const long double &z);
+  Vector(const __float128 &x, const __float128 &y, const __float128 &z);
 };

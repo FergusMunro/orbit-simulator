@@ -18,4 +18,4 @@ void Asteroid::drawPlanet() {
 }
 
 // getters and setters
-int Asteroid::getSize() { return size; }
+__float128 Asteroid::getSize() { return size; }

@@ -8,6 +8,7 @@
 #include "catch.h"
 #include "main/planets/Asteroid.hpp"
 #include "main/planets/Gas.hpp"
+#include <cmath>
 
 TEST_CASE("Planet Testing") {
 
@@ -19,5 +20,13 @@ TEST_CASE("Planet Testing") {
     g.updateRotation();
     REQUIRE(a.rotation == 10);
     REQUIRE(g.rotation == 1);
+  }
+
+  SECTION("size and mass testing") {
+    REQUIRE(a.getSize() == 1 * pow(10, 2));
+    REQUIRE(a.getMass() == 2 * pow(10, 9));
+
+    REQUIRE(g.getSize() == 7 * pow(10, 7));
+    REQUIRE(g.getMass() == 2 * pow(10, 27));
   }
 }

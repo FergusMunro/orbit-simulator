@@ -18,4 +18,4 @@ void Star::drawPlanet() {
 }
 
 // getters and setters
-int Star::getSize() { return size; }
+__float128 Star::getSize() { return size; }

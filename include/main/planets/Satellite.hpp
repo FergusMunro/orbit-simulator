@@ -7,8 +7,8 @@ class Satellite : public Planet {
 public:
   Satellite(const Vector &_position, const Vector &_velocity);
   void drawPlanet() override;
-  int getSize();
+  __float128 getSize();
 
 private:
-  int size;
+  __float128 size;
 };

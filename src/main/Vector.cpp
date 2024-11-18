@@ -1,8 +1,7 @@
 #include "main/Vector.hpp"
 #include <cmath>
 
-Vector::Vector(const long double &_x, const long double &_y,
-               const long double &_z)
+Vector::Vector(const __float128 &_x, const __float128 &_y, const __float128 &_z)
     : x(_x), y(_y), z(_z) {}
 
 Vector const Vector::operator+(const Vector &vectorToAdd) {
