@@ -2,6 +2,7 @@
 
 #include "main/Planet.hpp"
 #include <forward_list>
+#include <memory>
 
 class PlanetManager {
 public:
@@ -10,7 +11,7 @@ public:
   void const drawPlanets();
   void updatePositions();
 
-  void addPlanet(const Planet &planetToAdd);
+  void addPlanet(std::unique_ptr<Planet> planetToAdd);
   void removePlanet(Planet &planetToRemove);
   void removeAll();
   void setTimeSpeed(int _timeSpeed);
@@ -20,7 +21,8 @@ public:
 
 private:
   // linked list containing planets
-  std::forward_list<Planet> planets;
+
+  std::forward_list<std::unique_ptr<Planet>> planets;
 
   int timeSpeed;
 

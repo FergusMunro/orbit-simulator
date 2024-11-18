@@ -1,9 +1,11 @@
 #include "main/PlanetManager.hpp"
+#include <iostream>
+#include <memory>
 
 PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
 
-void PlanetManager::addPlanet(const Planet &planetToAdd) {
-  // TODO
+void PlanetManager::addPlanet(std::unique_ptr<Planet> planetToAdd) {
+  planets.push_front(std::move(planetToAdd));
 }
 
 void PlanetManager::removePlanet(Planet &planetToRemove) {
@@ -15,7 +17,12 @@ void PlanetManager::removeAll() {
 }
 
 void PlanetManager::updatePositions() {
-  // TODO
+  if (!planets.empty()) {
+
+    for (const auto &planetPtr : planets) {
+      std::cout << planetPtr->getMass() << "\n";
+    }
+  }
 }
 
 void const PlanetManager::drawPlanets() {

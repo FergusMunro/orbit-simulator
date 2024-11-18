@@ -2,7 +2,10 @@
 #include "main/planets/Telluric.hpp"
 
 GUI::GUI() {
-  pm.addPlanet(Telluric(Vector(0, 0, 0), Vector(0, 0, 0)));
+  Telluric t = Telluric(Vector(0, 0, 0), Vector(0, 0, 0));
+
+  pm.addPlanet(std::make_unique<Telluric>(t));
+
   // basic driver code to set up a basic simulation
 }
 
