@@ -16,11 +16,20 @@ add_executable(${PROJECT_NAME} ${SRC_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp
 file(GLOB_RECURSE TEST_FILES src/test/*.cpp)
 add_executable(tests ${SRC_FILES} ${TEST_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/Tests.cpp)
 
+include_directories(/usr/include/irrlicht)
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+
+
+include_directories(/usr/include/irrlicht)
+
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} "/usr/lib/libIrrlicht.so")
+TARGET_LINK_LIBRARIES(tests PRIVATE "/usr/lib/libIrrlicht.so")
 
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 
