@@ -1,5 +1,6 @@
 #include "main/GUI.hpp"
 #include "main/planets/Telluric.hpp"
+#include "vector3d.h"
 
 #include <irrlicht.h>
 
@@ -26,8 +27,9 @@ void GUI::run() {
 
   // forever loop that updates positions of planets and then draws planets
 
-  IrrlichtDevice *device = createDevice(
-      video::EDT_OPENGL, dimension2d<u32>(640, 480), 16, true, false, false, 0);
+  IrrlichtDevice *device =
+      createDevice(video::EDT_OPENGL, dimension2d<u32>(1800, 1000), 16, true,
+                   false, false, 0);
 
   device->setWindowCaption(L"Orbit Simulator");
 
@@ -40,17 +42,34 @@ void GUI::run() {
 
   ISceneNode *sphere = smgr->addSphereSceneNode();
 
-  sphere->setScale(vector3df(2.0f, 2.0f, 2.0f));
+  sphere->setScale(vector3df(5, 5, 5));
   sphere->setPosition(vector3df(0, 0, 30));
   sphere->setMaterialFlag(EMF_LIGHTING, false);
+  sphere->setMaterialTexture(0, driver->getTexture("assets/jermajpg"));
 
   smgr->addCameraSceneNode(0, vector3df(0, 0, -40), vector3df(0, 0, 30));
+
+  vector3df center = sphere->getPosition();
+
+  vector3df velocity = vector3df(1, 1, 2);
+
+  vector3df acceleration = vector3df(0, 0, 0);
+
+  vector3df d;
 
   while (device->run()) {
 
     driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
-    sphere->setPosition(sphere->getPosition() + vector3df(2, 1, 3));
+    d = sphere->getPosition() - center;
+
+    acceleration = -0.02 * d;
+
+    velocity = velocity + acceleration;
+
+    sphere->setPosition(sphere->getPosition() + velocity);
+
+    sphere->setRotation(sphere->getRotation() + vector3df(0.5f, 1.0f, 0.0f));
 
     smgr->drawAll();
     guienv->drawAll();
