@@ -9,15 +9,15 @@
 
 #include "main/PlanetManager.hpp"
 #include "main/Vector.hpp"
-#include "main/planets/Satellite.hpp"
+#include "main/planets/Asteroid.hpp"
 #include <cmath>
 #include <memory>
 
 TEST_CASE("planet Manager Tests") {
   PlanetManager pm;
-  Satellite s = Satellite(Vector(0, 0, 0), Vector(0, 0, 0));
+  Asteroid s = Asteroid(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
 
-  pm.addPlanet(std::make_unique<Satellite>(s));
+  pm.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
 
   SECTION("linked list test") {
 

@@ -29,7 +29,7 @@ include_directories(/usr/include/irrlicht)
 
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} "/usr/lib/libIrrlicht.so")
-TARGET_LINK_LIBRARIES(tests PRIVATE "/usr/lib/libIrrlicht.so")
+TARGET_LINK_LIBRARIES(tests PUBLIC "/usr/lib/libIrrlicht.so")
 
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 

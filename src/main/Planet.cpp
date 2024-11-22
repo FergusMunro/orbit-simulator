@@ -2,11 +2,15 @@
 #include "main/Orbit.hpp"
 #include "main/Vector.hpp"
 
+#include <irrlicht.h>
+
 Planet::Planet(const Vector &_position, const Vector &_velocity)
     : position(_position), velocity(_velocity) {
   rotation = 0;
   pOrbitedPlanet = NULL;
 }
+
+Planet::~Planet() {}
 
 void Planet::updateRotation() {
   rotation += rotation_rate;

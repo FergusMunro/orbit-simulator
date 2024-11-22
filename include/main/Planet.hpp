@@ -4,6 +4,8 @@
 #include "main/Vector.hpp"
 #include <string>
 
+#include <irrlicht.h>
+
 class Planet {
 
 public:
@@ -24,8 +26,10 @@ public:
   void setOrbitedPlanet(Planet *planet);
   Planet *getOrbitedPlanet();
 
-  // constructors
+  // constructor
   Planet(const Vector &position, const Vector &velocity);
+  // destructor
+  ~Planet();
 
 protected:
   // attributes

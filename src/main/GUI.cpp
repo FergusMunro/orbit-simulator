@@ -1,7 +1,6 @@
 #include "main/GUI.hpp"
-#include "main/planets/Telluric.hpp"
-#include "vector3d.h"
 
+#include <cmath>
 #include <irrlicht.h>
 
 using namespace irr;
@@ -13,11 +12,16 @@ using namespace io;
 using namespace gui;
 
 GUI::GUI() {
-  Telluric t = Telluric(Vector(0, 0, 0), Vector(0, 0, 0));
+  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(500, 500), 16, true,
+                        false, false, 0);
 
-  pm.addPlanet(std::make_unique<Telluric>(t));
+  device->setWindowCaption(L"Orbit Simulator");
 
-  // basic driver code to set up a basic simulation
+  driver = device->getVideoDriver();
+  smgr = device->getSceneManager();
+  guienv = device->getGUIEnvironment();
+
+  pm = PlanetManager();
 }
 
 void GUI::run() {
@@ -27,24 +31,30 @@ void GUI::run() {
 
   // forever loop that updates positions of planets and then draws planets
 
-  IrrlichtDevice *device =
-      createDevice(video::EDT_OPENGL, dimension2d<u32>(1800, 1000), 16, true,
-                   false, false, 0);
+  irr::scene::ICameraSceneNode *camera =
+      gui.smgr->addCameraSceneNode(0, vector3df(0, 0, 0));
 
-  device->setWindowCaption(L"Orbit Simulator");
+  camera->setFarValue(1e6);
 
-  IVideoDriver *driver = device->getVideoDriver();
-  ISceneManager *smgr = device->getSceneManager();
-  IGUIEnvironment *guienv = device->getGUIEnvironment();
+  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(5, -3, 0), gui.smgr);
 
-  while (device->run()) {
+  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 3, 1), gui.smgr);
 
-    driver->beginScene(true, true, SColor(255, 100, 101, 140));
-    smgr->drawAll();
-    guienv->drawAll();
+  while (gui.device->run()) {
 
-    driver->endScene();
+    gui.pm.updatePositions();
+
+    gui.driver->beginScene(true, true, SColor(255, 100, 101, 140));
+
+    gui.pm.drawPlanets();
+
+    gui.smgr->drawAll();
+    gui.guienv->drawAll();
+
+    gui.driver->endScene();
   }
 
-  device->drop();
+  gui.pm.removeAll();
+
+  gui.device->drop();
 }

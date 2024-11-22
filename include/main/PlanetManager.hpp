@@ -11,7 +11,8 @@ public:
   void const drawPlanets();
   void updatePositions();
 
-  void addPlanet(std::unique_ptr<Planet> planetToAdd);
+  void addPlanet(Vector _position, Vector _velocity,
+                 irr::scene::ISceneManager *smgr);
   void removePlanet(Planet &planetToRemove);
   void removeAll();
   void setTimeSpeed(int _timeSpeed);

@@ -8,12 +8,14 @@
 #include "catch.h"
 #include "main/planets/Asteroid.hpp"
 #include "main/planets/Gas.hpp"
+
 #include <cmath>
+#include <irrlicht.h>
 
 TEST_CASE("Planet Testing") {
 
-  Asteroid a = Asteroid(Vector(0, 0, 0), Vector(0, 0, 0));
-  Gas g = Gas(Vector(0, 0, 0), Vector(0, 0, 0));
+  Asteroid a = Asteroid(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
+  Gas g = Gas(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
 
   SECTION("rotation testing") {
     a.updateRotation();

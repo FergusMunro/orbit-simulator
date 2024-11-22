@@ -1,10 +1,14 @@
 #include "main/PlanetManager.hpp"
+#include "main/planets/Asteroid.hpp"
 #include <memory>
 
 PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
 
-void PlanetManager::addPlanet(std::unique_ptr<Planet> planetToAdd) {
-  planets.push_front(std::move(planetToAdd));
+void PlanetManager::addPlanet(Vector _position, Vector _velocity,
+                              irr::scene::ISceneManager *smgr) {
+  planets.push_front(
+      std::make_unique<Asteroid>(Asteroid(_position, _velocity, smgr)));
+  // basic version can only add asteroids
 }
 
 void PlanetManager::removePlanet(Planet &planetToRemove) {
@@ -12,19 +16,34 @@ void PlanetManager::removePlanet(Planet &planetToRemove) {
 }
 
 void PlanetManager::removeAll() {
-  // TODO
+
+  if (!planets.empty()) {
+
+    for (auto &planet : planets) {
+      planet.reset();
+    }
+  }
+
+  planets.clear();
 }
 
 void PlanetManager::updatePositions() {
   if (!planets.empty()) {
 
-    for (const auto &planetPtr : planets) {
+    for (const auto &planet : planets) {
+      Vector p = planet->getPosition() + planet->getVelocity();
+      planet->setPosition(p);
     }
   }
 }
 
 void const PlanetManager::drawPlanets() {
-  // TODO
+  if (!planets.empty()) {
+
+    for (const auto &planet : planets) {
+      planet->drawPlanet();
+    }
+  }
 }
 
 void PlanetManager::setTimeSpeed(int _timeSpeed) {
