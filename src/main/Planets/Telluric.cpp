@@ -12,21 +12,21 @@ Telluric::Telluric(const Vector &_position, const Vector &_velocity,
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
   // based off of earth
-
   if (smgr) {
 
-    obj = smgr->addSphereSceneNode(
-        size, 16, nullptr, 0,
-        irr::core::vector3df(position.x, position.y, position.z));
+    obj = smgr->addSphereSceneNode(size, 20);
 
+    if (obj) {
+      obj->setPosition(
+          irr::core::vector3df(position.x, position.y, position.z));
+    }
   } else {
-
     obj = nullptr;
   }
 }
 
 void Telluric::drawPlanet() {
-  // TODO
+  obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
 
 // getters and setters
