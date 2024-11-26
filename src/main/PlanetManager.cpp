@@ -1,5 +1,8 @@
 #include "main/PlanetManager.hpp"
 #include "main/planets/Asteroid.hpp"
+
+#include "main/Macros.hpp"
+#include <cmath>
 #include <memory>
 
 PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
@@ -50,7 +53,10 @@ PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
                                                   const Planet &planet2) const {
   Vector d = planet2.getPosition() - planet1.getPosition();
 
-  return d;
+  double acceleration =
+      (CONST_G * planet2.getMass() * timeSpeed) / pow(d.magnitude(), 2);
+
+  return d.normalise() * acceleration;
 }
 double
 PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
