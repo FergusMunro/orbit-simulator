@@ -29,6 +29,3 @@ Star::Star(const Vector &_position, const Vector &_velocity,
 void Star::drawPlanet() {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
-
-// getters and setters
-__float128 Star::getSize() { return size; }

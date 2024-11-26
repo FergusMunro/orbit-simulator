@@ -22,6 +22,7 @@ public:
   void setPosition(Vector &_position);
   Vector getVelocity() const;
   void setVelocity(Vector &_velocity);
+  __float128 getSize() const;
 
   void setOrbitedPlanet(Planet *planet);
   Planet *getOrbitedPlanet() const;
@@ -41,6 +42,8 @@ protected:
   int rotation;
   int rotation_rate;
   std::string pathToTexture;
+
+  __float128 size;
 
   Planet *pOrbitedPlanet;
 };

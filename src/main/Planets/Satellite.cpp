@@ -28,6 +28,3 @@ Satellite::Satellite(const Vector &_position, const Vector &_velocity,
 void Satellite::drawPlanet() {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
-
-// getters and setters
-__float128 Satellite::getSize() { return size; }

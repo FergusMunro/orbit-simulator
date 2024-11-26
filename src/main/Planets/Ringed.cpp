@@ -29,6 +29,3 @@ Ringed::Ringed(const Vector &_position, const Vector &_velocity,
 void Ringed::drawPlanet() {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
-
-// getters and setters
-__float128 Ringed::getSize() { return size; }

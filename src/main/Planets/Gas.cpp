@@ -29,6 +29,3 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
 void Gas::drawPlanet() {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
-
-// getters and setters
-__float128 Gas::getSize() { return size; }

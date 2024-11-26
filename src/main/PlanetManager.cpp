@@ -5,7 +5,9 @@
 #include <cmath>
 #include <memory>
 
-PlanetManager::PlanetManager() {} // constructor doesn't need to do anything
+PlanetManager::PlanetManager() {
+  timeSpeed = 1;
+} // constructor doesn't need to do anything
 
 void PlanetManager::addPlanet(Vector _position, Vector _velocity,
                               irr::scene::ISceneManager *smgr) {
@@ -67,5 +69,11 @@ PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
 
 bool PlanetManager::areIntersecting(const Planet &planet1,
                                     const Planet &planet2) const {
-  return false;
+  Vector d = planet1.getPosition() - planet2.getPosition();
+
+  if (d.magnitude() <= planet1.getSize() + planet2.getSize()) {
+    return true;
+  } else {
+    return false;
+  }
 }

@@ -9,7 +9,7 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
                    irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity) {
 
-  size = 2 * pow(10, 2);
+  size = 1 * pow(10, 2);
   mass = 2 * pow(10, 9);
   rotation_rate = 10;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
@@ -30,6 +30,3 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
 void Asteroid::drawPlanet() {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
-
-// getters and setters
-__float128 Asteroid::getSize() { return size; }

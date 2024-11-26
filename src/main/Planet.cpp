@@ -28,6 +28,7 @@ Vector Planet::getPosition() const { return position; }
 void Planet::setPosition(Vector &_position) { position = _position; }
 Vector Planet::getVelocity() const { return velocity; }
 void Planet::setVelocity(Vector &_velocity) { velocity = _velocity; }
+__float128 Planet::getSize() const { return size; }
 
 void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }
 Planet *Planet::getOrbitedPlanet() const { return pOrbitedPlanet; }
