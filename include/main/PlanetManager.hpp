@@ -8,7 +8,7 @@ class PlanetManager {
 public:
   // methods
 
-  void const drawPlanets();
+  void drawPlanets() const;
   void updatePositions();
 
   void addPlanet(Vector _position, Vector _velocity,
@@ -29,9 +29,9 @@ private:
 
   // private methods
 
-  Vector const calculateGravitationalAcceleration(const Planet &planet1,
-                                                  const Planet &planet2);
-  double const calculateGravitationalEnergy(const Planet &planet1,
-                                            const Planet &planet2);
-  bool const areIntersecting(const Planet &planet1, const Planet &planet2);
+  Vector calculateGravitationalAcceleration(const Planet &planet1,
+                                            const Planet &planet2) const;
+  double calculateGravitationalEnergy(const Planet &planet1,
+                                      const Planet &planet2) const;
+  bool areIntersecting(const Planet &planet1, const Planet &planet2) const;
 };

@@ -16,11 +16,11 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
 
   // mass and radius of typical medium asteroid
 
-  if (smgr) {
+  if (smgr) { // check if smgr is not null
 
     obj = smgr->addSphereSceneNode(size, 20);
 
-    if (obj) {
+    if (obj) { // check obj initialised correctly
       obj->setPosition(
           irr::core::vector3df(position.x, position.y, position.z));
     }

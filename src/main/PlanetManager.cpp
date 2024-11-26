@@ -15,32 +15,22 @@ void PlanetManager::removePlanet(Planet &planetToRemove) {
   // TODO
 }
 
-void PlanetManager::removeAll() {
-
-  if (!planets.empty()) {
-
-    for (auto &planet : planets) {
-      planet.reset();
-    }
-  }
-
-  planets.clear();
-}
+void PlanetManager::removeAll() { planets.clear(); }
 
 void PlanetManager::updatePositions() {
   if (!planets.empty()) {
 
-    for (const auto &planet : planets) {
+    for (auto &planet : planets) {
       Vector p = planet->getPosition() + planet->getVelocity();
       planet->setPosition(p);
     }
   }
 }
 
-void const PlanetManager::drawPlanets() {
+void PlanetManager::drawPlanets() const {
   if (!planets.empty()) {
 
-    for (const auto &planet : planets) {
+    for (auto &planet : planets) {
       planet->drawPlanet();
     }
   }
@@ -55,20 +45,21 @@ void PlanetManager::setTimeSpeed(int _timeSpeed) {
   }
 }
 
-Vector const
+Vector
 PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
-                                                  const Planet &planet2) {
-  // TODO
-  return Vector(0, 0, 0);
+                                                  const Planet &planet2) const {
+  Vector d = planet2.getPosition() - planet1.getPosition();
+
+  return d;
 }
-double const
+double
 PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
-                                            const Planet &planet2) {
+                                            const Planet &planet2) const {
   // TODO
   return 0;
 }
 
-bool const PlanetManager::areIntersecting(const Planet &planet1,
-                                          const Planet &planet2) {
+bool PlanetManager::areIntersecting(const Planet &planet1,
+                                    const Planet &planet2) const {
   return false;
 }

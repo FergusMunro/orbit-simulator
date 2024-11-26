@@ -16,15 +16,15 @@ public:
 
   // Getters and Setters
 
-  __float128 getMass();
+  __float128 getMass() const;
   void setMass(__float128 _mass);
-  Vector getPosition();
+  Vector getPosition() const;
   void setPosition(Vector &_position);
-  Vector getVelocity();
+  Vector getVelocity() const;
   void setVelocity(Vector &_velocity);
 
   void setOrbitedPlanet(Planet *planet);
-  Planet *getOrbitedPlanet();
+  Planet *getOrbitedPlanet() const;
 
   // constructor
   Planet(const Vector &position, const Vector &velocity);

@@ -36,9 +36,9 @@ void GUI::run() {
 
   camera->setFarValue(1e6);
 
-  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(5, -3, 0), gui.smgr);
+  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(5, -3, -12), gui.smgr);
 
-  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 3, 100), gui.smgr);
+  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 3, 4), gui.smgr);
 
   while (gui.device->run()) {
 

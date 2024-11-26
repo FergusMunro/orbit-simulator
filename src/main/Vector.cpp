@@ -4,7 +4,7 @@
 Vector::Vector(const __float128 &_x, const __float128 &_y, const __float128 &_z)
     : x(_x), y(_y), z(_z) {}
 
-Vector const Vector::operator+(const Vector &vectorToAdd) {
+Vector Vector::operator+(const Vector &vectorToAdd) const {
 
   Vector vector =
       Vector(x + vectorToAdd.x, y + vectorToAdd.y, z + vectorToAdd.z);
@@ -15,7 +15,7 @@ Vector const Vector::operator+(const Vector &vectorToAdd) {
   return vector;
 }
 
-Vector const Vector::operator-(const Vector &vectorToSubtract) {
+Vector Vector::operator-(const Vector &vectorToSubtract) const {
 
   Vector vector = Vector(x - vectorToSubtract.x, y - vectorToSubtract.y,
                          z - vectorToSubtract.z);
@@ -25,7 +25,7 @@ Vector const Vector::operator-(const Vector &vectorToSubtract) {
   return vector;
 }
 
-Vector const Vector::operator*(double scalar) {
+Vector Vector::operator*(double scalar) const {
   Vector vector = Vector(x * scalar, y * scalar, z * scalar);
 
   // again very simmilar to add function, but this time multiplies each value of
@@ -51,7 +51,7 @@ Vector Vector::cross(const Vector &v1, const Vector &v2) {
   // this function also just uses the right formula
 }
 
-double Vector::magnitude() {
+double Vector::magnitude() const {
   double mag = x * x + y * y + z * z;
 
   return sqrt(mag);
@@ -59,7 +59,7 @@ double Vector::magnitude() {
   // uses pythagoras to find magnitude
 }
 
-Vector Vector::normalise() {
+Vector Vector::normalise() const {
 
   double mag = this->magnitude();
 

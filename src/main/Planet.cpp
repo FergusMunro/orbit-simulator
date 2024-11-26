@@ -22,12 +22,12 @@ void Planet::updateRotation() {
 }
 
 // getters and setters
-__float128 Planet::getMass() { return mass; }
+__float128 Planet::getMass() const { return mass; }
 void Planet::setMass(__float128 _mass) { mass = _mass; }
-Vector Planet::getPosition() { return position; }
+Vector Planet::getPosition() const { return position; }
 void Planet::setPosition(Vector &_position) { position = _position; }
-Vector Planet::getVelocity() { return velocity; }
+Vector Planet::getVelocity() const { return velocity; }
 void Planet::setVelocity(Vector &_velocity) { velocity = _velocity; }
 
 void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }
-Planet *Planet::getOrbitedPlanet() { return pOrbitedPlanet; }
+Planet *Planet::getOrbitedPlanet() const { return pOrbitedPlanet; }

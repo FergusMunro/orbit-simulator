@@ -14,17 +14,17 @@ public:
 
   // operator overloading methods
 
-  Vector const operator+(const Vector &vectorToAdd);
-  Vector const operator-(const Vector &vectorToSubtract);
-  Vector const operator*(double scalar);
+  Vector operator+(const Vector &vectorToAdd) const;
+  Vector operator-(const Vector &vectorToSubtract) const;
+  Vector operator*(double scalar) const;
 
   // static methods
 
   static Vector cross(const Vector &v1, const Vector &v2);
   static double dot(const Vector &v1, const Vector &v2);
 
-  double magnitude();
-  Vector normalise();
+  double magnitude() const;
+  Vector normalise() const;
 
   // constructor
   Vector(const __float128 &x, const __float128 &y, const __float128 &z);
