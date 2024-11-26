@@ -24,6 +24,7 @@ void PlanetManager::removeAll() { planets.clear(); }
 
 void PlanetManager::updatePositions() {
   if (!planets.empty()) {
+    // if didn't check and planets was empty, would crash
 
     for (auto &planet : planets) {
       Vector p = planet->getPosition() + planet->getVelocity();
@@ -53,13 +54,21 @@ void PlanetManager::setTimeSpeed(int _timeSpeed) {
 Vector
 PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
                                                   const Planet &planet2) const {
+  // the order of subraction matters as if p1 - p2 then force would be repulsive
+  // not attractive
   Vector d = planet2.getPosition() - planet1.getPosition();
+
+  // applies simplified formula of newtons law of gravitation
 
   double acceleration =
       (CONST_G * planet2.getMass() * timeSpeed) / pow(d.magnitude(), 2);
 
+  // acceleration scalar multiplied by unit vector in direction of attracting
+  // planet
+
   return d.normalise() * acceleration;
 }
+
 double
 PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
                                             const Planet &planet2) const {
@@ -70,6 +79,9 @@ PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
 bool PlanetManager::areIntersecting(const Planet &planet1,
                                     const Planet &planet2) const {
   Vector d = planet1.getPosition() - planet2.getPosition();
+
+  // works out if distance between planet's centres is less than sum of planet's
+  // radii. If so, then must be intersecting
 
   if (d.magnitude() <= planet1.getSize() + planet2.getSize()) {
     return true;
