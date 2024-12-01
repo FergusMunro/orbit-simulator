@@ -60,8 +60,7 @@ PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
 
   // applies simplified formula of newtons law of gravitation
 
-  double acceleration =
-      (CONST_G * planet2.getMass() * timeSpeed) / pow(d.magnitude(), 2);
+  double acceleration = (CONST_G * planet2.getMass()) / pow(d.magnitude(), 2);
 
   // acceleration scalar multiplied by unit vector in direction of attracting
   // planet

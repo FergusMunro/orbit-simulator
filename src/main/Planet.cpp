@@ -25,9 +25,9 @@ void Planet::updateRotation() {
 __float128 Planet::getMass() const { return mass; }
 void Planet::setMass(__float128 _mass) { mass = _mass; }
 Vector Planet::getPosition() const { return position; }
-void Planet::setPosition(Vector &_position) { position = _position; }
+void Planet::setPosition(const Vector &_position) { position = _position; }
 Vector Planet::getVelocity() const { return velocity; }
-void Planet::setVelocity(Vector &_velocity) { velocity = _velocity; }
+void Planet::setVelocity(const Vector &_velocity) { velocity = _velocity; }
 __float128 Planet::getSize() const { return size; }
 
 void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }

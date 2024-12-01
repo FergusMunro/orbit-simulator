@@ -19,9 +19,9 @@ public:
   __float128 getMass() const;
   void setMass(__float128 _mass);
   Vector getPosition() const;
-  void setPosition(Vector &_position);
+  void setPosition(const Vector &_position);
   Vector getVelocity() const;
-  void setVelocity(Vector &_velocity);
+  void setVelocity(const Vector &_velocity);
   __float128 getSize() const;
 
   void setOrbitedPlanet(Planet *planet);

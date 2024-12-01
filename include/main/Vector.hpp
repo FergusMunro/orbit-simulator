@@ -15,6 +15,7 @@ public:
   // operator overloading methods
 
   Vector operator+(const Vector &vectorToAdd) const;
+
   Vector operator-(const Vector &vectorToSubtract) const;
   Vector operator*(double scalar) const;
 
