@@ -11,5 +11,4 @@ public:
 
 private:
   void drawTrail();
-  irr::scene::ISceneNode *obj = nullptr;
 };

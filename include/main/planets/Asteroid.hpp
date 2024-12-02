@@ -10,5 +10,4 @@ public:
   void drawPlanet() override;
 
 private:
-  irr::scene::ISceneNode *obj = nullptr;
 };

@@ -7,15 +7,13 @@
 
 Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
                    irr::scene::ISceneManager *smgr)
-    : Planet(_position, _velocity) {
+    : Planet(_position, _velocity, smgr) {
 
   size = 1 * pow(10, 2);
-  mass = 2 * pow(10, 9);
+  mass = 2 * pow(10, 13);
   rotation_rate = 10;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
-
   // mass and radius of typical medium asteroid
-
   if (smgr) { // check if smgr is not null
 
     obj = smgr->addSphereSceneNode(size, 20);

@@ -12,8 +12,8 @@ using namespace io;
 using namespace gui;
 
 GUI::GUI() {
-  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(500, 500), 16, true,
-                        false, false, 0);
+  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1000, 1000), 16,
+                        true, false, false, 0);
 
   device->setWindowCaption(L"Orbit Simulator");
 
@@ -36,9 +36,11 @@ void GUI::run() {
 
   camera->setFarValue(1e6);
 
-  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(5, -3, -12), gui.smgr);
+  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 0, 0), gui.smgr);
 
-  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 3, 4), gui.smgr);
+  gui.pm.addPlanet(Vector(0, -300, 5 * pow(10, 2)), Vector(0, 0, 0), gui.smgr);
+
+  gui.pm.addPlanet(Vector(500, 0, pow(10, 3)), Vector(0, 0, 0), gui.smgr);
 
   while (gui.device->run()) {
 

@@ -3,7 +3,7 @@
 #include <irrlicht.h>
 Satellite::Satellite(const Vector &_position, const Vector &_velocity,
                      irr::scene::ISceneManager *smgr)
-    : Planet(_position, _velocity) {
+    : Planet(_position, _velocity, smgr) {
 
   size = 1;
   mass = 10;
@@ -11,17 +11,14 @@ Satellite::Satellite(const Vector &_position, const Vector &_velocity,
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
   // based of very small satellite
-
-  if (smgr) {
+  if (smgr) { // check if smgr is not null
 
     obj = smgr->addSphereSceneNode(size, 20);
 
-    if (obj) {
+    if (obj) { // check obj initialised correctly
       obj->setPosition(
           irr::core::vector3df(position.x, position.y, position.z));
     }
-  } else {
-    obj = nullptr;
   }
 }
 

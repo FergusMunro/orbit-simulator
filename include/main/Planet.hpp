@@ -28,9 +28,10 @@ public:
   Planet *getOrbitedPlanet() const;
 
   // constructor
-  Planet(const Vector &position, const Vector &velocity);
+  Planet(const Vector &position, const Vector &velocity,
+         irr::scene::ISceneManager *smgr);
   // destructor
-  ~Planet();
+  virtual ~Planet();
 
 protected:
   // attributes
@@ -42,6 +43,8 @@ protected:
   int rotation;
   int rotation_rate;
   std::string pathToTexture;
+
+  irr::scene::ISceneNode *obj = nullptr;
 
   __float128 size;
 

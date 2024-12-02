@@ -4,13 +4,18 @@
 
 #include <irrlicht.h>
 
-Planet::Planet(const Vector &_position, const Vector &_velocity)
+Planet::Planet(const Vector &_position, const Vector &_velocity,
+               irr::scene::ISceneManager *smgr)
     : position(_position), velocity(_velocity) {
   rotation = 0;
   pOrbitedPlanet = NULL;
 }
 
-Planet::~Planet() {}
+Planet::~Planet() {
+  if (obj) {
+    obj->remove();
+  }
+}
 
 void Planet::updateRotation() {
   rotation += rotation_rate;

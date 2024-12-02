@@ -3,6 +3,7 @@
 
 #include "main/Macros.hpp"
 #include <cmath>
+#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {
@@ -11,9 +12,10 @@ PlanetManager::PlanetManager() {
 
 void PlanetManager::addPlanet(Vector _position, Vector _velocity,
                               irr::scene::ISceneManager *smgr) {
-  planets.push_front(
-      std::make_unique<Asteroid>(Asteroid(_position, _velocity, smgr)));
   // basic version can only add asteroids
+  planets.push_front(std::make_unique<Asteroid>(
+      _position, _velocity, smgr) // Directly create the Asteroid
+  );
 }
 
 void PlanetManager::removePlanet(Planet &planetToRemove) {
@@ -26,9 +28,70 @@ void PlanetManager::updatePositions() {
   if (!planets.empty()) {
     // if didn't check and planets was empty, would crash
 
-    for (auto &planet : planets) {
-      Vector p = planet->getPosition() + planet->getVelocity();
-      planet->setPosition(p);
+    // handle collions section
+
+    auto prev1 = planets.before_begin();
+    auto planet1 = planets.begin();
+    while (planet1 != planets.end()) {
+
+      auto prev2 = planets.before_begin();
+
+      auto planet2 = planets.begin();
+
+      int p1delete = 0;
+
+      while (planet2 != planets.end()) {
+
+        if (areIntersecting(**planet1, **planet2) && planet1 != planet2) {
+          if ((**planet1).getMass() >= (**planet2).getMass()) {
+            planet2->reset();
+            planet2 = planets.erase_after(prev2);
+          } else {
+            p1delete = 1;
+            break;
+          }
+        } else {
+          prev2 = planet2;
+          planet2++;
+        }
+      }
+      if (p1delete) {
+        planet1->reset();
+        planet1 = planets.erase_after(prev1);
+      } else {
+
+        prev1 = planet1;
+        planet1++;
+      }
+    }
+
+    // handle acceleration section
+    //
+    // although I could have put them in the same list, the collisions section
+    // is quite complicated since it has to operate on a linked list that has
+    // elements being deleted from it. For this reason it is just simpler to do
+    // two separate iterations, one for the intersections and one for everything
+    // else. Also this means I can use the built in iterators which are much
+    // nicer than manually using pointers like before
+
+    Vector acceleration = Vector(0, 0, 0);
+
+    for (auto &planet1 : planets) {
+
+      acceleration.x = 0;
+      acceleration.y = 0;
+      acceleration.z = 0;
+
+      for (auto &planet2 : planets) {
+
+        if (planet1 != planet2) {
+          acceleration = acceleration +
+                         calculateGravitationalAcceleration(*planet1, *planet2);
+        }
+      }
+
+      planet1->setVelocity(planet1->getVelocity() + acceleration);
+      planet1->setPosition(planet1->getPosition() + planet1->getVelocity());
     }
   }
 }
