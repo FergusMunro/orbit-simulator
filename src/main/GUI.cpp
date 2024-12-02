@@ -1,4 +1,5 @@
 #include "main/GUI.hpp"
+#include "main/Macros.hpp"
 
 #include <cmath>
 #include <irrlicht.h>
@@ -31,19 +32,19 @@ void GUI::run() {
 
   // forever loop that updates positions of planets and then draws planets
 
-  ICameraSceneNode *camera =
-      gui.smgr->addCameraSceneNode(0, vector3df(0, 0, 0));
+  ICameraSceneNode *camera = gui.smgr->addCameraSceneNode();
 
   camera->setFarValue(1e6);
 
-  gui.pm.addPlanet(Vector(0, 0, pow(10, 3)), Vector(0, 0, 0), gui.smgr);
+  gui.pm.addPlanet(Vector(0, 0, 4e2), Vector(0, 0, 0), gui.smgr, _Asteroid);
 
-  gui.pm.addPlanet(Vector(0, -300, 5 * pow(10, 2)), Vector(0, 0, 0), gui.smgr);
+  // gui.pm.addPlanet(Vector(0, 0, 1 * pow(10, 5)), Vector(0, 0, 0), gui.smgr,
+  //                 _Comet);
 
-  gui.pm.addPlanet(Vector(500, 0, pow(10, 3)), Vector(0, 0, 0), gui.smgr);
+  // gui.pm.addPlanet(Vector(0, 0, pow(10, 1)), Vector(0, 0, 0), gui.smgr,
+  //                 _Satellite);
 
   while (gui.device->run()) {
-
     gui.pm.updatePositions();
 
     gui.driver->beginScene(true, true, SColor(255, 100, 101, 140));

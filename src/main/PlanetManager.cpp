@@ -1,6 +1,14 @@
 #include "main/PlanetManager.hpp"
 #include "main/Macros.hpp"
+
+#include "main/Planet.hpp"
 #include "main/planets/Asteroid.hpp"
+#include "main/planets/Comet.hpp"
+#include "main/planets/Gas.hpp"
+#include "main/planets/Ringed.hpp"
+#include "main/planets/Satellite.hpp"
+#include "main/planets/Star.hpp"
+#include "main/planets/Telluric.hpp"
 
 #include <cmath>
 #include <memory>
@@ -9,12 +17,32 @@ PlanetManager::PlanetManager() {
   timeSpeed = 1;
 } // constructor doesn't need to do anything
 
-void PlanetManager::addPlanet(Vector _position, Vector _velocity,
-                              irr::scene::ISceneManager *smgr) {
-  // basic version can only add asteroids
-  planets.push_front(std::make_unique<Asteroid>(
-      _position, _velocity, smgr) // Directly create the Asteroid
-  );
+void PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
+                              irr::scene::ISceneManager *smgr, int type) {
+
+  switch (type) {
+  case _Asteroid:
+    planets.push_front(std::make_unique<Asteroid>(_position, _velocity, smgr));
+    break;
+  case _Comet:
+    planets.push_front(std::make_unique<Comet>(_position, _velocity, smgr));
+    break;
+  case _Gas:
+    planets.push_front(std::make_unique<Gas>(_position, _velocity, smgr));
+    break;
+  case _Ringed:
+    planets.push_front(std::make_unique<Ringed>(_position, _velocity, smgr));
+    break;
+  case _Satellite:
+    planets.push_front(std::make_unique<Satellite>(_position, _velocity, smgr));
+    break;
+  case _Star:
+    planets.push_front(std::make_unique<Star>(_position, _velocity, smgr));
+    break;
+  case _Telluric:
+    planets.push_front(std::make_unique<Telluric>(_position, _velocity, smgr));
+    break;
+  }
 }
 
 void PlanetManager::removePlanet(Planet &planetToRemove) {

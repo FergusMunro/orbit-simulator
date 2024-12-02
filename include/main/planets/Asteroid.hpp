@@ -7,7 +7,6 @@ class Asteroid : public Planet {
 public:
   Asteroid(const Vector &_position, const Vector &_velocity,
            irr::scene::ISceneManager *smgr);
+  Asteroid();
   void drawPlanet() override;
-
-private:
 };

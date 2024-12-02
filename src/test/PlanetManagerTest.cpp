@@ -1,3 +1,4 @@
+#include "main/Macros.hpp"
 #define private public
 #define protected public
 /*
@@ -16,7 +17,7 @@
 TEST_CASE("planet Manager Tests") {
   PlanetManager pm;
 
-  pm.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
+  pm.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, _Asteroid);
 
   SECTION("linked list test") {
 
