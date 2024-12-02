@@ -1,9 +1,8 @@
 #include "main/PlanetManager.hpp"
+#include "main/Macros.hpp"
 #include "main/planets/Asteroid.hpp"
 
-#include "main/Macros.hpp"
 #include <cmath>
-#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {
@@ -65,14 +64,14 @@ void PlanetManager::updatePositions() {
       }
     }
 
-    // handle acceleration section
-    //
     // although I could have put them in the same list, the collisions section
     // is quite complicated since it has to operate on a linked list that has
     // elements being deleted from it. For this reason it is just simpler to do
     // two separate iterations, one for the intersections and one for everything
     // else. Also this means I can use the built in iterators which are much
     // nicer than manually using pointers like before
+
+    // handle acceleration section
 
     Vector acceleration = Vector(0, 0, 0);
 
