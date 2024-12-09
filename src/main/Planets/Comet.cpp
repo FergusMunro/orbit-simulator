@@ -7,8 +7,8 @@ Comet::Comet(const Vector &_position, const Vector &_velocity,
              irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {
 
-  size = 4 * pow(10, 3);
-  mass = 3 * pow(10, 14);
+  size = 2;
+  mass = 0;
   rotation_rate = 1;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 

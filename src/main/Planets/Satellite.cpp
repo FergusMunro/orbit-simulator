@@ -6,8 +6,8 @@ Satellite::Satellite(const Vector &_position, const Vector &_velocity,
     : Planet(_position, _velocity, smgr) {
 
   size = 1;
-  mass = 10;
-  rotation_rate = 5;
+  mass = 0;
+  rotation_rate = 0;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
   // based of very small satellite

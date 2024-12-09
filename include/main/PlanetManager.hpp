@@ -25,7 +25,7 @@ private:
 
   std::forward_list<std::unique_ptr<Planet>> planets;
 
-  int timeSpeed;
+  float timeSpeed;
 
   // private methods
 

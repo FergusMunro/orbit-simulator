@@ -9,8 +9,8 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
                    irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {
 
-  size = 1 * pow(10, 2);
-  mass = 2 * pow(10, 9);
+  size = 1;
+  mass = 0;
   rotation_rate = 10;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
   // mass and radius of typical medium asteroid

@@ -6,8 +6,8 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
          irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {
 
-  size = 7 * pow(10, 7);
-  mass = 2 * pow(10, 27);
+  size = 120;
+  mass = 1000;
   rotation_rate = 1;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
@@ -19,6 +19,7 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
     if (obj) { // check obj initialised correctly
       obj->setPosition(
           irr::core::vector3df(position.x, position.y, position.z));
+      obj->setName("Gas");
     }
   }
 }

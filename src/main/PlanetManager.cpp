@@ -14,7 +14,7 @@
 #include <memory>
 
 PlanetManager::PlanetManager() {
-  timeSpeed = 1;
+  timeSpeed = 1.0 / 120;
 } // constructor doesn't need to do anything
 
 void PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,

@@ -6,8 +6,8 @@ Ringed::Ringed(const Vector &_position, const Vector &_velocity,
                irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {
 
-  size = 6 * pow(10, 7);
-  mass = 6 * pow(10, 26);
+  size = 100;
+  mass = 500;
   rotation_rate = 5;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 

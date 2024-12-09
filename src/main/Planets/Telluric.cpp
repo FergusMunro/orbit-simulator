@@ -6,8 +6,8 @@ Telluric::Telluric(const Vector &_position, const Vector &_velocity,
                    irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {
 
-  size = 6 * pow(10, 6);
-  mass = 6 * pow(10, 24);
+  size = 30;
+  mass = 100;
   rotation_rate = 5;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 

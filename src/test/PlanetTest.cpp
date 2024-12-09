@@ -6,29 +6,29 @@
  */
 
 #include "catch.h"
-#include "main/planets/Asteroid.hpp"
 #include "main/planets/Gas.hpp"
+#include "main/planets/Telluric.hpp"
 
 #include <cmath>
 #include <irrlicht.h>
 
 TEST_CASE("Planet Testing") {
 
-  Asteroid a = Asteroid(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
+  Telluric t = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
   Gas g = Gas(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
 
   SECTION("rotation testing") {
-    a.updateRotation();
+    t.updateRotation();
     g.updateRotation();
-    REQUIRE(a.rotation == 10);
+    REQUIRE(t.rotation == 5);
     REQUIRE(g.rotation == 1);
   }
 
   SECTION("size and mass testing") {
-    REQUIRE(a.getSize() == 1 * pow(10, 2));
-    REQUIRE(a.getMass() == 2 * pow(10, 9));
+    REQUIRE(t.getSize() == 30);
+    REQUIRE(t.getMass() == 100);
 
-    // REQUIRE(g.getSize() == 7 * pow(10, 7));
-    // REQUIRE(g.getMass() == 2 * pow(10, 27));
+    REQUIRE(g.getSize() == 120);
+    REQUIRE(g.getMass() == 1000);
   }
 }

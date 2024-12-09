@@ -1,7 +1,10 @@
 #include "main/GUI.hpp"
+#include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
 
+#include "vector2d.h"
 #include <cmath>
+#include <iostream>
 #include <irrlicht.h>
 
 using namespace irr;
@@ -30,19 +33,24 @@ void GUI::run() {
 
   GUI gui = GUI();
 
+  ISceneCollisionManager *colmgr = gui.smgr->getSceneCollisionManager();
+
   // forever loop that updates positions of planets and then draws planets
 
-  ICameraSceneNode *camera = gui.smgr->addCameraSceneNode();
+  ICameraSceneNode *camera = gui.smgr->addCameraSceneNodeMaya();
+
+  camera->setPosition(vector3df(0, 0, 0));
 
   camera->setFarValue(1e6);
 
-  gui.pm.addPlanet(Vector(0, 0, 4e2), Vector(0, 0, 0), gui.smgr, _Asteroid);
+  gui.pm.addPlanet(Vector(0, 9000000, 0), Vector(0, 0, 0), gui.smgr, _Star);
 
-  // gui.pm.addPlanet(Vector(0, 0, 1 * pow(10, 5)), Vector(0, 0, 0), gui.smgr,
-  //                 _Comet);
+  gui.pm.addPlanet(Vector(0, 0, 1000), Vector(0, 0, 0), gui.smgr, _Gas);
 
-  // gui.pm.addPlanet(Vector(0, 0, pow(10, 1)), Vector(0, 0, 0), gui.smgr,
-  //                 _Satellite);
+  EventReceiver *receiver = new EventReceiver;
+  gui.device->setEventReceiver(receiver);
+
+  vector2di mousepos;
 
   while (gui.device->run()) {
     gui.pm.updatePositions();
@@ -50,6 +58,12 @@ void GUI::run() {
     gui.driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
     gui.pm.drawPlanets();
+
+    mousepos = receiver->GetMouseState().Position;
+
+    ISceneNode *selected = colmgr->getSceneNodeFromScreenCoordinatesBB(
+        vector2d(mousepos.X, mousepos.Y));
+    std::cout << selected->getName() << "\n";
 
     gui.smgr->drawAll();
     gui.guienv->drawAll();
@@ -60,4 +74,5 @@ void GUI::run() {
   gui.pm.removeAll();
 
   gui.device->drop();
+  delete receiver;
 }
