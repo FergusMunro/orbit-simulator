@@ -14,7 +14,7 @@
 #include <memory>
 
 PlanetManager::PlanetManager() {
-  timeSpeed = 1.0 / 120;
+  timeSpeed = 1.0 / 60;
 } // constructor doesn't need to do anything
 
 void PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
@@ -150,7 +150,8 @@ PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
 
   // applies simplified formula of newtons law of gravitation
 
-  double acceleration = (CONST_G * planet2.getMass()) / pow(d.magnitude(), 2);
+  double acceleration =
+      (CONST_G * timeSpeed * planet2.getMass()) / pow(d.magnitude(), 2);
 
   // acceleration scalar multiplied by unit vector in direction of attracting
   // planet

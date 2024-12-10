@@ -43,14 +43,14 @@ void GUI::run() {
 
   camera->setFarValue(1e6);
 
-  gui.pm.addPlanet(Vector(0, 9000000, 0), Vector(0, 0, 0), gui.smgr, _Star);
-
-  gui.pm.addPlanet(Vector(0, 0, 1000), Vector(0, 0, 0), gui.smgr, _Gas);
+  gui.pm.addPlanet(Vector(0, 2000, 0), Vector(0, 0, 0), gui.smgr, _Star);
+  gui.pm.addPlanet(Vector(0, 0, -1000), Vector(0, 0, 0), gui.smgr, _Gas);
 
   EventReceiver *receiver = new EventReceiver;
   gui.device->setEventReceiver(receiver);
 
   vector2di mousepos;
+  ISceneNode *selected = nullptr;
 
   while (gui.device->run()) {
     gui.pm.updatePositions();
@@ -59,11 +59,14 @@ void GUI::run() {
 
     gui.pm.drawPlanets();
 
-    mousepos = receiver->GetMouseState().Position;
+    if (receiver->GetMouseState().LeftButtonDown) {
 
-    ISceneNode *selected = colmgr->getSceneNodeFromScreenCoordinatesBB(
-        vector2d(mousepos.X, mousepos.Y));
-    std::cout << selected->getName() << "\n";
+      mousepos = receiver->GetMouseState().Position;
+      ISceneNode *selected = colmgr->getSceneNodeFromScreenCoordinatesBB(
+          vector2d(mousepos.X, mousepos.Y));
+
+      std::cout << selected->getName() << "\n";
+    }
 
     gui.smgr->drawAll();
     gui.guienv->drawAll();
