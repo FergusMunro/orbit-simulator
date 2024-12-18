@@ -14,11 +14,12 @@
 #include <memory>
 
 PlanetManager::PlanetManager() {
-  timeSpeed = 1.0 / 60;
+  timeSpeed = 1.0 / 10000;
 } // constructor doesn't need to do anything
 
-void PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
-                              irr::scene::ISceneManager *smgr, int type) {
+std::weak_ptr<irr::scene::ISceneNode>
+PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
+                         irr::scene::ISceneManager *smgr, int type) {
 
   switch (type) {
   case _Asteroid:
@@ -43,6 +44,7 @@ void PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
     planets.push_front(std::make_unique<Telluric>(_position, _velocity, smgr));
     break;
   }
+  return (**planets.begin()).getSceneNodePtr();
 }
 
 void PlanetManager::removePlanet(Planet &planetToRemove) {
@@ -103,22 +105,22 @@ void PlanetManager::updatePositions() {
 
     Vector acceleration = Vector(0, 0, 0);
 
-    for (auto &planet1 : planets) {
+    for (auto &planet : planets) {
 
       acceleration.x = 0;
       acceleration.y = 0;
       acceleration.z = 0;
 
-      for (auto &planet2 : planets) {
+      for (auto &planetWithGravity : planets) {
 
-        if (planet1 != planet2) {
-          acceleration = acceleration +
-                         calculateGravitationalAcceleration(*planet1, *planet2);
+        if (planet != planetWithGravity) {
+          acceleration = acceleration + calculateGravitationalAcceleration(
+                                            *planet, *planetWithGravity);
         }
       }
 
-      planet1->setVelocity(planet1->getVelocity() + acceleration);
-      planet1->setPosition(planet1->getPosition() + planet1->getVelocity());
+      planet->setVelocity(planet->getVelocity() + acceleration);
+      planet->setPosition(planet->getPosition() + planet->getVelocity());
     }
   }
 }

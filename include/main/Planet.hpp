@@ -2,6 +2,7 @@
 
 #include "main/Orbit.hpp"
 #include "main/Vector.hpp"
+#include <memory>
 #include <string>
 
 #include <irrlicht.h>
@@ -24,6 +25,8 @@ public:
   void setVelocity(const Vector &_velocity);
   __float128 getSize() const;
 
+  std::weak_ptr<irr::scene::ISceneNode> getSceneNodePtr();
+
   void setOrbitedPlanet(Planet *planet);
   Planet *getOrbitedPlanet() const;
 
@@ -44,7 +47,7 @@ protected:
   int rotation_rate;
   std::string pathToTexture;
 
-  irr::scene::ISceneNode *obj = nullptr;
+  std::shared_ptr<irr::scene::ISceneNode> obj;
 
   __float128 size;
 

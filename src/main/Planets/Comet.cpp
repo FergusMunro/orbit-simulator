@@ -13,14 +13,11 @@ Comet::Comet(const Vector &_position, const Vector &_velocity,
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
   // radius and mass based off of halley's comet
-  if (smgr) { // check if smgr is not null
 
-    obj = smgr->addSphereSceneNode(size, 20);
+  if (obj) {
 
-    if (obj) { // check obj initialised correctly
-      obj->setPosition(
-          irr::core::vector3df(position.x, position.y, position.z));
-    }
+    obj->setName("Comet");
+    obj->setScale(irr::core::vector3df(size, size, size));
   }
 }
 

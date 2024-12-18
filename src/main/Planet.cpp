@@ -7,15 +7,34 @@
 Planet::Planet(const Vector &_position, const Vector &_velocity,
                irr::scene::ISceneManager *smgr)
     : position(_position), velocity(_velocity) {
+
   rotation = 0;
   pOrbitedPlanet = NULL;
-}
 
-Planet::~Planet() {
-  if (obj) {
-    obj->remove();
+  if (smgr) { // check if smgr is not null
+
+    obj = std::shared_ptr<irr::scene::ISceneNode>(
+        smgr->addSphereSceneNode(1), [](irr::scene::ISceneNode *ptr) {
+          if (ptr) {
+            ptr->remove();
+          }
+        });
+
+    // this code adds a custom deleter to our smart pointer, which means
+    // we no longer need to destroy planet's ascociated scene node when we
+    // delete planet, as this will do it for us when it goes out of scope
+
+    // it works by passing a second parameter of a function to the making of the
+    // shared poitner which does the deleting
+
+    if (obj) { // check obj initialised correctly
+      obj->setPosition(
+          irr::core::vector3df(position.x, position.y, position.z));
+    }
   }
 }
+
+Planet::~Planet() {}
 
 void Planet::updateRotation() {
   rotation += rotation_rate;
@@ -34,6 +53,12 @@ void Planet::setPosition(const Vector &_position) { position = _position; }
 Vector Planet::getVelocity() const { return velocity; }
 void Planet::setVelocity(const Vector &_velocity) { velocity = _velocity; }
 __float128 Planet::getSize() const { return size; }
+std::weak_ptr<irr::scene::ISceneNode> Planet::getSceneNodePtr() {
+  std::weak_ptr<irr::scene::ISceneNode> wk = obj;
+  return wk;
+  // the reason we can't return obj directly is because that would return a
+  // shared poitner which is not what we want
+}
 
 void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }
 Planet *Planet::getOrbitedPlanet() const { return pOrbitedPlanet; }

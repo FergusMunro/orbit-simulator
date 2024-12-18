@@ -6,7 +6,6 @@ using namespace irr;
 
 class EventReceiver : public IEventReceiver {
 public:
-  // We'll create a struct to record info on the mouse state
   struct SMouseState {
     core::position2di Position;
     bool LeftButtonDown;

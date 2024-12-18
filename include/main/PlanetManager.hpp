@@ -10,9 +10,10 @@ public:
 
   void drawPlanets() const;
   void updatePositions();
+  std::weak_ptr<irr::scene::ISceneNode>
+  addPlanet(const Vector &_position, const Vector &_velocity,
+            irr::scene::ISceneManager *smgr, int type);
 
-  void addPlanet(const Vector &_position, const Vector &_velocity,
-                 irr::scene::ISceneManager *smgr, int type);
   void removePlanet(Planet &planetToRemove);
   void removeAll();
   void setTimeSpeed(int _timeSpeed);

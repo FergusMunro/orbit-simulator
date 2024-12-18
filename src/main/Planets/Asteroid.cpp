@@ -14,14 +14,11 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
   rotation_rate = 10;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
   // mass and radius of typical medium asteroid
-  if (smgr) { // check if smgr is not null
 
-    obj = smgr->addSphereSceneNode(size, 20);
+  if (obj) {
 
-    if (obj) { // check obj initialised correctly
-      obj->setPosition(
-          irr::core::vector3df(position.x, position.y, position.z));
-    }
+    obj->setName("Asteroid");
+    obj->setScale(irr::core::vector3df(size, size, size));
   }
 }
 

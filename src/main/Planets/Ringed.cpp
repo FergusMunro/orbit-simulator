@@ -12,14 +12,11 @@ Ringed::Ringed(const Vector &_position, const Vector &_velocity,
   pathToTexture = "assets/planetTextures/asteroid.jpg";
 
   // based off of saturn
-  if (smgr) { // check if smgr is not null
 
-    obj = smgr->addSphereSceneNode(size, 20);
+  if (obj) {
 
-    if (obj) { // check obj initialised correctly
-      obj->setPosition(
-          irr::core::vector3df(position.x, position.y, position.z));
-    }
+    obj->setName("Ringed");
+    obj->setScale(irr::core::vector3df(size, size, size));
   }
 }
 
