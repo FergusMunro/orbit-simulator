@@ -1,6 +1,7 @@
 #include "main/planets/Satellite.hpp"
 #include "main/Planet.hpp"
 #include <irrlicht.h>
+
 Satellite::Satellite(const Vector &_position, const Vector &_velocity,
                      irr::scene::ISceneManager *smgr)
     : Planet(_position, _velocity, smgr) {

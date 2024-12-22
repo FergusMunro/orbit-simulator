@@ -3,6 +3,7 @@
 #include "main/PlanetManager.hpp"
 
 #include <irrlicht.h>
+#include <map>
 
 class GUI {
 public:
@@ -15,11 +16,18 @@ public:
 
 private:
   GUI();
+  void addPlanet(const Vector &_position, const Vector &_velocity,
+                 irr::scene::ISceneManager *smgr, int type);
+
   PlanetManager pm;
+
+  std::map<irr::scene::ISceneNode *, std::weak_ptr<irr::scene::ISceneNode>>
+      scenePointerMap;
 
   irr::IrrlichtDevice *device;
 
   irr::video::IVideoDriver *driver;
   irr::scene::ISceneManager *smgr;
   irr::gui::IGUIEnvironment *guienv;
+  irr::scene::ISceneCollisionManager *colmgr;
 };

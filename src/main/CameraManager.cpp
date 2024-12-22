@@ -12,6 +12,8 @@ CameraManager::CameraManager(irr::scene::ISceneManager *smgr) {
   camera->setPosition(core::vector3df(0, 0, 0));
 
   radius = 1000;
+  theta = 0;
+  phi = 0;
 }
 
 void CameraManager::updatePosition() {

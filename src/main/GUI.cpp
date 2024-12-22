@@ -3,13 +3,12 @@
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
 
-#include "vector2d.h"
 #include <cmath>
 #include <iostream>
 #include <irrlicht.h>
+#include <map>
 #include <memory>
 #include <string>
-#include <vector>
 
 using namespace irr;
 
@@ -19,16 +18,13 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
-int findRawPointer(std::vector<std::weak_ptr<irr::scene::ISceneNode>> items,
-                   void *ptr) {
-  for (int i = 0; i < items.size(); i++) {
-    if (items[i].lock().get() == ptr) {
-      return i;
-    }
-  }
+void GUI::addPlanet(const Vector &_position, const Vector &_velocity,
+                    ISceneManager *smgr, int type) {
 
-  std::cerr << "somehow pointer shenanigans\n";
-  return -1;
+  std::weak_ptr<ISceneNode> temp =
+      pm.addPlanet(_position, _velocity, smgr, type);
+
+  scenePointerMap.insert({temp.lock().get(), temp});
 }
 
 GUI::GUI() {
@@ -45,6 +41,8 @@ GUI::GUI() {
   smgr = device->getSceneManager();
   guienv = device->getGUIEnvironment();
 
+  colmgr = smgr->getSceneCollisionManager();
+
   if (!driver || !smgr || !guienv) {
     std::cerr << "problem with initialisation\n";
   }
@@ -57,34 +55,23 @@ void GUI::run() {
 
   GUI gui = GUI();
 
-  std::vector<std::weak_ptr<irr::scene::ISceneNode>> scenePointers;
+  gui.addPlanet(Vector(0, 0, 10000), Vector(0, 0, 0), gui.smgr, _Star);
 
-  ISceneCollisionManager *colmgr = gui.smgr->getSceneCollisionManager();
+  gui.addPlanet(Vector(0, 0, 500), Vector(0, 0, 0), gui.smgr, _Gas);
+
+  gui.addPlanet(Vector(0, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas);
+
+  gui.addPlanet(Vector(0, 500, 500), Vector(0, 0, 0), gui.smgr, _Gas);
+
+  gui.addPlanet(Vector(0, -500, -500), Vector(0, 0, 0), gui.smgr, _Gas);
+
+  gui.addPlanet(Vector(0, -1000, 500), Vector(0, 0, 0), gui.smgr, _Gas);
+
+  gui.addPlanet(Vector(1000, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas);
 
   // forever loop that updates positions of planets and then draws planets
 
   CameraManager camera = CameraManager(gui.smgr);
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, 0, 10000), Vector(0, 0, 0), gui.smgr, _Star));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, 0, 500), Vector(0, 0, 0), gui.smgr, _Gas));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, 500, 500), Vector(0, 0, 0), gui.smgr, _Gas));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, -500, -500), Vector(0, 0, 0), gui.smgr, _Gas));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(0, -1000, 500), Vector(0, 0, 0), gui.smgr, _Gas));
-
-  scenePointers.push_back(
-      gui.pm.addPlanet(Vector(1000, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas));
 
   std::unique_ptr<EventReceiver> receiver = std::make_unique<EventReceiver>();
   gui.device->setEventReceiver(receiver.get());
@@ -104,7 +91,7 @@ void GUI::run() {
     if (receiver->GetMouseState().LeftButtonDown) {
 
       mousepos = receiver->GetMouseState().Position;
-      selected = colmgr->getSceneNodeFromScreenCoordinatesBB(
+      selected = gui.colmgr->getSceneNodeFromScreenCoordinatesBB(
           vector2d(mousepos.X, mousepos.Y));
 
       if (selected) { // check that it's not nullptr
@@ -112,9 +99,7 @@ void GUI::run() {
         if (empty.compare(selected->getName())) { // check is name is not empty
                                                   // - if name is empty then we
                                                   // are looking at nothing
-
-          camera.setSelectedPlanet(
-              scenePointers[findRawPointer(scenePointers, selected)]);
+          camera.setSelectedPlanet(gui.scenePointerMap[selected]);
         }
       }
     }
