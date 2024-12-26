@@ -1,5 +1,6 @@
 #include "main/CameraManager.hpp"
 #include "ISceneNode.h"
+#include "main/Macros.hpp"
 
 #include <cmath>
 #include <irrlicht.h>
@@ -20,14 +21,11 @@ void CameraManager::updatePosition() {
 
   if (selectedPlanet.lock()) {
 
-    phi += 0.01;
-    theta -= 0.01;
-
     core::vector3df position = selectedPlanet.lock()->getPosition();
 
-    position.X = position.X + radius * cos(phi) * sin(theta);
-    position.Y = position.Y + radius * cos(phi) * cos(theta);
-    position.Z = position.Z + radius * sin(phi);
+    position.X = position.X + radius * sin(phi) * cos(theta);
+    position.Y = position.Y + radius * cos(phi);
+    position.Z = position.Z + radius * sin(phi) * sin(theta);
 
     camera->setPosition(position);
     camera->setTarget(selectedPlanet.lock()->getPosition());
@@ -37,3 +35,25 @@ void CameraManager::updatePosition() {
 void CameraManager::setSelectedPlanet(std::weak_ptr<ISceneNode> planet) {
   selectedPlanet = planet;
 }
+
+void CameraManager::resetDelta() { flag = false; }
+
+void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
+
+  if (flag) {
+    irr::core::vector2di delta = newPos - previousPos;
+
+    theta += delta.X * 0.001;
+    phi += delta.Y * 0.001;
+
+    theta = fmod(theta, 2 * CONST_PI);
+    phi = fmod(phi, 2 * CONST_PI);
+
+  } else {
+    flag = true;
+  }
+
+  previousPos = newPos;
+}
+
+void CameraManager::setRadius(float wheelDelta) { radius -= 100 * wheelDelta; }

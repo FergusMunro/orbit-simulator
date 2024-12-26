@@ -14,8 +14,8 @@
 
 TEST_CASE("Planet Testing") {
 
-  Telluric t = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
-  Gas g = Gas(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
+  Telluric t = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+  Gas g = Gas(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
   SECTION("rotation testing") {
     t.updateRotation();

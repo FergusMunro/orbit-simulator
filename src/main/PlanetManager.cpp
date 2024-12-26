@@ -19,29 +19,37 @@ PlanetManager::PlanetManager() {
 
 std::weak_ptr<irr::scene::ISceneNode>
 PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
-                         irr::scene::ISceneManager *smgr, int type) {
+                         irr::scene::ISceneManager *smgr,
+                         irr::video::IVideoDriver *driver, int type) {
 
   switch (type) {
   case _Asteroid:
-    planets.push_front(std::make_unique<Asteroid>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Asteroid>(_position, _velocity, smgr, driver));
     break;
   case _Comet:
-    planets.push_front(std::make_unique<Comet>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Comet>(_position, _velocity, smgr, driver));
     break;
   case _Gas:
-    planets.push_front(std::make_unique<Gas>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Gas>(_position, _velocity, smgr, driver));
     break;
   case _Ringed:
-    planets.push_front(std::make_unique<Ringed>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Ringed>(_position, _velocity, smgr, driver));
     break;
   case _Satellite:
-    planets.push_front(std::make_unique<Satellite>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Satellite>(_position, _velocity, smgr, driver));
     break;
   case _Star:
-    planets.push_front(std::make_unique<Star>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Star>(_position, _velocity, smgr, driver));
     break;
   case _Telluric:
-    planets.push_front(std::make_unique<Telluric>(_position, _velocity, smgr));
+    planets.push_front(
+        std::make_unique<Telluric>(_position, _velocity, smgr, driver));
     break;
   }
   return (**planets.begin()).getSceneNodePtr();

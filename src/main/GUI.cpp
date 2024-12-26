@@ -19,10 +19,10 @@ using namespace io;
 using namespace gui;
 
 void GUI::addPlanet(const Vector &_position, const Vector &_velocity,
-                    ISceneManager *smgr, int type) {
+                    int type) {
 
   std::weak_ptr<ISceneNode> temp =
-      pm.addPlanet(_position, _velocity, smgr, type);
+      pm.addPlanet(_position, _velocity, smgr, driver, type);
 
   scenePointerMap.insert({temp.lock().get(), temp});
 }
@@ -55,19 +55,13 @@ void GUI::run() {
 
   GUI gui = GUI();
 
-  gui.addPlanet(Vector(0, 0, 10000), Vector(0, 0, 0), gui.smgr, _Star);
-
-  gui.addPlanet(Vector(0, 0, 500), Vector(0, 0, 0), gui.smgr, _Gas);
-
-  gui.addPlanet(Vector(0, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas);
-
-  gui.addPlanet(Vector(0, 500, 500), Vector(0, 0, 0), gui.smgr, _Gas);
-
-  gui.addPlanet(Vector(0, -500, -500), Vector(0, 0, 0), gui.smgr, _Gas);
-
-  gui.addPlanet(Vector(0, -1000, 500), Vector(0, 0, 0), gui.smgr, _Gas);
-
-  gui.addPlanet(Vector(1000, 0, -500), Vector(0, 0, 0), gui.smgr, _Gas);
+  gui.addPlanet(Vector(0, 0, 10000), Vector(0, 0, 0), _Star);
+  gui.addPlanet(Vector(0, 0, 500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, 0, -500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, 500, 500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, -500, -500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, -1000, 500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(1000, 0, -500), Vector(0, 0, 0), _Gas);
 
   // forever loop that updates positions of planets and then draws planets
 
@@ -88,7 +82,18 @@ void GUI::run() {
 
     gui.pm.drawPlanets();
 
-    if (receiver->GetMouseState().LeftButtonDown) {
+    // handle moving of camera
+
+    if (receiver->GetMouseState().leftButtonDown) {
+      camera.updateAngles(receiver->GetMouseState().Position);
+    } else {
+      camera.resetDelta();
+    }
+
+    camera.setRadius(receiver->GetMouseState().wheel);
+
+    // handle selection of planet
+    if (receiver->GetMouseState().middleButtonDown) {
 
       mousepos = receiver->GetMouseState().Position;
       selected = gui.colmgr->getSceneNodeFromScreenCoordinatesBB(

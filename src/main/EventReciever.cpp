@@ -1,14 +1,23 @@
 #include "main/EventReciever.hpp"
+#include "IEventReceiver.h"
 
 bool EventReceiver::OnEvent(const SEvent &event) {
   if (event.EventType == EET_MOUSE_INPUT_EVENT) {
     switch (event.MouseInput.Event) {
     case EMIE_LMOUSE_PRESSED_DOWN:
-      MouseState.LeftButtonDown = true;
+      MouseState.leftButtonDown = true;
       break;
 
     case EMIE_LMOUSE_LEFT_UP:
-      MouseState.LeftButtonDown = false;
+      MouseState.leftButtonDown = false;
+      break;
+
+    case EMIE_MMOUSE_PRESSED_DOWN:
+      MouseState.middleButtonDown = true;
+      break;
+
+    case EMIE_MMOUSE_LEFT_UP:
+      MouseState.middleButtonDown = false;
       break;
 
     case EMIE_MOUSE_MOVED:
@@ -17,8 +26,13 @@ bool EventReceiver::OnEvent(const SEvent &event) {
       break;
 
     default:
-
       break;
+    }
+
+    if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
+      MouseState.wheel = event.MouseInput.Wheel;
+    } else {
+      MouseState.wheel = 0;
     }
   }
 

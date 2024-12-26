@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IVideoDriver.h"
 #include "main/Planet.hpp"
 #include <forward_list>
 #include <memory>
@@ -12,7 +13,8 @@ public:
   void updatePositions();
   std::weak_ptr<irr::scene::ISceneNode>
   addPlanet(const Vector &_position, const Vector &_velocity,
-            irr::scene::ISceneManager *smgr, int type);
+            irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver,
+            int type);
 
   void removePlanet(Planet &planetToRemove);
   void removeAll();

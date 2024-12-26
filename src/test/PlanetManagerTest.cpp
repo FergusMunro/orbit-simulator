@@ -17,7 +17,7 @@
 TEST_CASE("planet Manager Tests") {
   PlanetManager pm;
 
-  pm.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, _Telluric);
+  pm.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr, _Telluric);
 
   SECTION("linked list test") {
 
@@ -69,11 +69,11 @@ TEST_CASE("planet Manager Tests") {
 
   SECTION("intersection test") {
 
-    Telluric a1 = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr);
+    Telluric a1 = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
     // Intersecting Position
 
-    Telluric a2 = Telluric(Vector(50, 0, 0), Vector(0, 0, 0), nullptr);
+    Telluric a2 = Telluric(Vector(50, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
     REQUIRE(pm.areIntersecting(a1, a2));
 

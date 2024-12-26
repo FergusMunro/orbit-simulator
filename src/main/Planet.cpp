@@ -5,7 +5,8 @@
 #include <irrlicht.h>
 
 Planet::Planet(const Vector &_position, const Vector &_velocity,
-               irr::scene::ISceneManager *smgr)
+               irr::scene::ISceneManager *smgr,
+               irr::video::IVideoDriver *driver)
     : position(_position), velocity(_velocity) {
 
   rotation = 0;
@@ -30,6 +31,16 @@ Planet::Planet(const Vector &_position, const Vector &_velocity,
     if (obj) { // check obj initialised correctly
       obj->setPosition(
           irr::core::vector3df(position.x, position.y, position.z));
+
+      if (driver) {
+
+        irr::video::ITexture *texture =
+            driver->getTexture("assets/placeholder.jpg");
+
+        obj->setMaterialTexture(0, texture);
+
+        obj->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+      }
     }
   }
 }

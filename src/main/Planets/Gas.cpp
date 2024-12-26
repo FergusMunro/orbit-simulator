@@ -3,8 +3,8 @@
 #include <cmath>
 #include <irrlicht.h>
 Gas::Gas(const Vector &_position, const Vector &_velocity,
-         irr::scene::ISceneManager *smgr)
-    : Planet(_position, _velocity, smgr) {
+         irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver)
+    : Planet(_position, _velocity, smgr, driver) {
 
   size = 120;
   mass = 1000;

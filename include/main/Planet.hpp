@@ -32,7 +32,7 @@ public:
 
   // constructor
   Planet(const Vector &position, const Vector &velocity,
-         irr::scene::ISceneManager *smgr);
+         irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver);
   // destructor
   virtual ~Planet();
 

@@ -16,8 +16,7 @@ public:
 
 private:
   GUI();
-  void addPlanet(const Vector &_position, const Vector &_velocity,
-                 irr::scene::ISceneManager *smgr, int type);
+  void addPlanet(const Vector &_position, const Vector &_velocity, int type);
 
   PlanetManager pm;
 

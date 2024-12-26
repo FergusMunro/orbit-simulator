@@ -8,8 +8,10 @@ class EventReceiver : public IEventReceiver {
 public:
   struct SMouseState {
     core::position2di Position;
-    bool LeftButtonDown;
-    SMouseState() : LeftButtonDown(false) {}
+    bool leftButtonDown;
+    bool middleButtonDown;
+    float wheel;
+    SMouseState() : leftButtonDown(false), middleButtonDown(false) {}
   } MouseState;
 
   virtual bool OnEvent(const SEvent &event);
