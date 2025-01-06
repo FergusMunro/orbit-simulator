@@ -25,16 +25,21 @@ bool EventReceiver::OnEvent(const SEvent &event) {
       MouseState.Position.Y = event.MouseInput.Y;
       break;
 
+    case EMIE_MOUSE_WHEEL:
+      MouseState.wheel = event.MouseInput.Wheel;
+      wheelReset = true;
+
     default:
       break;
-    }
-
-    if (event.MouseInput.Event == EMIE_MOUSE_WHEEL) {
-      MouseState.wheel = event.MouseInput.Wheel;
-    } else {
-      MouseState.wheel = 0;
     }
   }
 
   return false;
+}
+
+void EventReceiver::update() {
+  if (wheelReset) {
+    MouseState.wheel = 0;
+    wheelReset = false;
+  }
 }

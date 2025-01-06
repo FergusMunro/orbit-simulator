@@ -24,12 +24,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/li
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug)
-endif()
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
-
 include_directories(/usr/include/irrlicht)
 
 

@@ -14,6 +14,9 @@ public:
     SMouseState() : leftButtonDown(false), middleButtonDown(false) {}
   } MouseState;
 
+  bool wheelReset;
+  void update();
+
   virtual bool OnEvent(const SEvent &event);
 
   // This is the one method that we have to implement

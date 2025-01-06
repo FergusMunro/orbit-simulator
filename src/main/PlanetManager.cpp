@@ -14,7 +14,7 @@
 #include <memory>
 
 PlanetManager::PlanetManager() {
-  timeSpeed = 1.0 / 10000;
+  timeSpeed = 1.0;
 } // constructor doesn't need to do anything
 
 std::weak_ptr<irr::scene::ISceneNode>
@@ -61,7 +61,7 @@ void PlanetManager::removePlanet(Planet &planetToRemove) {
 
 void PlanetManager::removeAll() { planets.clear(); }
 
-void PlanetManager::updatePositions() {
+void PlanetManager::updatePositions(double timeDelta) {
   if (!planets.empty()) {
     // if didn't check and planets was empty, would crash
 
@@ -127,8 +127,10 @@ void PlanetManager::updatePositions() {
         }
       }
 
-      planet->setVelocity(planet->getVelocity() + acceleration);
-      planet->setPosition(planet->getPosition() + planet->getVelocity());
+      planet->setVelocity(planet->getVelocity() +
+                          acceleration * timeDelta * timeSpeed);
+      planet->setPosition(planet->getPosition() +
+                          planet->getVelocity() * timeDelta * timeSpeed);
     }
   }
 }
@@ -160,8 +162,7 @@ PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
 
   // applies simplified formula of newtons law of gravitation
 
-  double acceleration =
-      (CONST_G * timeSpeed * planet2.getMass()) / pow(d.magnitude(), 2);
+  double acceleration = (CONST_G * planet2.getMass()) / pow(d.magnitude(), 2);
 
   // acceleration scalar multiplied by unit vector in direction of attracting
   // planet

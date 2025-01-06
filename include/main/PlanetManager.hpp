@@ -10,7 +10,7 @@ public:
   // methods
 
   void drawPlanets() const;
-  void updatePositions();
+  void updatePositions(double timeDelta);
   std::weak_ptr<irr::scene::ISceneNode>
   addPlanet(const Vector &_position, const Vector &_velocity,
             irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver,

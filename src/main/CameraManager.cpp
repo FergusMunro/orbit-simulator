@@ -43,8 +43,8 @@ void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
   if (flag) {
     irr::core::vector2di delta = newPos - previousPos;
 
-    theta += delta.X * 0.001;
-    phi += delta.Y * 0.001;
+    theta -= delta.X * 0.005;
+    phi += delta.Y * 0.005;
 
     theta = fmod(theta, 2 * CONST_PI);
     phi = fmod(phi, 2 * CONST_PI);
@@ -56,4 +56,9 @@ void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
   previousPos = newPos;
 }
 
-void CameraManager::setRadius(float wheelDelta) { radius -= 100 * wheelDelta; }
+void CameraManager::updateRadius(float wheelDelta) {
+  radius -= 100 * wheelDelta;
+
+  // we subtract because scrolling out should increase radius but scrolling out
+  // is negative
+}

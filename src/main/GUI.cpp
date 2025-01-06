@@ -55,13 +55,8 @@ void GUI::run() {
 
   GUI gui = GUI();
 
-  gui.addPlanet(Vector(0, 0, 10000), Vector(0, 0, 0), _Star);
-  gui.addPlanet(Vector(0, 0, 500), Vector(0, 0, 0), _Gas);
-  gui.addPlanet(Vector(0, 0, -500), Vector(0, 0, 0), _Gas);
-  gui.addPlanet(Vector(0, 500, 500), Vector(0, 0, 0), _Gas);
-  gui.addPlanet(Vector(0, -500, -500), Vector(0, 0, 0), _Gas);
-  gui.addPlanet(Vector(0, -1000, 500), Vector(0, 0, 0), _Gas);
-  gui.addPlanet(Vector(1000, 0, -500), Vector(0, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, 0, 20000), Vector(0, 0, 0), _Star);
+  gui.addPlanet(Vector(0, 0, 1000), Vector(1700, 0, 0), _Gas);
 
   // forever loop that updates positions of planets and then draws planets
 
@@ -75,10 +70,13 @@ void GUI::run() {
 
   std::string empty = "";
 
+  ITimer *timer = gui.device->getTimer();
+  double lastTime = timer->getTime();
+
   while (gui.device->run()) {
     gui.driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
-    gui.pm.updatePositions();
+    gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
 
     gui.pm.drawPlanets();
 
@@ -90,7 +88,7 @@ void GUI::run() {
       camera.resetDelta();
     }
 
-    camera.setRadius(receiver->GetMouseState().wheel);
+    camera.updateRadius(receiver->GetMouseState().wheel);
 
     // handle selection of planet
     if (receiver->GetMouseState().middleButtonDown) {
@@ -115,6 +113,9 @@ void GUI::run() {
     camera.updatePosition();
 
     gui.driver->endScene();
+
+    lastTime = timer->getTime();
+    receiver->update();
   }
 
   gui.pm.removeAll();
