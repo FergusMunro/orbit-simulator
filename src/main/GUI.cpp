@@ -28,7 +28,7 @@ void GUI::addPlanet(const Vector &_position, const Vector &_velocity,
 }
 
 GUI::GUI() {
-  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1000, 1000), 16,
+  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16,
                         true, false, false, 0);
 
   if (!device) {
@@ -55,8 +55,14 @@ void GUI::run() {
 
   GUI gui = GUI();
 
-  gui.addPlanet(Vector(0, 0, 20000), Vector(0, 0, 0), _Star);
-  gui.addPlanet(Vector(0, 0, 1000), Vector(1700, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), _Star);
+
+  gui.addPlanet(Vector(0, 0, 3000), Vector(1825, 0, 0), _Telluric);
+  gui.addPlanet(Vector(0, 0, 6000), Vector(1290, 0, 0), _Telluric);
+  gui.addPlanet(Vector(0, 0, 6050), Vector(1431, 0, 0), _Comet);
+  gui.addPlanet(Vector(0, 0, 10000), Vector(1000, 0, 0), _Gas);
+  gui.addPlanet(Vector(0, 0, 15000), Vector(816, 0, 0), _Ringed);
+  gui.addPlanet(Vector(0, 0, 30000), Vector(577, 0, 0), _Telluric);
 
   // forever loop that updates positions of planets and then draws planets
 
@@ -107,10 +113,10 @@ void GUI::run() {
       }
     }
 
+    camera.updatePosition();
+
     gui.smgr->drawAll();
     gui.guienv->drawAll();
-
-    camera.updatePosition();
 
     gui.driver->endScene();
 
