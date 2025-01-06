@@ -27,7 +27,6 @@ bool EventReceiver::OnEvent(const SEvent &event) {
 
     case EMIE_MOUSE_WHEEL:
       MouseState.wheel = event.MouseInput.Wheel;
-      wheelReset = true;
 
     default:
       break;
@@ -37,9 +36,4 @@ bool EventReceiver::OnEvent(const SEvent &event) {
   return false;
 }
 
-void EventReceiver::update() {
-  if (wheelReset) {
-    MouseState.wheel = 0;
-    wheelReset = false;
-  }
-}
+void EventReceiver::update() { MouseState.wheel = 0; }
