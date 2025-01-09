@@ -1,7 +1,9 @@
 #include "main/GUI.hpp"
+#include "IGUIContextMenu.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
+#include "rect.h"
 
 #include <cmath>
 #include <iostream>
@@ -28,8 +30,9 @@ void GUI::addPlanet(const Vector &_position, const Vector &_velocity,
 }
 
 GUI::GUI() {
-  device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16,
-                        true, false, false, 0);
+  device = createDevice(video::EDT_OPENGL,
+                        dimension2d<u32>(SCREEN_WIDTH, SCREEN_HEIGHT), 16, true,
+                        false, false, 0);
 
   if (!device) {
     std::cerr << "no device\n";
@@ -54,6 +57,18 @@ void GUI::run() {
   // runs constructor
 
   GUI gui = GUI();
+
+  // adds GUI elements
+
+  IGUIContextMenu *menu =
+      gui.guienv->addContextMenu(rect<int>(0, 0, 1960, 200), 0, _Top_Bar);
+
+  menu->addItem(L"Option 1", 1);
+  menu->addItem(L"Option 2", 2);
+  menu->addSeparator();
+  menu->addItem(L"Exit", 3);
+
+  // adds planets
 
   gui.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), _Star);
 
