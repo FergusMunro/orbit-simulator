@@ -9,7 +9,7 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
   size = 120;
   mass = 1000;
   rotation_rate = 1;
-  pathToTexture = "assets/planetTextures/asteroid.jpg";
+  pathToTexture = "assets/planetTextures/gas.jpg";
 
   // based off of jupiter
 
@@ -17,6 +17,14 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
 
     obj->setName("Gas");
     obj->setScale(irr::core::vector3df(size, size, size));
+    if (driver) {
+
+      irr::video::ITexture *texture = driver->getTexture(pathToTexture);
+
+      obj->setMaterialTexture(0, texture);
+
+      obj->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    }
   }
 }
 

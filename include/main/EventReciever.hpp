@@ -9,18 +9,22 @@ public:
   struct SMouseState {
     core::position2di Position;
     bool leftButtonDown;
-    bool middleButtonDown;
+    bool shouldSelectPlanet;
     float wheel;
-    SMouseState() : leftButtonDown(false), middleButtonDown(false) {}
+    SMouseState() : leftButtonDown(false), shouldSelectPlanet(false) {}
   } MouseState;
 
   bool wheelReset;
   void update();
+  virtual int IsKeyDown(EKEY_CODE keyCode) const;
 
   virtual bool OnEvent(const SEvent &event);
 
   // This is the one method that we have to implement
   const SMouseState &GetMouseState(void) const { return MouseState; }
 
-  EventReceiver() {}
+  EventReceiver();
+
+private:
+  int KeyIsDown[KEY_KEY_CODES_COUNT];
 };

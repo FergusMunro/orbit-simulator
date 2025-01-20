@@ -10,7 +10,7 @@ Satellite::Satellite(const Vector &_position, const Vector &_velocity,
   size = 1;
   mass = 0;
   rotation_rate = 0;
-  pathToTexture = "assets/planetTextures/asteroid.jpg";
+  pathToTexture = "assets/planetTextures/satellite.jpg";
 
   // based of very small satellite
 
@@ -18,6 +18,14 @@ Satellite::Satellite(const Vector &_position, const Vector &_velocity,
 
     obj->setName("Satellite");
     obj->setScale(irr::core::vector3df(size, size, size));
+    if (driver) {
+
+      irr::video::ITexture *texture = driver->getTexture(pathToTexture);
+
+      obj->setMaterialTexture(0, texture);
+
+      obj->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    }
   }
 }
 

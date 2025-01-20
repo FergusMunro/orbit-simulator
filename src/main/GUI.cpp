@@ -1,9 +1,7 @@
 #include "main/GUI.hpp"
-#include "IGUIContextMenu.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
-#include "rect.h"
 
 #include <cmath>
 #include <iostream>
@@ -60,13 +58,22 @@ void GUI::run() {
 
   // adds GUI elements
 
-  IGUIContextMenu *menu =
-      gui.guienv->addContextMenu(rect<int>(0, 0, 1960, 200), 0, _Top_Bar);
+  /*
+
+  IGUIContextMenu *menu = gui.guienv->addContextMenu(
+      rect<int>(0, 0, SCREEN_WIDTH - 10, (int)SCREEN_HEIGHT / 9), 0, _Top_Bar);
+
+  gui.guienv->getSkin()->setColor(EGDC_ACTIVE_CAPTION,
+                                  SColor(255, 255, 50, 50));
+  ;
+
+  menu->setMinSize(dimension2d<u32>(SCREEN_WIDTH, SCREEN_HEIGHT / 9));
 
   menu->addItem(L"Option 1", 1);
   menu->addItem(L"Option 2", 2);
   menu->addSeparator();
   menu->addItem(L"Exit", 3);
+  */
 
   // adds planets
 
@@ -95,7 +102,7 @@ void GUI::run() {
   double lastTime = timer->getTime();
 
   while (gui.device->run()) {
-    gui.driver->beginScene(true, true, SColor(255, 100, 101, 140));
+    gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
 
     gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
 
@@ -112,7 +119,7 @@ void GUI::run() {
     camera.updateRadius(receiver->GetMouseState().wheel);
 
     // handle selection of planet
-    if (receiver->GetMouseState().middleButtonDown) {
+    if (receiver->GetMouseState().shouldSelectPlanet) {
 
       mousepos = receiver->GetMouseState().Position;
       selected = gui.colmgr->getSceneNodeFromScreenCoordinatesBB(

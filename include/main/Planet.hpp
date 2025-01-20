@@ -45,7 +45,7 @@ protected:
   Vector velocity;
   int rotation;
   int rotation_rate;
-  std::string pathToTexture;
+  irr::io::path pathToTexture;
 
   std::shared_ptr<irr::scene::ISceneNode> obj;
 

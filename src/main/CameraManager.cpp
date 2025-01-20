@@ -3,6 +3,7 @@
 #include "main/Macros.hpp"
 
 #include <cmath>
+#include <iostream>
 #include <irrlicht.h>
 
 CameraManager::CameraManager(irr::scene::ISceneManager *smgr) {
@@ -44,10 +45,20 @@ void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
     irr::core::vector2di delta = newPos - previousPos;
 
     theta -= delta.X * 0.005;
-    phi += delta.Y * 0.005;
+    phi -= delta.Y * 0.005;
 
     theta = fmod(theta, 2 * CONST_PI);
-    phi = fmod(phi, 2 * CONST_PI);
+
+    double min = 0.005;
+    double max = CONST_PI - 0.005;
+
+    if (phi <= min) {
+      phi = min;
+    }
+
+    if (phi >= max) {
+      phi = max;
+    }
 
   } else {
     flag = true;
@@ -58,6 +69,10 @@ void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
 
 void CameraManager::updateRadius(float wheelDelta) {
   radius -= 100 * wheelDelta;
+
+  if (radius < 0) {
+    radius = 0;
+  }
 
   // we subtract because scrolling out should increase radius but scrolling out
   // is negative

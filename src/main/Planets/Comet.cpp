@@ -10,7 +10,7 @@ Comet::Comet(const Vector &_position, const Vector &_velocity,
   size = 2;
   mass = 0;
   rotation_rate = 1;
-  pathToTexture = "assets/planetTextures/asteroid.jpg";
+  pathToTexture = "assets/planetTextures/comet.jpg";
 
   // radius and mass based off of halley's comet
 
@@ -18,6 +18,14 @@ Comet::Comet(const Vector &_position, const Vector &_velocity,
 
     obj->setName("Comet");
     obj->setScale(irr::core::vector3df(size, size, size));
+    if (driver) {
+
+      irr::video::ITexture *texture = driver->getTexture(pathToTexture);
+
+      obj->setMaterialTexture(0, texture);
+
+      obj->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    }
   }
 }
 

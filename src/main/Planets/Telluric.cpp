@@ -10,7 +10,7 @@ Telluric::Telluric(const Vector &_position, const Vector &_velocity,
   size = 30;
   mass = 100;
   rotation_rate = 5;
-  pathToTexture = "assets/planetTextures/asteroid.jpg";
+  pathToTexture = "assets/planetTextures/telluric.jpg";
 
   // based off of earth
 
@@ -18,6 +18,14 @@ Telluric::Telluric(const Vector &_position, const Vector &_velocity,
 
     obj->setName("Telluric");
     obj->setScale(irr::core::vector3df(size, size, size));
+    if (driver) {
+
+      irr::video::ITexture *texture = driver->getTexture(pathToTexture);
+
+      obj->setMaterialTexture(0, texture);
+
+      obj->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    }
   }
 }
 

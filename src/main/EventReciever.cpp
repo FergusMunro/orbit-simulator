@@ -1,23 +1,31 @@
 #include "main/EventReciever.hpp"
 #include "IEventReceiver.h"
+#include "Keycodes.h"
+#include <iostream>
 
 bool EventReceiver::OnEvent(const SEvent &event) {
+
+  if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
+
+    KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+  }
+
   if (event.EventType == EET_MOUSE_INPUT_EVENT) {
     switch (event.MouseInput.Event) {
+
     case EMIE_LMOUSE_PRESSED_DOWN:
       MouseState.leftButtonDown = true;
+
+      if (IsKeyDown(irr::KEY_LCONTROL)) {
+
+        MouseState.shouldSelectPlanet = true;
+      }
+
       break;
 
     case EMIE_LMOUSE_LEFT_UP:
       MouseState.leftButtonDown = false;
-      break;
-
-    case EMIE_MMOUSE_PRESSED_DOWN:
-      MouseState.middleButtonDown = true;
-      break;
-
-    case EMIE_MMOUSE_LEFT_UP:
-      MouseState.middleButtonDown = false;
+      MouseState.shouldSelectPlanet = false;
       break;
 
     case EMIE_MOUSE_MOVED:
@@ -36,4 +44,20 @@ bool EventReceiver::OnEvent(const SEvent &event) {
   return false;
 }
 
-void EventReceiver::update() { MouseState.wheel = 0; }
+void EventReceiver::update() {
+  MouseState.wheel = 0;
+
+  MouseState.shouldSelectPlanet = false;
+}
+
+int EventReceiver::IsKeyDown(EKEY_CODE keyCode) const {
+  return KeyIsDown[keyCode];
+}
+
+EventReceiver::EventReceiver() {
+
+  for (int i = 0; i < (sizeof(KeyIsDown) / sizeof(int)); i++) {
+
+    KeyIsDown[i] = 0;
+  }
+}
