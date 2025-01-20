@@ -18,3 +18,6 @@ enum GUI_IDS { _Top_Bar };
 
 #define SCREEN_WIDTH 1776
 #define SCREEN_HEIGHT 999
+
+#define MIN_PHI 0.05
+#define MAX_PHI 3.091592654

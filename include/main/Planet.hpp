@@ -3,7 +3,6 @@
 #include "main/Orbit.hpp"
 #include "main/Vector.hpp"
 #include <memory>
-#include <string>
 
 #include <irrlicht.h>
 

@@ -2,6 +2,7 @@
 #include "ISceneNode.h"
 #include "main/Macros.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <irrlicht.h>
@@ -46,22 +47,16 @@ void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
 
     theta -= delta.X * 0.005;
     phi -= delta.Y * 0.005;
+    // subracting the deltas results in a camera that feels nicer to control
 
     theta = fmod(theta, 2 * CONST_PI);
-
-    double min = 0.005;
-    double max = CONST_PI - 0.005;
-
-    if (phi <= min) {
-      phi = min;
-    }
-
-    if (phi >= max) {
-      phi = max;
-    }
+    phi = std::clamp(phi, MIN_PHI, MAX_PHI);
+    // cannot clamp at exact values as this causes camera to lose direction when
+    // focusing on a planet
 
   } else {
     flag = true;
+    // flag needed to ensure that only dragging results in moving of camera
   }
 
   previousPos = newPos;

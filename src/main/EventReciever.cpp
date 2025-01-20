@@ -1,7 +1,6 @@
 #include "main/EventReciever.hpp"
 #include "IEventReceiver.h"
 #include "Keycodes.h"
-#include <iostream>
 
 bool EventReceiver::OnEvent(const SEvent &event) {
 

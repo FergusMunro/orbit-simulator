@@ -1,4 +1,5 @@
 #include "main/GUI.hpp"
+#include "IGUIButton.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
@@ -58,22 +59,44 @@ void GUI::run() {
 
   // adds GUI elements
 
-  /*
+  IGUISkin *skin = gui.guienv->getSkin();
+  // skin->setColor(EGDC_BUTTON_TEXT, video::SColor(255, 255, 255, 255));
 
-  IGUIContextMenu *menu = gui.guienv->addContextMenu(
-      rect<int>(0, 0, SCREEN_WIDTH - 10, (int)SCREEN_HEIGHT / 9), 0, _Top_Bar);
+  IGUIStaticText *groupBox = gui.guienv->addStaticText(
+      L"Group Box", rect<s32>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 10), true,
+      true);
 
-  gui.guienv->getSkin()->setColor(EGDC_ACTIVE_CAPTION,
-                                  SColor(255, 255, 50, 50));
-  ;
+  groupBox->setDrawBackground(true);
+  groupBox->setBackgroundColor(video::SColor(255, 50, 50, 50));
 
-  menu->setMinSize(dimension2d<u32>(SCREEN_WIDTH, SCREEN_HEIGHT / 9));
+  IGUIButton *pauseButton =
+      gui.guienv->addButton(rect<s32>(1100, 25, 1150, 75), groupBox);
+  pauseButton->setImage(gui.driver->getTexture("assets/buttons/pause.png"));
+  pauseButton->setScaleImage();
 
-  menu->addItem(L"Option 1", 1);
-  menu->addItem(L"Option 2", 2);
-  menu->addSeparator();
-  menu->addItem(L"Exit", 3);
-  */
+  IGUIButton *normalSpeedButton =
+      gui.guienv->addButton(rect<s32>(1170, 25, 1220, 75), groupBox);
+  normalSpeedButton->setImage(
+      gui.driver->getTexture("assets/buttons/normal.png"));
+  normalSpeedButton->setScaleImage();
+
+  IGUIButton *doubleSpeedButton =
+      gui.guienv->addButton(rect<s32>(1240, 25, 1290, 75), groupBox);
+  doubleSpeedButton->setImage(
+      gui.driver->getTexture("assets/buttons/fast.png"));
+  doubleSpeedButton->setScaleImage();
+
+  IGUIButton *tripleSpeedButton =
+      gui.guienv->addButton(rect<s32>(1310, 25, 1360, 75), groupBox);
+  tripleSpeedButton->setImage(
+      gui.driver->getTexture("assets/buttons/veryfast.png"));
+  tripleSpeedButton->setScaleImage();
+
+  IGUIButton *quadrupleSpeedButton =
+      gui.guienv->addButton(rect<s32>(1380, 25, 1430, 75), groupBox);
+  quadrupleSpeedButton->setImage(
+      gui.driver->getTexture("assets/buttons/extremelyfast.png"));
+  quadrupleSpeedButton->setScaleImage();
 
   // adds planets
 
@@ -133,6 +156,24 @@ void GUI::run() {
           camera.setSelectedPlanet(gui.scenePointerMap[selected]);
         }
       }
+    }
+
+    // handle button pressed
+
+    if (pauseButton->isPressed()) {
+      gui.pm.setTimeSpeed(0);
+    }
+    if (normalSpeedButton->isPressed()) {
+      gui.pm.setTimeSpeed(1);
+    }
+    if (doubleSpeedButton->isPressed()) {
+      gui.pm.setTimeSpeed(2);
+    }
+    if (tripleSpeedButton->isPressed()) {
+      gui.pm.setTimeSpeed(4);
+    }
+    if (quadrupleSpeedButton->isPressed()) {
+      gui.pm.setTimeSpeed(8);
     }
 
     camera.updatePosition();
