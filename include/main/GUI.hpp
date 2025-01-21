@@ -1,9 +1,20 @@
 #pragma once
 
+#include "main/CameraManager.hpp"
+#include "main/EventReciever.hpp"
 #include "main/PlanetManager.hpp"
 
 #include <irrlicht.h>
 #include <map>
+#include <memory>
+
+using namespace irr;
+
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
 
 class GUI {
 public:
@@ -18,20 +29,32 @@ private:
   GUI();
   void addPlanet(const Vector &_position, const Vector &_velocity, int type);
 
-  void addButtons();
+  void createTopBar();
   void addStartingPlanets();
   void updateCamera();
   void handleButtonPresses();
 
   PlanetManager pm;
+  std::unique_ptr<CameraManager> camera;
 
   std::map<irr::scene::ISceneNode *, std::weak_ptr<irr::scene::ISceneNode>>
       scenePointerMap;
+  // reciever, mousepos,
+  std::unique_ptr<EventReceiver> receiver;
+  vector2di mousepos;
 
-  irr::IrrlichtDevice *device;
+  IrrlichtDevice *device;
 
-  irr::video::IVideoDriver *driver;
-  irr::scene::ISceneManager *smgr;
-  irr::gui::IGUIEnvironment *guienv;
-  irr::scene::ISceneCollisionManager *colmgr;
+  IVideoDriver *driver;
+  ISceneManager *smgr;
+  IGUIEnvironment *guienv;
+  ISceneCollisionManager *colmgr;
+
+  IGUIStaticText *topBar;
+  IGUIButton *pauseButton;
+  IGUIButton *normalSpeedButton;
+  IGUIButton *fastSpeedButton;
+  IGUIButton *veryFastButton;
+  IGUIButton *extremelyFastButton;
+  IGUIButton *resetButton;
 };

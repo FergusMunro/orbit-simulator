@@ -74,7 +74,6 @@ void CameraManager::updateRadius(float wheelDelta) {
 
 void CameraManager::reset() {
 
-  camera->setFarValue(1e6);
   camera->setPosition(core::vector3df(0, 0, 0));
 
   radius = 1000;
