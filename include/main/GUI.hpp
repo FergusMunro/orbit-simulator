@@ -18,6 +18,11 @@ private:
   GUI();
   void addPlanet(const Vector &_position, const Vector &_velocity, int type);
 
+  void addButtons();
+  void addStartingPlanets();
+  void updateCamera();
+  void handleButtonPresses();
+
   PlanetManager pm;
 
   std::map<irr::scene::ISceneNode *, std::weak_ptr<irr::scene::ISceneNode>>

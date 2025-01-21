@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <irrlicht.h>
 
 CameraManager::CameraManager(irr::scene::ISceneManager *smgr) {
@@ -71,4 +70,14 @@ void CameraManager::updateRadius(float wheelDelta) {
 
   // we subtract because scrolling out should increase radius but scrolling out
   // is negative
+}
+
+void CameraManager::reset() {
+
+  camera->setFarValue(1e6);
+  camera->setPosition(core::vector3df(0, 0, 0));
+
+  radius = 1000;
+  theta = 0;
+  phi = 0;
 }

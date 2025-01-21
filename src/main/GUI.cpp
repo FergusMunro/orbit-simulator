@@ -60,8 +60,7 @@ void GUI::run() {
   // adds GUI elements
 
   IGUIStaticText *topBar = gui.guienv->addStaticText(
-      L"Group Box", rect<s32>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 10), true,
-      true);
+      L"", rect<s32>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 10), true, true);
 
   topBar->setDrawBackground(true);
   topBar->setBackgroundColor(video::SColor(255, 50, 50, 50));
@@ -93,6 +92,11 @@ void GUI::run() {
   extremelyFastButton->setImage(
       gui.driver->getTexture("assets/buttons/extremelyfast.png"));
   extremelyFastButton->setScaleImage();
+
+  IGUIButton *resetButton =
+      gui.guienv->addButton(rect<s32>(300, 25, 350, 75), topBar);
+  resetButton->setImage(gui.driver->getTexture("assets/buttons/reset.jpg"));
+  resetButton->setScaleImage();
 
   // adds planets
 
@@ -172,6 +176,24 @@ void GUI::run() {
     }
     if (extremelyFastButton->isPressed()) {
       gui.pm.setTimeSpeed(8);
+    }
+
+    if (resetButton->isPressed()) {
+
+      gui.pm.removeAll();
+      camera.reset();
+      gui.scenePointerMap.clear();
+
+      // re-add planets from start of simulation
+
+      gui.addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), _Star);
+
+      gui.addPlanet(Vector(0, 0, 3000), Vector(1825, 0, 0), _Telluric);
+      gui.addPlanet(Vector(0, 0, 6000), Vector(1290, 0, 0), _Telluric);
+      gui.addPlanet(Vector(0, 0, 6050), Vector(1431, 0, 0), _Comet);
+      gui.addPlanet(Vector(0, 0, 10000), Vector(1000, 0, 0), _Gas);
+      gui.addPlanet(Vector(0, 0, 15000), Vector(816, 0, 0), _Ringed);
+      gui.addPlanet(Vector(0, 0, 30000), Vector(577, 0, 0), _Telluric);
     }
 
     camera.updatePosition();

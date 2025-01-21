@@ -10,7 +10,7 @@ Comet::Comet(const Vector &_position, const Vector &_velocity,
   size = 2;
   mass = 0;
   rotation_rate = 1;
-  pathToTexture = "assets/planetTextures/comet.jpg";
+  pathToTexture = "assets/planetTextures/comet.png";
 
   // radius and mass based off of halley's comet
 

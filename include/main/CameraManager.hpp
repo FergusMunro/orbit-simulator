@@ -18,6 +18,7 @@ public:
   void updateAngles(irr::core::vector2di const &newPos);
 
   void updateRadius(float wheelDelta);
+  void reset();
 
 private:
   std::weak_ptr<ISceneNode> selectedPlanet;
