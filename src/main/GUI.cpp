@@ -59,44 +59,40 @@ void GUI::run() {
 
   // adds GUI elements
 
-  IGUISkin *skin = gui.guienv->getSkin();
-  // skin->setColor(EGDC_BUTTON_TEXT, video::SColor(255, 255, 255, 255));
-
-  IGUIStaticText *groupBox = gui.guienv->addStaticText(
+  IGUIStaticText *topBar = gui.guienv->addStaticText(
       L"Group Box", rect<s32>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 10), true,
       true);
 
-  groupBox->setDrawBackground(true);
-  groupBox->setBackgroundColor(video::SColor(255, 50, 50, 50));
+  topBar->setDrawBackground(true);
+  topBar->setBackgroundColor(video::SColor(255, 50, 50, 50));
 
   IGUIButton *pauseButton =
-      gui.guienv->addButton(rect<s32>(1100, 25, 1150, 75), groupBox);
+      gui.guienv->addButton(rect<s32>(1100, 25, 1150, 75), topBar);
   pauseButton->setImage(gui.driver->getTexture("assets/buttons/pause.png"));
   pauseButton->setScaleImage();
 
   IGUIButton *normalSpeedButton =
-      gui.guienv->addButton(rect<s32>(1170, 25, 1220, 75), groupBox);
+      gui.guienv->addButton(rect<s32>(1170, 25, 1220, 75), topBar);
   normalSpeedButton->setImage(
       gui.driver->getTexture("assets/buttons/normal.png"));
   normalSpeedButton->setScaleImage();
 
-  IGUIButton *doubleSpeedButton =
-      gui.guienv->addButton(rect<s32>(1240, 25, 1290, 75), groupBox);
-  doubleSpeedButton->setImage(
-      gui.driver->getTexture("assets/buttons/fast.png"));
-  doubleSpeedButton->setScaleImage();
+  IGUIButton *fastSpeedButton =
+      gui.guienv->addButton(rect<s32>(1240, 25, 1290, 75), topBar);
+  fastSpeedButton->setImage(gui.driver->getTexture("assets/buttons/fast.png"));
+  fastSpeedButton->setScaleImage();
 
-  IGUIButton *tripleSpeedButton =
-      gui.guienv->addButton(rect<s32>(1310, 25, 1360, 75), groupBox);
-  tripleSpeedButton->setImage(
+  IGUIButton *veryFastButton =
+      gui.guienv->addButton(rect<s32>(1310, 25, 1360, 75), topBar);
+  veryFastButton->setImage(
       gui.driver->getTexture("assets/buttons/veryfast.png"));
-  tripleSpeedButton->setScaleImage();
+  veryFastButton->setScaleImage();
 
-  IGUIButton *quadrupleSpeedButton =
-      gui.guienv->addButton(rect<s32>(1380, 25, 1430, 75), groupBox);
-  quadrupleSpeedButton->setImage(
+  IGUIButton *extremelyFastButton =
+      gui.guienv->addButton(rect<s32>(1380, 25, 1430, 75), topBar);
+  extremelyFastButton->setImage(
       gui.driver->getTexture("assets/buttons/extremelyfast.png"));
-  quadrupleSpeedButton->setScaleImage();
+  extremelyFastButton->setScaleImage();
 
   // adds planets
 
@@ -109,7 +105,7 @@ void GUI::run() {
   gui.addPlanet(Vector(0, 0, 15000), Vector(816, 0, 0), _Ringed);
   gui.addPlanet(Vector(0, 0, 30000), Vector(577, 0, 0), _Telluric);
 
-  // forever loop that updates positions of planets and then draws planets
+  // adds some misc utility variables
 
   CameraManager camera = CameraManager(gui.smgr);
 
@@ -123,6 +119,8 @@ void GUI::run() {
 
   ITimer *timer = gui.device->getTimer();
   double lastTime = timer->getTime();
+
+  // forever loop that updates positions of planets and then draws planets
 
   while (gui.device->run()) {
     gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
@@ -166,13 +164,13 @@ void GUI::run() {
     if (normalSpeedButton->isPressed()) {
       gui.pm.setTimeSpeed(1);
     }
-    if (doubleSpeedButton->isPressed()) {
+    if (fastSpeedButton->isPressed()) {
       gui.pm.setTimeSpeed(2);
     }
-    if (tripleSpeedButton->isPressed()) {
+    if (veryFastButton->isPressed()) {
       gui.pm.setTimeSpeed(4);
     }
-    if (quadrupleSpeedButton->isPressed()) {
+    if (extremelyFastButton->isPressed()) {
       gui.pm.setTimeSpeed(8);
     }
 
