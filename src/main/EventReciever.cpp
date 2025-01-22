@@ -1,6 +1,7 @@
 #include "main/EventReciever.hpp"
 #include "IEventReceiver.h"
 #include "Keycodes.h"
+#include <iostream>
 
 bool EventReceiver::OnEvent(const SEvent &event) {
 
@@ -37,6 +38,13 @@ bool EventReceiver::OnEvent(const SEvent &event) {
 
     default:
       break;
+    }
+  }
+
+  if (event.EventType == irr::EET_GUI_EVENT) {
+
+    if (event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_CLOSED) {
+      createPlanetWindowIsOpen = false;
     }
   }
 

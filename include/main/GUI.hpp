@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IGUIButton.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/PlanetManager.hpp"
@@ -42,6 +43,7 @@ private:
   // reciever, mousepos,
   std::unique_ptr<EventReceiver> receiver;
   vector2di mousepos;
+  bool openPopUpFlag = true;
 
   IrrlichtDevice *device;
 
@@ -51,10 +53,16 @@ private:
   ISceneCollisionManager *colmgr;
 
   IGUIStaticText *topBar;
+
+  IGUIButton *resetButton;
+  IGUIButton *addPlanetButton;
+
   IGUIButton *pauseButton;
   IGUIButton *normalSpeedButton;
   IGUIButton *fastSpeedButton;
   IGUIButton *veryFastButton;
   IGUIButton *extremelyFastButton;
-  IGUIButton *resetButton;
+
+  IGUIWindow *addPlanetWindow;
+  IGUIComboBox *planetSelect;
 };

@@ -25,6 +25,10 @@ public:
 
   EventReceiver();
 
+  bool getPlanetWindowState() { return createPlanetWindowIsOpen; }
+  void setPlanetWindowSate(bool input) { createPlanetWindowIsOpen = input; }
+
 private:
   int KeyIsDown[KEY_KEY_CODES_COUNT];
+  bool createPlanetWindowIsOpen = false;
 };

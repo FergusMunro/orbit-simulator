@@ -1,5 +1,6 @@
 #include "main/GUI.hpp"
 #include "IGUIButton.h"
+#include "IGUIComboBox.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
@@ -52,6 +53,10 @@ void GUI::run() {
 
     lastTime = timer->getTime();
     gui.receiver->update();
+
+    if (gui.receiver->getPlanetWindowState()) {
+      gui.planetSelect->getSelected();
+    }
   }
 
   gui.pm.removeAll();
@@ -120,6 +125,10 @@ void GUI::createTopBar() {
   resetButton = guienv->addButton(rect<s32>(300, 25, 350, 75), topBar);
   resetButton->setImage(driver->getTexture("assets/buttons/reset.jpg"));
   resetButton->setScaleImage();
+
+  addPlanetButton = guienv->addButton(rect<s32>(600, 25, 650, 75), topBar);
+  addPlanetButton->setImage(driver->getTexture("assets/buttons/add.jpg"));
+  addPlanetButton->setScaleImage();
 }
 
 void GUI::handleButtonPresses() {
@@ -148,6 +157,31 @@ void GUI::handleButtonPresses() {
 
     // re-add planets from start of simulation
     addStartingPlanets();
+  }
+
+  if (addPlanetButton->isPressed()) {
+
+    if (openPopUpFlag) {
+
+      addPlanetWindow = guienv->addWindow(rect<s32>(600, 200, 1100, 800), true,
+                                          L"Add Planet");
+      // width = 500, height = 600
+      planetSelect =
+          guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
+
+      planetSelect->addItem(L"Asteroid");
+      planetSelect->addItem(L"Comet");
+      planetSelect->addItem(L"Gas");
+      planetSelect->addItem(L"Ringed");
+      planetSelect->addItem(L"Satellite");
+      planetSelect->addItem(L"Star");
+      planetSelect->addItem(L"Telluric");
+
+      openPopUpFlag = false;
+      receiver->setPlanetWindowSate(true);
+    }
+  } else {
+    openPopUpFlag = true;
   }
 }
 
