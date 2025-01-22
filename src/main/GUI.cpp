@@ -19,6 +19,46 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
+void GUI::run() {
+  // runs constructor
+
+  GUI gui = GUI();
+
+  gui.createTopBar();
+  gui.addStartingPlanets();
+
+  // adds some misc utility variables
+
+  ITimer *timer = gui.device->getTimer();
+  double lastTime = timer->getTime();
+
+  // forever loop that updates positions of planets and then draws planets
+
+  while (gui.device->run()) {
+
+    gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
+
+    gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
+    gui.pm.drawPlanets();
+
+    gui.handleMouseInput();
+    gui.handleButtonPresses();
+    gui.camera->updatePosition();
+
+    gui.smgr->drawAll();
+    gui.guienv->drawAll();
+
+    gui.driver->endScene();
+
+    lastTime = timer->getTime();
+    gui.receiver->update();
+  }
+
+  gui.pm.removeAll();
+
+  gui.device->drop();
+}
+
 GUI::GUI() {
   device = createDevice(video::EDT_OPENGL,
                         dimension2d<u32>(SCREEN_WIDTH, SCREEN_HEIGHT), 16, true,
@@ -45,47 +85,6 @@ GUI::GUI() {
 
   receiver = std::make_unique<EventReceiver>();
   device->setEventReceiver(receiver.get());
-}
-
-void GUI::run() {
-  // runs constructor
-
-  GUI gui = GUI();
-
-  gui.createTopBar();
-
-  gui.addStartingPlanets();
-
-  // adds some misc utility variables
-
-  ITimer *timer = gui.device->getTimer();
-  double lastTime = timer->getTime();
-
-  // forever loop that updates positions of planets and then draws planets
-
-  while (gui.device->run()) {
-
-    gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
-
-    gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
-    gui.pm.drawPlanets();
-
-    gui.updateCamera();
-    gui.handleButtonPresses();
-    gui.camera->updatePosition();
-
-    gui.smgr->drawAll();
-    gui.guienv->drawAll();
-
-    gui.driver->endScene();
-
-    lastTime = timer->getTime();
-    gui.receiver->update();
-  }
-
-  gui.pm.removeAll();
-
-  gui.device->drop();
 }
 
 void GUI::createTopBar() {
@@ -144,7 +143,7 @@ void GUI::handleButtonPresses() {
   if (resetButton->isPressed()) {
 
     pm.removeAll();
-    camera.reset();
+    camera->reset();
     scenePointerMap.clear();
 
     // re-add planets from start of simulation
@@ -173,7 +172,7 @@ void GUI::addPlanet(const Vector &_position, const Vector &_velocity,
   scenePointerMap.insert({temp.lock().get(), temp});
 }
 
-void GUI::updateCamera() {
+void GUI::handleMouseInput() {
 
   ISceneNode *selected = nullptr;
   std::string empty = "";

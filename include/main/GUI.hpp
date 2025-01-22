@@ -31,7 +31,7 @@ private:
 
   void createTopBar();
   void addStartingPlanets();
-  void updateCamera();
+  void handleMouseInput();
   void handleButtonPresses();
 
   PlanetManager pm;
