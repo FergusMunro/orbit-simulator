@@ -166,16 +166,68 @@ void GUI::handleButtonPresses() {
       addPlanetWindow = guienv->addWindow(rect<s32>(600, 200, 1100, 800), true,
                                           L"Add Planet");
       // width = 500, height = 600
+
+      // rect<s32>(25, 25, 475, 265)
+
       planetSelect =
           guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
+
+      int x = 70;
+      int y = 55;
+
+      IGUIImage *starImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      starImage->setImage(driver->getTexture("assets/planetIcons/star.png"));
+      starImage->setScaleImage(true);
+
+      x += 135;
+
+      IGUIImage *ringedImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      ringedImage->setImage(
+          driver->getTexture("assets/planetIcons/ringed.png"));
+      ringedImage->setScaleImage(true);
+
+      x += 135;
+
+      IGUIImage *gasImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      gasImage->setImage(driver->getTexture("assets/planetIcons/gas.png"));
+      gasImage->setScaleImage(true);
+
+      x = 70;
+      y += 110;
+
+      IGUIImage *telluricImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      telluricImage->setImage(
+          driver->getTexture("assets/planetIcons/telluric.png"));
+      telluricImage->setScaleImage(true);
+
+      x += 135;
+
+      IGUIImage *asteroidImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      asteroidImage->setImage(
+          driver->getTexture("assets/planetIcons/asteroid.png"));
+      asteroidImage->setScaleImage(true);
+
+      x += 135;
+
+      IGUIImage *cometImage =
+          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+      cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
+      cometImage->setScaleImage(true);
 
       planetSelect->addItem(L"Asteroid");
       planetSelect->addItem(L"Comet");
       planetSelect->addItem(L"Gas");
       planetSelect->addItem(L"Ringed");
-      planetSelect->addItem(L"Satellite");
       planetSelect->addItem(L"Star");
       planetSelect->addItem(L"Telluric");
+
+      createPlanetButton = guienv->addButton(
+          rect<s32>(200, 525, 300, 575), addPlanetWindow, 1, L"Create Planet");
 
       openPopUpFlag = false;
       receiver->setPlanetWindowSate(true);

@@ -6,7 +6,6 @@
 #include "main/planets/Comet.hpp"
 #include "main/planets/Gas.hpp"
 #include "main/planets/Ringed.hpp"
-#include "main/planets/Satellite.hpp"
 #include "main/planets/Star.hpp"
 #include "main/planets/Telluric.hpp"
 
@@ -38,10 +37,6 @@ PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
   case _Ringed:
     planets.push_front(
         std::make_unique<Ringed>(_position, _velocity, smgr, driver));
-    break;
-  case _Satellite:
-    planets.push_front(
-        std::make_unique<Satellite>(_position, _velocity, smgr, driver));
     break;
   case _Star:
     planets.push_front(

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGUIButton.h"
+#include "IGUIStaticText.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/PlanetManager.hpp"
@@ -65,4 +66,5 @@ private:
 
   IGUIWindow *addPlanetWindow;
   IGUIComboBox *planetSelect;
+  IGUIButton *createPlanetButton;
 };

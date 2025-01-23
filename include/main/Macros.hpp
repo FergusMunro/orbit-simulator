@@ -1,14 +1,6 @@
 #pragma once
 
-enum PlanetType {
-  _Asteroid,
-  _Comet,
-  _Gas,
-  _Ringed,
-  _Satellite,
-  _Star,
-  _Telluric
-};
+enum PlanetType { _Asteroid, _Comet, _Gas, _Ringed, _Star, _Telluric };
 
 enum GUI_IDS { _Top_Bar };
 
