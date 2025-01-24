@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGUIButton.h"
+#include "IGUIEditBox.h"
 #include "IGUIStaticText.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
@@ -35,6 +36,7 @@ private:
   void addStartingPlanets();
   void handleMouseInput();
   void handleButtonPresses();
+  void createAddPlanetPopUp();
 
   PlanetManager pm;
   std::unique_ptr<CameraManager> camera;
@@ -67,4 +69,11 @@ private:
   IGUIWindow *addPlanetWindow;
   IGUIComboBox *planetSelect;
   IGUIButton *createPlanetButton;
+
+  IGUIEditBox *xPosEditBox;
+  IGUIEditBox *yPosEditBox;
+  IGUIEditBox *zPosEditBox;
+  IGUIEditBox *xVelEditBox;
+  IGUIEditBox *yVelEditBox;
+  IGUIEditBox *zVelEditBox;
 };

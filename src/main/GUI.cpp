@@ -160,80 +160,17 @@ void GUI::handleButtonPresses() {
   }
 
   if (addPlanetButton->isPressed()) {
-
-    if (openPopUpFlag) {
-
-      addPlanetWindow = guienv->addWindow(rect<s32>(600, 200, 1100, 800), true,
-                                          L"Add Planet");
-      // width = 500, height = 600
-
-      // rect<s32>(25, 25, 475, 265)
-
-      planetSelect =
-          guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
-
-      int x = 70;
-      int y = 55;
-
-      IGUIImage *starImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      starImage->setImage(driver->getTexture("assets/planetIcons/star.png"));
-      starImage->setScaleImage(true);
-
-      x += 135;
-
-      IGUIImage *ringedImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      ringedImage->setImage(
-          driver->getTexture("assets/planetIcons/ringed.png"));
-      ringedImage->setScaleImage(true);
-
-      x += 135;
-
-      IGUIImage *gasImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      gasImage->setImage(driver->getTexture("assets/planetIcons/gas.png"));
-      gasImage->setScaleImage(true);
-
-      x = 70;
-      y += 110;
-
-      IGUIImage *telluricImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      telluricImage->setImage(
-          driver->getTexture("assets/planetIcons/telluric.png"));
-      telluricImage->setScaleImage(true);
-
-      x += 135;
-
-      IGUIImage *asteroidImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      asteroidImage->setImage(
-          driver->getTexture("assets/planetIcons/asteroid.png"));
-      asteroidImage->setScaleImage(true);
-
-      x += 135;
-
-      IGUIImage *cometImage =
-          guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-      cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
-      cometImage->setScaleImage(true);
-
-      planetSelect->addItem(L"Asteroid");
-      planetSelect->addItem(L"Comet");
-      planetSelect->addItem(L"Gas");
-      planetSelect->addItem(L"Ringed");
-      planetSelect->addItem(L"Star");
-      planetSelect->addItem(L"Telluric");
-
-      createPlanetButton = guienv->addButton(
-          rect<s32>(200, 525, 300, 575), addPlanetWindow, 1, L"Create Planet");
-
-      openPopUpFlag = false;
-      receiver->setPlanetWindowSate(true);
-    }
+    createAddPlanetPopUp();
   } else {
     openPopUpFlag = true;
+  }
+
+  if (receiver->getPlanetWindowState()) {
+    if (createPlanetButton->isPressed()) {
+
+      addPlanetWindow->remove();
+      receiver->setPlanetWindowSate(false);
+    }
   }
 }
 
@@ -286,5 +223,132 @@ void GUI::handleMouseInput() {
         camera->setSelectedPlanet(scenePointerMap[selected]);
       }
     }
+  }
+}
+
+void GUI::createAddPlanetPopUp() {
+
+  if (openPopUpFlag) {
+
+    addPlanetWindow =
+        guienv->addWindow(rect<s32>(600, 200, 1100, 800), true, L"Add Planet");
+    // width = 500, height = 600
+
+    int x = 70;
+    int y = 55;
+
+    IGUIImage *starImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    starImage->setImage(driver->getTexture("assets/planetIcons/star.png"));
+    starImage->setScaleImage(true);
+
+    x += 135;
+
+    IGUIImage *ringedImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    ringedImage->setImage(driver->getTexture("assets/planetIcons/ringed.png"));
+    ringedImage->setScaleImage(true);
+
+    x += 135;
+
+    IGUIImage *gasImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    gasImage->setImage(driver->getTexture("assets/planetIcons/gas.png"));
+    gasImage->setScaleImage(true);
+
+    x = 70;
+    y += 110;
+
+    IGUIImage *telluricImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    telluricImage->setImage(
+        driver->getTexture("assets/planetIcons/telluric.png"));
+    telluricImage->setScaleImage(true);
+
+    x += 135;
+
+    IGUIImage *asteroidImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    asteroidImage->setImage(
+        driver->getTexture("assets/planetIcons/asteroid.png"));
+    asteroidImage->setScaleImage(true);
+
+    x += 135;
+
+    IGUIImage *cometImage =
+        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+    cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
+    cometImage->setScaleImage(true);
+
+    planetSelect =
+        guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
+
+    planetSelect->addItem(L"Asteroid");
+    planetSelect->addItem(L"Comet");
+    planetSelect->addItem(L"Gas");
+    planetSelect->addItem(L"Ringed");
+    planetSelect->addItem(L"Star");
+    planetSelect->addItem(L"Telluric");
+
+    x = 50;
+    y = 350;
+
+    guienv->addStaticText(L"Position", rect<s32>(x, y, x + 60, y + 15), false,
+                          false, addPlanetWindow);
+
+    x += 64;
+    guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    xPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    x += 88;
+    guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    yPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    x += 88;
+    guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    zPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    x = 50;
+    y += 30;
+
+    // Velocity Labels and Edit Boxes
+    guienv->addStaticText(L"Velocity", rect<s32>(x, y, x + 60, y + 15), false,
+                          false, addPlanetWindow);
+
+    x += 64;
+    guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    xVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    x += 88;
+    guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    yVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    x += 88;
+    guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    zVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                     addPlanetWindow);
+
+    createPlanetButton = guienv->addButton(
+        rect<s32>(200, 525, 300, 575), addPlanetWindow, 1, L"Create Planet");
+
+    openPopUpFlag = false;
+    receiver->setPlanetWindowSate(true);
   }
 }
