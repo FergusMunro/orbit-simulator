@@ -37,6 +37,7 @@ private:
   void handleMouseInput();
   void handleButtonPresses();
   void createAddPlanetPopUp();
+  bool createPlanetFromInput();
 
   PlanetManager pm;
   std::unique_ptr<CameraManager> camera;

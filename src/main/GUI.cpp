@@ -168,8 +168,11 @@ void GUI::handleButtonPresses() {
   if (receiver->getPlanetWindowState()) {
     if (createPlanetButton->isPressed()) {
 
-      addPlanetWindow->remove();
-      receiver->setPlanetWindowSate(false);
+      if (createPlanetFromInput()) {
+
+        addPlanetWindow->remove();
+        receiver->setPlanetWindowSate(false);
+      }
     }
   }
 }
@@ -350,5 +353,23 @@ void GUI::createAddPlanetPopUp() {
 
     openPopUpFlag = false;
     receiver->setPlanetWindowSate(true);
+  }
+}
+
+bool GUI::createPlanetFromInput() {
+
+  try {
+    int xPos = std::stoi(std::wstring(xPosEditBox->getText()));
+    int yPos = std::stoi(std::wstring(yPosEditBox->getText()));
+    int zPos = std::stoi(std::wstring(zPosEditBox->getText()));
+    int xVel = std::stoi(std::wstring(xVelEditBox->getText()));
+    int yVel = std::stoi(std::wstring(yVelEditBox->getText()));
+    int zVel = std::stoi(std::wstring(zVelEditBox->getText()));
+
+    addPlanet(Vector(xPos, yPos, zPos), Vector(xVel, yVel, zVel),
+              planetSelect->getSelected());
+    return true;
+  } catch (const std::exception &e) {
+    return false;
   }
 }
