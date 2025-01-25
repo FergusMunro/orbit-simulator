@@ -1,4 +1,5 @@
 #include "main/Macros.hpp"
+#include <iostream>
 #define private public
 #define protected public
 /*
@@ -88,5 +89,46 @@ TEST_CASE("planet Manager Tests") {
     a2.setPosition(Vector(0, 0, 60));
 
     REQUIRE(pm.areIntersecting(a1, a2));
+  }
+
+  SECTION("timespeed test") {
+
+    Telluric p1 = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    // Intersecting Position
+
+    Telluric p2 = Telluric(Vector(50, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    pm.setTimeSpeed(1);
+    double normalSpeed =
+        pm.calculateGravitationalAcceleration(p1, p2).magnitude() *
+        pm.timeSpeed;
+
+    pm.setTimeSpeed(2);
+    double fastSpeed =
+        pm.calculateGravitationalAcceleration(p1, p2).magnitude() *
+        pm.timeSpeed;
+
+    pm.setTimeSpeed(4);
+    double veryFastSpeed =
+        pm.calculateGravitationalAcceleration(p1, p2).magnitude() *
+        pm.timeSpeed;
+
+    pm.setTimeSpeed(8);
+    double extremelyFastSpeed =
+        pm.calculateGravitationalAcceleration(p1, p2).magnitude() *
+        pm.timeSpeed;
+
+    pm.setTimeSpeed(0);
+    double zeroSpeed =
+        pm.calculateGravitationalAcceleration(p1, p2).magnitude() *
+        pm.timeSpeed;
+
+    REQUIRE_THAT(fastSpeed, Catch::Matchers::WithinAbs(2 * normalSpeed, 0.001));
+    REQUIRE_THAT(veryFastSpeed,
+                 Catch::Matchers::WithinAbs(4 * normalSpeed, 0.001));
+    REQUIRE_THAT(extremelyFastSpeed,
+                 Catch::Matchers::WithinAbs(8 * normalSpeed, 0.001));
+    REQUIRE_THAT(zeroSpeed, Catch::Matchers::WithinAbs(0, 0.001));
   }
 }
