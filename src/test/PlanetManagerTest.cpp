@@ -95,8 +95,6 @@ TEST_CASE("planet Manager Tests") {
 
     Telluric p1 = Telluric(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
-    // Intersecting Position
-
     Telluric p2 = Telluric(Vector(50, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
     pm.setTimeSpeed(1);

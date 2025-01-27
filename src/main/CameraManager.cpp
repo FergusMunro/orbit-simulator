@@ -1,6 +1,7 @@
 #include "main/CameraManager.hpp"
 #include "ISceneNode.h"
 #include "main/Macros.hpp"
+#include "vector3d.h"
 
 #include <algorithm>
 #include <cmath>
@@ -75,6 +76,7 @@ void CameraManager::updateRadius(float wheelDelta) {
 void CameraManager::reset() {
 
   camera->setPosition(core::vector3df(0, 0, 0));
+  camera->setTarget(core::vector3df(0, 0, 1));
 
   radius = 1000;
   theta = 0;

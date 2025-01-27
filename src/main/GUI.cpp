@@ -151,7 +151,9 @@ void GUI::handleButtonPresses() {
 
   if (resetButton->isPressed()) {
 
+    // delete all simulation data
     pm.removeAll();
+    pm.setTimeSpeed(1);
     camera->reset();
     scenePointerMap.clear();
 
@@ -349,7 +351,7 @@ void GUI::createAddPlanetPopUp() {
                                      addPlanetWindow);
 
     createPlanetButton = guienv->addButton(
-        rect<s32>(200, 525, 300, 575), addPlanetWindow, 1, L"Create Planet");
+        rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
 
     openPopUpFlag = false;
     receiver->setPlanetWindowSate(true);
@@ -359,17 +361,21 @@ void GUI::createAddPlanetPopUp() {
 bool GUI::createPlanetFromInput() {
 
   try {
-    int xPos = std::stoi(std::wstring(xPosEditBox->getText()));
-    int yPos = std::stoi(std::wstring(yPosEditBox->getText()));
-    int zPos = std::stoi(std::wstring(zPosEditBox->getText()));
-    int xVel = std::stoi(std::wstring(xVelEditBox->getText()));
-    int yVel = std::stoi(std::wstring(yVelEditBox->getText()));
-    int zVel = std::stoi(std::wstring(zVelEditBox->getText()));
+    int xPos = std::stod(std::wstring(xPosEditBox->getText()));
+    int yPos = std::stod(std::wstring(yPosEditBox->getText()));
+    int zPos = std::stod(std::wstring(zPosEditBox->getText()));
+    int xVel = std::stod(std::wstring(xVelEditBox->getText()));
+    int yVel = std::stod(std::wstring(yVelEditBox->getText()));
+    int zVel = std::stod(std::wstring(zVelEditBox->getText()));
 
     addPlanet(Vector(xPos, yPos, zPos), Vector(xVel, yVel, zVel),
               planetSelect->getSelected());
     return true;
   } catch (const std::exception &e) {
+    guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
+                          L"numerical digits or symbols",
+                          rect<s32>(115, 560, 385, 580), false, false,
+                          addPlanetWindow);
     return false;
   }
 }
