@@ -15,8 +15,9 @@ Orbit::Orbit(const Vector &_position, const Vector &_velocity,
 }
 
 // constructor for orbital parameters, just a big initialiser list
-Orbit::Orbit(int _angularMomentum, int _inclination, double _eccentricity,
-             int _rightAscension, int _argp, int _trueanomaly)
+Orbit::Orbit(double _angularMomentum, double _inclination,
+             double _rightAscension, double _eccentricity, double _argp,
+             double _trueanomaly)
     : angularMomentum(_angularMomentum), inclination(_inclination),
       eccentricity(_eccentricity), rightAscension(_rightAscension), argp(_argp),
       trueanomaly(_trueanomaly) {}
@@ -27,7 +28,7 @@ void Orbit::drawOrbit(const Planet &orbitedPlanet) {
 
 pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
 
-  Planet *p = orbitedPlanet.lock().get();
+  std::shared_ptr<Planet> p = orbitedPlanet.lock();
 
   if (p) {
     double mu = CONST_G * p->getMass();
@@ -59,10 +60,10 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
     glm::vec3 position = glm::vec3(r_vec.x, r_vec.y, r_vec.z);
     glm::vec3 velocity = glm::vec3(v_vec.x, v_vec.y, v_vec.z);
 
-    position = position * R1 * R2 * R3;
-    velocity = velocity * R1 * R2 * R3;
+    position = R3 * R2 * R1 * position;
+    velocity = R3 * R2 * R1 * velocity;
 
-    // TODO: sort out return type
+    // convert them back to vector that i can return
 
     Vector _position = Vector(position.x, position.y, position.z);
     Vector _velocity = Vector(velocity.x, velocity.y, velocity.z);

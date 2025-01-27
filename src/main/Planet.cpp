@@ -7,7 +7,7 @@
 Planet::Planet(const Vector &_position, const Vector &_velocity,
                irr::scene::ISceneManager *smgr,
                irr::video::IVideoDriver *driver)
-    : position(_position), velocity(_velocity) {
+    : position(_position), velocity(_velocity), orbit(0, 0, 0, 0, 0, 0) {
 
   rotation = 0;
 
@@ -60,5 +60,7 @@ std::weak_ptr<irr::scene::ISceneNode> Planet::getSceneNodePtr() {
   // shared poitner which is not what we want
 }
 
-void Planet::setOrbitedPlanet(Planet *planet) { pOrbitedPlanet = planet; }
-Planet *Planet::getOrbitedPlanet() const { return pOrbitedPlanet; }
+void Planet::setOrbitedPlanet(std::weak_ptr<Planet> planet) {
+  orbitedPlanet = planet;
+}
+std::weak_ptr<Planet> Planet::getOrbitedPlanet() const { return orbitedPlanet; }

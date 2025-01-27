@@ -26,8 +26,8 @@ public:
   Orbit(const Vector &_position, const Vector &_velocity,
         std::weak_ptr<Planet> orbitedPlanet);
 
-  Orbit(int _angularMomentum, int _inclination, double _eccentricity,
-        int _rightAscension, int _argp, int _trueanomaly);
+  Orbit(double _angularMomentum, double _inclination, double _eccentricity,
+        double _rightAscension, double _argp, double _trueanomaly);
 
 private:
   // orbital elements

@@ -50,5 +50,5 @@ protected:
 
   __float128 size;
 
-  std::weak_ptr<Planet> *orbitedPlanet;
+  std::weak_ptr<Planet> orbitedPlanet;
 };
