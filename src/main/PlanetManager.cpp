@@ -24,27 +24,27 @@ PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
   switch (type) {
   case _Asteroid:
     planets.push_front(
-        std::make_unique<Asteroid>(_position, _velocity, smgr, driver));
+        std::make_shared<Asteroid>(_position, _velocity, smgr, driver));
     break;
   case _Comet:
     planets.push_front(
-        std::make_unique<Comet>(_position, _velocity, smgr, driver));
+        std::make_shared<Comet>(_position, _velocity, smgr, driver));
     break;
   case _Gas:
     planets.push_front(
-        std::make_unique<Gas>(_position, _velocity, smgr, driver));
+        std::make_shared<Gas>(_position, _velocity, smgr, driver));
     break;
   case _Ringed:
     planets.push_front(
-        std::make_unique<Ringed>(_position, _velocity, smgr, driver));
+        std::make_shared<Ringed>(_position, _velocity, smgr, driver));
     break;
   case _Star:
     planets.push_front(
-        std::make_unique<Star>(_position, _velocity, smgr, driver));
+        std::make_shared<Star>(_position, _velocity, smgr, driver));
     break;
   case _Telluric:
     planets.push_front(
-        std::make_unique<Telluric>(_position, _velocity, smgr, driver));
+        std::make_shared<Telluric>(_position, _velocity, smgr, driver));
     break;
   }
   return (**planets.begin()).getSceneNodePtr();
@@ -107,6 +107,10 @@ void PlanetManager::updatePositions(double timeDelta) {
     // handle acceleration section
 
     Vector acceleration = Vector(0, 0, 0);
+    Vector currentAcceleration = Vector(0, 0, 0);
+    std::weak_ptr<Planet> orbitedPlanet;
+
+    double max;
 
     for (auto &planet : planets) {
 
@@ -116,9 +120,16 @@ void PlanetManager::updatePositions(double timeDelta) {
 
       for (auto &planetWithGravity : planets) {
 
+        max = 0;
+
         if (planet != planetWithGravity) {
-          acceleration = acceleration + calculateGravitationalAcceleration(
-                                            *planet, *planetWithGravity);
+          currentAcceleration =
+              calculateGravitationalAcceleration(*planet, *planetWithGravity);
+          acceleration = acceleration + currentAcceleration;
+          if (currentAcceleration.magnitude() > max) {
+            max = currentAcceleration.magnitude();
+            orbitedPlanet = planetWithGravity;
+          }
         }
       }
 
@@ -126,6 +137,7 @@ void PlanetManager::updatePositions(double timeDelta) {
                           acceleration * timeDelta * timeSpeed);
       planet->setPosition(planet->getPosition() +
                           planet->getVelocity() * timeDelta * timeSpeed);
+      planet->setOrbitedPlanet(orbitedPlanet);
     }
   }
 }

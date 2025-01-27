@@ -237,6 +237,7 @@ void GUI::createAddPlanetPopUp() {
 
     addPlanetWindow =
         guienv->addWindow(rect<s32>(600, 200, 1100, 800), true, L"Add Planet");
+    addPlanetWindow->setDrawBackground(true);
     // width = 500, height = 600
 
     int x = 70;
@@ -298,58 +299,53 @@ void GUI::createAddPlanetPopUp() {
     x = 50;
     y = 350;
 
+    // add position edit boxes
+
     guienv->addStaticText(L"Position", rect<s32>(x, y, x + 60, y + 15), false,
                           false, addPlanetWindow);
-
     x += 64;
     guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     xPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     x += 88;
     guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     yPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     x += 88;
     guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     zPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     x = 50;
     y += 30;
 
-    // Velocity Labels and Edit Boxes
+    // add velocity edit boxes
+
     guienv->addStaticText(L"Velocity", rect<s32>(x, y, x + 60, y + 15), false,
                           false, addPlanetWindow);
-
     x += 64;
     guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     xVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     x += 88;
     guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     yVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     x += 88;
     guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
                           addPlanetWindow);
     x += 32;
     zVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-
     createPlanetButton = guienv->addButton(
         rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
 

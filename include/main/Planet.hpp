@@ -26,8 +26,8 @@ public:
 
   std::weak_ptr<irr::scene::ISceneNode> getSceneNodePtr();
 
-  void setOrbitedPlanet(Planet *planet);
-  Planet *getOrbitedPlanet() const;
+  void setOrbitedPlanet(std::weak_ptr<Planet> orbitedPlanet);
+  std::weak_ptr<Planet> getOrbitedPlanet() const;
 
   // constructor
   Planet(const Vector &position, const Vector &velocity,
@@ -50,5 +50,5 @@ protected:
 
   __float128 size;
 
-  Planet *pOrbitedPlanet;
+  std::weak_ptr<Planet> *orbitedPlanet;
 };

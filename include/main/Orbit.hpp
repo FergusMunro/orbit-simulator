@@ -1,16 +1,21 @@
 #pragma once
 
 #include "main/Vector.hpp"
+#include <memory>
 class Planet;
+
+struct pos_and_vel {
+  Vector position;
+  Vector velocity;
+  pos_and_vel(Vector _p, Vector _v) : position(_p), velocity(_v) {}
+};
 
 class Orbit {
 public:
-  // methods
-
   // mathematical functions
-  Vector convertToVelocity(const Planet &orbitedPlanet);
-  Vector convertFromVelocity(const Vector &position, const Vector &velocity,
-                             const Planet &orbitedPlanet);
+  pos_and_vel convertToVelocity(std::weak_ptr<Planet> orbitedPlanet);
+  void convertFromVelocity(const Vector &position, const Vector &velocity,
+                           std::weak_ptr<Planet> orbitedPlanet);
 
   // other methods
   void drawOrbit(const Planet &orbitedPlanet);
@@ -18,10 +23,8 @@ public:
   void toggleKeplersSecond();
   void toggleConstantSweeping();
 
-  Orbit();
-
   Orbit(const Vector &_position, const Vector &_velocity,
-        Planet &orbitedPlanet);
+        std::weak_ptr<Planet> orbitedPlanet);
 
   Orbit(int _angularMomentum, int _inclination, double _eccentricity,
         int _rightAscension, int _argp, int _trueanomaly);
@@ -29,12 +32,12 @@ public:
 private:
   // orbital elements
 
-  int angularMomentum;
-  int inclination;
+  double angularMomentum;
+  double inclination;
   double eccentricity;
-  int rightAscension;
-  int argp;
-  int trueanomaly;
+  double rightAscension;
+  double argp;
+  double trueanomaly;
 
   // other attributes
 

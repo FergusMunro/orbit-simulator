@@ -26,7 +26,7 @@ public:
 private:
   // linked list containing planets
 
-  std::forward_list<std::unique_ptr<Planet>> planets;
+  std::forward_list<std::shared_ptr<Planet>> planets;
 
   float timeSpeed;
 

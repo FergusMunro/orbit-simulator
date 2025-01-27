@@ -10,7 +10,6 @@ Planet::Planet(const Vector &_position, const Vector &_velocity,
     : position(_position), velocity(_velocity) {
 
   rotation = 0;
-  pOrbitedPlanet = NULL;
 
   if (smgr) { // check if smgr is not null
 

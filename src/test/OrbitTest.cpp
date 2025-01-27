@@ -9,7 +9,9 @@
 #include "catch.h"
 
 TEST_CASE("orbit test") {
+
   Orbit o = Orbit(0, 0, 0, 0, 0, 0);
+
   SECTION("toggle testing") {
     REQUIRE(!o.keplersFirst);
     o.toggleKeplersFirst();
@@ -28,4 +30,6 @@ TEST_CASE("orbit test") {
     REQUIRE(o.keplersSecond % 2 != 0);
     REQUIRE(o.keplersSecond % 3 != 0);
   }
+
+  SECTION("convert back and forth from velocity testing") {}
 }
