@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <glm/glm.hpp>
+#include <iostream>
 #include <memory>
 
 // constructor for passing velocity and position directly
@@ -22,8 +23,21 @@ Orbit::Orbit(double _angularMomentum, double _inclination,
       eccentricity(_eccentricity), rightAscension(_rightAscension), argp(_argp),
       trueanomaly(_trueanomaly) {}
 
-void Orbit::drawOrbit(const Planet &orbitedPlanet) {
-  // TODO
+void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet) {
+
+  std::shared_ptr<Planet> p = orbitedPlanet.lock();
+
+  if (p) {
+
+    double mu = CONST_G * p->getMass();
+
+    double semiMajorAxis =
+        (pow(angularMomentum, 2) / mu) / (1 - pow(eccentricity, 2));
+
+    double semiMinorAxis = semiMajorAxis * sqrt(1 - pow(eccentricity, 2));
+  } else {
+    std::cerr << "error with weak pointer not locking\n";
+  }
 }
 
 pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
@@ -65,11 +79,15 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
 
     // convert them back to vector that i can return
 
-    Vector _position = Vector(position.x, position.y, position.z);
-    Vector _velocity = Vector(velocity.x, velocity.y, velocity.z);
+    Vector _position =
+        Vector(position.x, position.y, position.z) + p->getPosition();
+
+    Vector _velocity =
+        Vector(velocity.x, velocity.y, velocity.z) + p->getVelocity();
 
     return pos_and_vel(_position, _velocity);
   } else {
+    std::cerr << "error with weak pointer not locking\n";
     return pos_and_vel(Vector(0, 0, 0), Vector(0, 0, 0));
   }
 }
@@ -125,6 +143,8 @@ void Orbit::convertFromVelocity(const Vector &_position,
     if (v_r < 0) {
       trueanomaly = 2 * CONST_PI - trueanomaly;
     }
+  } else {
+    std::cerr << "error with weak pointer not locking\n";
   }
 }
 

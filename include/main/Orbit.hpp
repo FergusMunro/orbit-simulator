@@ -18,7 +18,7 @@ public:
                            std::weak_ptr<Planet> orbitedPlanet);
 
   // other methods
-  void drawOrbit(const Planet &orbitedPlanet);
+  void drawOrbit(std::weak_ptr<Planet> orbitedPlanet);
   void toggleKeplersFirst();
   void toggleKeplersSecond();
   void toggleConstantSweeping();
