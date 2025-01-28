@@ -138,15 +138,17 @@ void PlanetManager::updatePositions(double timeDelta) {
       planet->setPosition(planet->getPosition() +
                           planet->getVelocity() * timeDelta * timeSpeed);
       planet->setOrbitedPlanet(orbitedPlanet);
+
+      planet->updateOrbit();
     }
   }
 }
 
-void PlanetManager::drawPlanets() const {
+void PlanetManager::drawPlanets(irr::video::IVideoDriver *driver) const {
   if (!planets.empty()) {
 
     for (auto &planet : planets) {
-      planet->drawPlanet();
+      planet->drawPlanet(driver);
     }
   }
 }

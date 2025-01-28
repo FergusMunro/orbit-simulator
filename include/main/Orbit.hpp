@@ -1,7 +1,10 @@
 #pragma once
 
 #include "main/Vector.hpp"
+
+#include <irrlicht.h>
 #include <memory>
+
 class Planet;
 
 struct pos_and_vel {
@@ -18,7 +21,8 @@ public:
                            std::weak_ptr<Planet> orbitedPlanet);
 
   // other methods
-  void drawOrbit(std::weak_ptr<Planet> orbitedPlanet);
+  void drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
+                 irr::video::IVideoDriver *driver);
   void toggleKeplersFirst();
   void toggleKeplersSecond();
   void toggleConstantSweeping();

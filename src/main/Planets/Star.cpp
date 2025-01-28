@@ -30,6 +30,6 @@ Star::Star(const Vector &_position, const Vector &_velocity,
   }
 }
 
-void Star::drawPlanet() {
+void Star::drawPlanet(irr::video::IVideoDriver *driver) {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }

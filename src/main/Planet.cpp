@@ -7,7 +7,9 @@
 Planet::Planet(const Vector &_position, const Vector &_velocity,
                irr::scene::ISceneManager *smgr,
                irr::video::IVideoDriver *driver)
-    : position(_position), velocity(_velocity), orbit(0, 0, 0, 0, 0, 0) {
+    : position(_position), velocity(_velocity),
+      orbit(_position.x, _position.y, _position.z, _velocity.x, _velocity.y,
+            _velocity.z) {
 
   rotation = 0;
 
@@ -43,6 +45,10 @@ void Planet::updateRotation() {
     rotation -= 360;
   }
   // to ensure that rotation is between 0 and 359
+}
+
+void Planet::updateOrbit() {
+  orbit.convertFromVelocity(position, velocity, orbitedPlanet);
 }
 
 // getters and setters

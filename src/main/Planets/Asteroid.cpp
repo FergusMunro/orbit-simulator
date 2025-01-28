@@ -32,6 +32,8 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
   }
 }
 
-void Asteroid::drawPlanet() {
+void Asteroid::drawPlanet(irr::video::IVideoDriver *driver) {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
+
+  orbit.drawOrbit(orbitedPlanet, driver);
 }

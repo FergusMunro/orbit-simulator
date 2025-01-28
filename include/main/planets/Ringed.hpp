@@ -7,7 +7,7 @@ class Ringed : public Planet {
 public:
   Ringed(const Vector &_position, const Vector &_velocity,
          irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver);
-  void drawPlanet() override;
+  void drawPlanet(irr::video::IVideoDriver *driver) override;
 
 private:
   void drawRings();

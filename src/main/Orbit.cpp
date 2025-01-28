@@ -1,9 +1,12 @@
 #include "main/Orbit.hpp"
+#include "SColor.h"
 #include "main/Macros.hpp"
 #include "main/Planet.hpp"
+#include "vector3d.h"
 
 #include <algorithm>
 #include <cmath>
+#include <forward_list>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <memory>
@@ -23,18 +26,81 @@ Orbit::Orbit(double _angularMomentum, double _inclination,
       eccentricity(_eccentricity), rightAscension(_rightAscension), argp(_argp),
       trueanomaly(_trueanomaly) {}
 
-void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet) {
+void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
+                      irr::video::IVideoDriver *driver) {
 
   std::shared_ptr<Planet> p = orbitedPlanet.lock();
 
   if (p) {
 
     double mu = CONST_G * p->getMass();
+    irr::core::vector3df centre = irr::core::vector3df(
+        p->getPosition().x, p->getPosition().y, p->getPosition().z);
 
+    // calculate semi-major axis
     double semiMajorAxis =
         (pow(angularMomentum, 2) / mu) / (1 - pow(eccentricity, 2));
 
-    double semiMinorAxis = semiMajorAxis * sqrt(1 - pow(eccentricity, 2));
+    // draw points using parametric equation of ellipse
+    // do euler transformations about argp -> inclination -> right ascension
+
+    double theta = 0; // this is true anomaly, but one that we vary around 2pi
+                      // to draw all possible positions on obit, not one that
+                      // represents current position of planet
+
+    double radius;
+
+    std::forward_list<irr::core::vector3df> points;
+
+    // calculate each point of the orbit manually
+
+    for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
+
+      theta = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
+
+      radius = semiMajorAxis * (1 - pow(eccentricity, 2)) /
+               (1 + eccentricity * cos(theta));
+
+      points.push_front(
+          irr::core::vector3df(radius * cos(theta), radius * sin(theta), 0));
+
+      points.front().rotateXYBy(argp * 180 / CONST_PI);
+      points.front().rotateYZBy(inclination * 180 / CONST_PI);
+      points.front().rotateXYBy(rightAscension * 180 / CONST_PI);
+
+      std::cout << inclination * 180 / CONST_PI << "\n";
+
+      points.front() = points.front() + centre;
+    }
+
+    auto point = points.begin()++;
+    auto prev = points.begin();
+
+    // since we are manually drawing the lines we need to adjust the material to
+    // be right for drawing lines. we need to do this every time we draw as
+    // other functions will change it
+
+    irr::video::SMaterial material;
+    material.Lighting = false;
+    driver->setTransform(irr::video::ETS_WORLD, irr::core::IdentityMatrix);
+
+    driver->setMaterial(material);
+
+    // we need to now manually draw these points
+
+    while (point != points.end()) {
+      // draw a line between current and previous point
+
+      driver->draw3DLine(*prev, *point, irr::video::SColor(255, 255, 255, 255));
+
+      prev = point;
+      point++;
+    }
+
+    // draw line between prev and start
+    driver->draw3DLine(*prev, *points.begin(),
+                       irr::video::SColor(255, 255, 255, 255));
+
   } else {
     std::cerr << "error with weak pointer not locking\n";
   }

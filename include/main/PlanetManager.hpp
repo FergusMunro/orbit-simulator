@@ -9,7 +9,7 @@ class PlanetManager {
 public:
   // methods
 
-  void drawPlanets() const;
+  void drawPlanets(irr::video::IVideoDriver *driver) const;
   void updatePositions(double timeDelta);
   std::weak_ptr<irr::scene::ISceneNode>
   addPlanet(const Vector &_position, const Vector &_velocity,

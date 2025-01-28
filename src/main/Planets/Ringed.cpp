@@ -29,6 +29,8 @@ Ringed::Ringed(const Vector &_position, const Vector &_velocity,
   }
 }
 
-void Ringed::drawPlanet() {
+void Ringed::drawPlanet(irr::video::IVideoDriver *driver) {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
+
+  orbit.drawOrbit(orbitedPlanet, driver);
 }

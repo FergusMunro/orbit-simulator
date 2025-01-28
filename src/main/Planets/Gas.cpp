@@ -28,6 +28,8 @@ Gas::Gas(const Vector &_position, const Vector &_velocity,
   }
 }
 
-void Gas::drawPlanet() {
+void Gas::drawPlanet(irr::video::IVideoDriver *driver) {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
+
+  orbit.drawOrbit(orbitedPlanet, driver);
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IVideoDriver.h"
 #include "main/Orbit.hpp"
 #include "main/Vector.hpp"
 #include <memory>
@@ -11,8 +12,10 @@ class Planet {
 public:
   // methods
 
-  virtual void drawPlanet() = 0;
+  virtual void drawPlanet(irr::video::IVideoDriver *driver) = 0;
   void updateRotation();
+
+  void updateOrbit();
 
   // Getters and Setters
 

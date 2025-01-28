@@ -40,7 +40,7 @@ void GUI::run() {
     gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
 
     gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
-    gui.pm.drawPlanets();
+    gui.pm.drawPlanets(gui.driver);
 
     gui.handleMouseInput();
     gui.handleButtonPresses();
@@ -186,7 +186,9 @@ void GUI::addStartingPlanets() {
   addPlanet(Vector(0, 0, 3000), Vector(1825, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 6000), Vector(1290, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 6050), Vector(1431, 0, 0), _Comet);
-  addPlanet(Vector(0, 0, 10000), Vector(1000, 0, 0), _Gas);
+  // addPlanet(Vector(0, 0, 6050), Vector(0, 1431, 0), _Comet);
+
+  addPlanet(Vector(0, 0, 10000), Vector(1200, 0, 0), _Gas);
   addPlanet(Vector(0, 0, 15000), Vector(816, 0, 0), _Ringed);
   addPlanet(Vector(0, 0, 30000), Vector(577, 0, 0), _Telluric);
 }
