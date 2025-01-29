@@ -161,6 +161,7 @@ void Orbit::stateVectorsToOrbitalElements(const Vector &_position,
 
     Vector position = _position - p->getPosition();
     Vector velocity = _velocity - p->getVelocity();
+    // calculate relative position and velocity
 
     double r = position.magnitude();
     double v = velocity.magnitude();
@@ -168,8 +169,12 @@ void Orbit::stateVectorsToOrbitalElements(const Vector &_position,
     double v_r = Vector::dot(position.normalise(), velocity);
     double v_p = sqrt((pow(v, 2) - pow(v_r, 2)));
 
+    // calculate radial and azimuthal velocity
+
     Vector h_vec = Vector::cross(position, velocity);
     angularMomentum = h_vec.magnitude();
+
+    // calculate angular momentum
 
     inclination = acos((double)h_vec.z / angularMomentum);
     Vector K = Vector(0, 0, 1);
@@ -177,31 +182,40 @@ void Orbit::stateVectorsToOrbitalElements(const Vector &_position,
     Vector N_vec = Vector::cross(K, h_vec);
 
     double N = N_vec.magnitude();
+    // calulate node line
 
     rightAscension = acos(std::clamp((double)N_vec.x / N, -1.0, 1.0));
+    // calculate rightascension, the clamp is to avoid an error for values near
+    // -1 or 1 that could go over due to floating point inaccuracy
     if (N_vec.y < 0) {
       rightAscension = 2 * CONST_PI - rightAscension;
+      // ensure value is in right range
     }
 
     Vector e_vec =
         (Vector::cross(velocity, h_vec) * (1 / mu)) - (position.normalise());
 
     eccentricity = e_vec.magnitude();
+    // calculate eccentricity
 
     argp = acos(
         std::clamp((double)Vector::dot(N_vec, e_vec) * (1 / (N * eccentricity)),
                    -1.0, 1.0));
+    // calculate argument of periapsis
 
     if (e_vec.z < 0) {
       argp = 2 * CONST_PI - argp;
+      // ensure value is in right range
     }
 
     trueanomaly = acos(
         std::clamp((double)Vector::dot(position.normalise(), e_vec.normalise()),
                    -1.0, 1.0));
+    // calculate trueanomaly
 
     if (v_r < 0) {
       trueanomaly = 2 * CONST_PI - trueanomaly;
+      // ensure value is in right range
     }
   } else {
     std::cerr << "error with weak pointer not locking\n";
