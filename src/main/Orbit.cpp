@@ -33,43 +33,18 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
 
   if (p) {
 
-    double mu = CONST_G * p->getMass();
-    irr::core::vector3df centre = irr::core::vector3df(
-        p->getPosition().x, p->getPosition().y, p->getPosition().z);
-
-    // calculate semi-major axis
-    double semiMajorAxis =
-        (pow(angularMomentum, 2) / mu) / (1 - pow(eccentricity, 2));
-
-    // draw points using parametric equation of ellipse
-    // do euler transformations about argp -> inclination -> right ascension
-
-    double theta = 0; // this is true anomaly, but one that we vary around 2pi
-                      // to draw all possible positions on obit, not one that
-                      // represents current position of planet
-
-    double radius;
-
     std::forward_list<irr::core::vector3df> points;
+    double storedTrueAnomaly = trueanomaly;
 
-    // calculate each point of the orbit manually using formula
-    // each point needs to be rotated around axis
+    Vector pos = Vector(0, 0, 0);
 
     for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
 
-      theta = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
+      trueanomaly = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
 
-      radius = semiMajorAxis * (1 - pow(eccentricity, 2)) /
-               (1 + eccentricity * cos(theta));
+      pos = convertToVelocity(orbitedPlanet).position;
 
-      points.push_front(
-          irr::core::vector3df(radius * cos(theta), radius * sin(theta), 0));
-
-      points.front().rotateXYBy(argp * 180 / CONST_PI);
-      points.front().rotateYZBy(inclination * 180 / CONST_PI);
-      points.front().rotateXYBy(rightAscension * 180 / CONST_PI);
-
-      points.front() = points.front() + centre;
+      points.push_front(irr::core::vector3df(pos.x, pos.y, pos.z));
     }
 
     auto point = points.begin()++;
@@ -99,6 +74,10 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
     // draw line between prev and start
     driver->draw3DLine(*prev, *points.begin(),
                        irr::video::SColor(255, 255, 255, 255));
+
+    // set back the old value of trueanomaly
+
+    trueanomaly = storedTrueAnomaly;
 
   } else {
     std::cerr << "error with weak pointer not locking\n";
