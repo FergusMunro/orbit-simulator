@@ -10,6 +10,7 @@
 #include "main/planets/Telluric.hpp"
 
 #include <cmath>
+#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {
@@ -118,17 +119,17 @@ void PlanetManager::updatePositions(double timeDelta) {
       acceleration.y = 0;
       acceleration.z = 0;
 
-      for (auto &planetWithGravity : planets) {
+      max = 0;
 
-        max = 0;
+      for (auto &planetExertingGravity : planets) {
 
-        if (planet != planetWithGravity) {
-          currentAcceleration =
-              calculateGravitationalAcceleration(*planet, *planetWithGravity);
+        if (planet != planetExertingGravity) {
+          currentAcceleration = calculateGravitationalAcceleration(
+              *planet, *planetExertingGravity);
           acceleration = acceleration + currentAcceleration;
           if (currentAcceleration.magnitude() > max) {
             max = currentAcceleration.magnitude();
-            orbitedPlanet = planetWithGravity;
+            orbitedPlanet = planetExertingGravity;
           }
         }
       }

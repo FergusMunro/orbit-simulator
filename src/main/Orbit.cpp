@@ -52,7 +52,8 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
 
     std::forward_list<irr::core::vector3df> points;
 
-    // calculate each point of the orbit manually
+    // calculate each point of the orbit manually using formula
+    // each point needs to be rotated around axis
 
     for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
 
@@ -67,8 +68,6 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
       points.front().rotateXYBy(argp * 180 / CONST_PI);
       points.front().rotateYZBy(inclination * 180 / CONST_PI);
       points.front().rotateXYBy(rightAscension * 180 / CONST_PI);
-
-      std::cout << inclination * 180 / CONST_PI << "\n";
 
       points.front() = points.front() + centre;
     }

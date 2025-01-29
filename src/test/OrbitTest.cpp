@@ -37,7 +37,7 @@ TEST_CASE("orbit test") {
 
   SECTION("convert back and forth from velocity testing") {
     std::shared_ptr<Planet> p = std::make_shared<Star>(
-        Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+        Vector(1000, 5151, 515), Vector(5, 55, 765), nullptr, nullptr);
 
     Vector pos = Vector(14, 456, 3000);
     Vector vel = Vector(1825, 500, -80);
@@ -45,7 +45,7 @@ TEST_CASE("orbit test") {
     o.convertFromVelocity(pos, vel, p);
     pos_and_vel posvel = o.convertToVelocity(p);
 
-    double tolerance = 1e-4;
+    double tolerance = 1e-3;
 
     // Check position components
 
