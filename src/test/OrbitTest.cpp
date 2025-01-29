@@ -1,4 +1,3 @@
-#include <iostream>
 #define private public
 #define protected public
 /*
@@ -6,8 +5,8 @@
  * classes, which means that I can access them to test the code
  */
 
-#include "catch.h"
 #include "main/Orbit.hpp"
+#include "catch.h"
 #include "main/planets/Star.hpp"
 
 #include <memory>
@@ -42,8 +41,8 @@ TEST_CASE("orbit test") {
     Vector pos = Vector(14, 456, 3000);
     Vector vel = Vector(1825, 500, -80);
 
-    o.convertFromVelocity(pos, vel, p);
-    pos_and_vel posvel = o.convertToVelocity(p);
+    o.stateVectorsToOrbitalElements(pos, vel, p);
+    pos_and_vel posvel = o.orbitalElementsToStateVectors(p);
 
     double tolerance = 1e-3;
 
@@ -70,7 +69,8 @@ TEST_CASE("orbit test") {
         Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
     p->setMass(39.86);
 
-    o.convertFromVelocity(Vector(1000, 5000, 7000), Vector(3, 4, 5), p);
+    o.stateVectorsToOrbitalElements(Vector(1000, 5000, 7000), Vector(3, 4, 5),
+                                    p);
 
     REQUIRE_THAT(o.angularMomentum,
                  Catch::Matchers::WithinAbs(19646.883, 0.001));
@@ -87,7 +87,7 @@ TEST_CASE("orbit test") {
         Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
     p->setMass(39.86);
 
-    pos_and_vel posvel = o.convertToVelocity(p);
+    pos_and_vel posvel = o.orbitalElementsToStateVectors(p);
 
     REQUIRE_THAT(1000, Catch::Matchers::WithinAbs(posvel.position.x, 5));
     REQUIRE_THAT(5000, Catch::Matchers::WithinAbs(posvel.position.y, 20));

@@ -15,7 +15,7 @@
 Orbit::Orbit(const Vector &_position, const Vector &_velocity,
              std::weak_ptr<Planet> orbitedPlanet) {
 
-  convertFromVelocity(_position, _velocity, orbitedPlanet);
+  stateVectorsToOrbitalElements(_position, _velocity, orbitedPlanet);
 }
 
 // constructor for orbital parameters, just a big initialiser list
@@ -34,15 +34,22 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
   if (p) {
 
     std::forward_list<irr::core::vector3df> points;
+    // linked list containing all the points of the ellipse
+
     double storedTrueAnomaly = trueanomaly;
+    // we are going to vary the trueanomaly to draw all the points of the orbit
+    // using the convertovelocity function, so we need to store the old value to
+    // set it back at the end
 
     Vector pos = Vector(0, 0, 0);
 
     for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
 
       trueanomaly = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
+      // we change the true anomaly around 2pi to represent all positions in
+      // orbit
 
-      pos = convertToVelocity(orbitedPlanet).position;
+      pos = orbitalElementsToStateVectors(orbitedPlanet).position;
 
       points.push_front(irr::core::vector3df(pos.x, pos.y, pos.z));
     }
@@ -60,10 +67,10 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
 
     driver->setMaterial(material);
 
-    // we need to now manually draw these points
+    // we need to now manually draw these points, by drawing a line between
+    // adjacent points
 
     while (point != points.end()) {
-      // draw a line between current and previous point
 
       driver->draw3DLine(*prev, *point, irr::video::SColor(255, 255, 255, 255));
 
@@ -71,12 +78,11 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
       point++;
     }
 
-    // draw line between prev and start
+    // draw line between prev and start as otherwise there would be a gap
     driver->draw3DLine(*prev, *points.begin(),
                        irr::video::SColor(255, 255, 255, 255));
 
     // set back the old value of trueanomaly
-
     trueanomaly = storedTrueAnomaly;
 
   } else {
@@ -84,7 +90,8 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
   }
 }
 
-pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
+pos_and_vel
+Orbit::orbitalElementsToStateVectors(std::weak_ptr<Planet> orbitedPlanet) {
 
   std::shared_ptr<Planet> p = orbitedPlanet.lock();
 
@@ -96,10 +103,15 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
     r_vec = r_vec * (pow(angularMomentum, 2) / mu) *
             (1 / (1 + eccentricity * cos(trueanomaly)));
 
+    // apply formula for radius of orbit, and take cos and sin of it to find
+    // components in x and y directions in perefocal frame
+
     Vector v_vec =
         Vector(-sin(trueanomaly), eccentricity + cos(trueanomaly), 0);
 
     v_vec = v_vec * (mu / angularMomentum);
+
+    // apply formula for velocity in perefocal frame
 
     glm::mat3 R1 =
         glm::mat3(glm::vec3(cos(-argp), -sin(-argp), 0),
@@ -113,6 +125,8 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
         glm::mat3(glm::vec3(cos(-rightAscension), -sin(-rightAscension), 0),
                   glm::vec3(sin(-rightAscension), cos(-rightAscension), 0),
                   glm::vec3(0, 0, 1));
+    // create 3 rotation matrixices around euler angles of argument of
+    // periapsis, inclination and right ascension of ascending node
 
     // convert them to a vector that supports matrix multiplcation
     glm::vec3 position = glm::vec3(r_vec.x, r_vec.y, r_vec.z);
@@ -120,8 +134,10 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
 
     position = R3 * R2 * R1 * position;
     velocity = R3 * R2 * R1 * velocity;
+    // perform the rotations to turn relative position/velocity into absolute
 
-    // convert them back to vector that i can return
+    // convert them back to vector that the rest of the system can support, and
+    // add the position and velocity of the orbited planet
 
     Vector _position =
         Vector(position.x, position.y, position.z) + p->getPosition();
@@ -136,9 +152,9 @@ pos_and_vel Orbit::convertToVelocity(std::weak_ptr<Planet> orbitedPlanet) {
   }
 }
 
-void Orbit::convertFromVelocity(const Vector &_position,
-                                const Vector &_velocity,
-                                std::weak_ptr<Planet> orbitedPlanet) {
+void Orbit::stateVectorsToOrbitalElements(const Vector &_position,
+                                          const Vector &_velocity,
+                                          std::weak_ptr<Planet> orbitedPlanet) {
   std::shared_ptr<Planet> p = orbitedPlanet.lock();
   if (p) {
     double mu = CONST_G * p->getMass();

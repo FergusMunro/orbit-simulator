@@ -48,7 +48,7 @@ void Planet::updateRotation() {
 }
 
 void Planet::updateOrbit() {
-  orbit.convertFromVelocity(position, velocity, orbitedPlanet);
+  orbit.stateVectorsToOrbitalElements(position, velocity, orbitedPlanet);
 }
 
 // getters and setters

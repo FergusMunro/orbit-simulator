@@ -1,6 +1,5 @@
 #include "main/PlanetManager.hpp"
 #include "main/Macros.hpp"
-
 #include "main/Planet.hpp"
 #include "main/planets/Asteroid.hpp"
 #include "main/planets/Comet.hpp"
@@ -10,7 +9,6 @@
 #include "main/planets/Telluric.hpp"
 
 #include <cmath>
-#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {

@@ -16,9 +16,11 @@ struct pos_and_vel {
 class Orbit {
 public:
   // mathematical functions
-  pos_and_vel convertToVelocity(std::weak_ptr<Planet> orbitedPlanet);
-  void convertFromVelocity(const Vector &position, const Vector &velocity,
-                           std::weak_ptr<Planet> orbitedPlanet);
+  pos_and_vel
+  orbitalElementsToStateVectors(std::weak_ptr<Planet> orbitedPlanet);
+  void stateVectorsToOrbitalElements(const Vector &position,
+                                     const Vector &velocity,
+                                     std::weak_ptr<Planet> orbitedPlanet);
 
   // other methods
   void drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
