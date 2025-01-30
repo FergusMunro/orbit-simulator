@@ -11,7 +11,6 @@ using namespace scene;
 class CameraManager {
 public:
   CameraManager(irr::scene::ISceneManager *smgr);
-  void setSelectedPlanet(std::weak_ptr<ISceneNode> planet);
   void updatePosition();
 
   void resetDelta();
@@ -19,6 +18,9 @@ public:
 
   void updateRadius(float wheelDelta);
   void reset();
+
+  std::weak_ptr<ISceneNode> getPlanet();
+  void setSelectedPlanet(std::weak_ptr<ISceneNode> planet);
 
 private:
   std::weak_ptr<ISceneNode> selectedPlanet;

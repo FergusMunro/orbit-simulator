@@ -34,10 +34,6 @@ void CameraManager::updatePosition() {
   }
 }
 
-void CameraManager::setSelectedPlanet(std::weak_ptr<ISceneNode> planet) {
-  selectedPlanet = planet;
-}
-
 void CameraManager::resetDelta() { flag = false; }
 
 void CameraManager::updateAngles(irr::core::vector2di const &newPos) {
@@ -82,3 +78,9 @@ void CameraManager::reset() {
   theta = 1.5;
   phi = 1.5;
 }
+
+void CameraManager::setSelectedPlanet(std::weak_ptr<ISceneNode> planet) {
+  selectedPlanet = planet;
+}
+
+std::weak_ptr<ISceneNode> CameraManager::getPlanet() { return selectedPlanet; }

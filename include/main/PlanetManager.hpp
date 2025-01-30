@@ -20,6 +20,9 @@ public:
   void removeAll();
   void setTimeSpeed(int _timeSpeed);
 
+  std::weak_ptr<Planet>
+  getPlanetFromSceneNode(std::weak_ptr<irr::scene::ISceneNode> sceneNode);
+
   // constructor
   PlanetManager();
 

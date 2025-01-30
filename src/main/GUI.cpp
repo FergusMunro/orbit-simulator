@@ -4,6 +4,7 @@
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
+#include "main/Orbit.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -467,7 +468,31 @@ bool GUI::createPlanetFromInput() {
       trueAnomaly = trueAnomaly * CONST_PI / 180;
       trueAnomaly = fmod(trueAnomaly, 2 * CONST_PI);
 
-      return false;
+      // check eccentricity is between 0 and 1
+
+      if (eccentricity < 0 || eccentricity >= 1) {
+
+        return false;
+      }
+
+      std::weak_ptr<Planet> selectedPlanet =
+          pm.getPlanetFromSceneNode(camera->getPlanet()).lock();
+
+      if (selectedPlanet.lock()) {
+
+        double angularMomentum = radius; // todo: update this
+
+        Orbit o = Orbit(angularMomentum, inclination, eccentricity,
+                        rightAscension, argp, trueAnomaly);
+
+        pos_and_vel posVel = o.orbitalElementsToStateVectors(selectedPlanet);
+
+        addPlanet(posVel.position, posVel.velocity,
+                  planetSelect->getSelected());
+      } else {
+        std::cerr << "error with weak pointer not locking\n";
+      }
+      return true;
     } catch (const std::exception &e) {
       guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
                             L"numerical digits or symbols",

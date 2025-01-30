@@ -9,6 +9,7 @@
 #include "main/planets/Telluric.hpp"
 
 #include <cmath>
+#include <iostream>
 #include <memory>
 
 PlanetManager::PlanetManager() {
@@ -197,4 +198,21 @@ bool PlanetManager::areIntersecting(const Planet &planet1,
   } else {
     return false;
   }
+}
+
+std::weak_ptr<Planet> PlanetManager::getPlanetFromSceneNode(
+    std::weak_ptr<irr::scene::ISceneNode> sceneNode) {
+
+  for (auto &planet : planets) {
+
+    if (planet->getSceneNodePtr().lock() && sceneNode.lock()) {
+
+      if (planet->getSceneNodePtr().lock().get() == sceneNode.lock().get()) {
+        return planet;
+      }
+    }
+  }
+  std::cerr << "error: planet not found for scene node\n";
+  return std::make_shared<Ringed>(Vector(0, 0, 0), Vector(0, 0, 0), nullptr,
+                                  nullptr);
 }
