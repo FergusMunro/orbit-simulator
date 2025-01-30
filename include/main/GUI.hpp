@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGUIButton.h"
+#include "IGUIComboBox.h"
 #include "IGUIEditBox.h"
 #include "IGUIStaticText.h"
 #include "main/CameraManager.hpp"
@@ -69,6 +70,7 @@ private:
 
   IGUIWindow *addPlanetWindow;
   IGUIComboBox *planetSelect;
+  IGUIComboBox *inputTypeSelect;
   IGUIButton *createPlanetButton;
 
   IGUIEditBox *xPosEditBox;
@@ -77,4 +79,11 @@ private:
   IGUIEditBox *xVelEditBox;
   IGUIEditBox *yVelEditBox;
   IGUIEditBox *zVelEditBox;
+
+  IGUIEditBox *radiusEditBox;
+  IGUIEditBox *eccentriciyEditBox;
+  IGUIEditBox *inclinationEditBox;
+  IGUIEditBox *argpEditBox;
+  IGUIEditBox *rightAscensionEditBox;
+  IGUIEditBox *trueAnomalyEditBox;
 };

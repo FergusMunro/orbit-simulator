@@ -183,9 +183,10 @@ void GUI::addStartingPlanets() {
 
   addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), _Star);
 
+  // 1825
   addPlanet(Vector(0, 0, 3000), Vector(1825, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 6000), Vector(1290, 0, 0), _Telluric);
-  // addPlanet(Vector(0, 0, 6050), Vector(1431, 0, 0), _Comet);
+  addPlanet(Vector(0, 0, 6050), Vector(1401, 0, 0), _Comet);
   addPlanet(Vector(0, 0, 10000), Vector(1000, 0, 0), _Gas);
   addPlanet(Vector(0, 0, 10250), Vector(1200, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 15000), Vector(816, 0, 0), _Ringed);
@@ -297,6 +298,12 @@ void GUI::createAddPlanetPopUp() {
     planetSelect->addItem(L"Star");
     planetSelect->addItem(L"Telluric");
 
+    inputTypeSelect =
+        guienv->addComboBox(rect<s32>(25, 280, 150, 310), addPlanetWindow);
+
+    inputTypeSelect->addItem(L"Position and Velocity Input");
+    inputTypeSelect->addItem(L"Orbital Characteristics Input");
+
     x = 50;
     y = 350;
 
@@ -350,6 +357,59 @@ void GUI::createAddPlanetPopUp() {
     createPlanetButton = guienv->addButton(
         rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
 
+    x = 50;
+    y += 60;
+
+    // add edit boxes for orbit input
+
+    guienv->addStaticText(L"Orbital Elements", rect<s32>(x, y, x + 60, y + 15),
+                          false, false, addPlanetWindow);
+    x += 64;
+    guienv->addStaticText(L"r:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    radiusEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15),
+                                       true, addPlanetWindow);
+    x += 88;
+    guienv->addStaticText(L"e:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    eccentriciyEditBox = guienv->addEditBox(
+        L"", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+    x += 88;
+    guienv->addStaticText(L"i:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                          addPlanetWindow);
+    x += 32;
+    inclinationEditBox = guienv->addEditBox(
+        L"", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+    x = 50;
+    y += 30;
+
+    // add edit boxes for advanced orbital characteristics
+
+    guienv->addStaticText(L"Advanced", rect<s32>(x, y, x + 60, y + 15), false,
+                          true, addPlanetWindow);
+    x += 64;
+    guienv->addStaticText(L"ArgP", rect<s32>(x, y, x + 20, y + 45), false, true,
+                          addPlanetWindow);
+    x += 32;
+    argpEditBox = guienv->addEditBox(L"0", rect<s32>(x, y, x + 64, y + 15),
+                                     true, addPlanetWindow);
+    x += 88;
+    guienv->addStaticText(L"Right Asc", rect<s32>(x, y, x + 20, y + 45), false,
+                          true, addPlanetWindow);
+    x += 32;
+    rightAscensionEditBox = guienv->addEditBox(
+        L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+    x += 88;
+    guienv->addStaticText(L"True anomaly", rect<s32>(x, y, x + 20, y + 45),
+                          false, true, addPlanetWindow);
+    x += 32;
+    trueAnomalyEditBox = guienv->addEditBox(
+        L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+    createPlanetButton = guienv->addButton(
+        rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
+
     openPopUpFlag = false;
     receiver->setPlanetWindowSate(true);
   }
@@ -357,22 +417,66 @@ void GUI::createAddPlanetPopUp() {
 
 bool GUI::createPlanetFromInput() {
 
-  try {
-    int xPos = std::stod(std::wstring(xPosEditBox->getText()));
-    int yPos = std::stod(std::wstring(yPosEditBox->getText()));
-    int zPos = std::stod(std::wstring(zPosEditBox->getText()));
-    int xVel = std::stod(std::wstring(xVelEditBox->getText()));
-    int yVel = std::stod(std::wstring(yVelEditBox->getText()));
-    int zVel = std::stod(std::wstring(zVelEditBox->getText()));
+  if (inputTypeSelect->getSelected() == 0) {
+    // create orbit based on state vectors
 
-    addPlanet(Vector(xPos, yPos, zPos), Vector(xVel, yVel, zVel),
-              planetSelect->getSelected());
-    return true;
-  } catch (const std::exception &e) {
-    guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
-                          L"numerical digits or symbols",
-                          rect<s32>(115, 560, 385, 580), false, false,
-                          addPlanetWindow);
-    return false;
+    try {
+      double xPos = std::stod(std::wstring(xPosEditBox->getText()));
+      double yPos = std::stod(std::wstring(yPosEditBox->getText()));
+      double zPos = std::stod(std::wstring(zPosEditBox->getText()));
+      double xVel = std::stod(std::wstring(xVelEditBox->getText()));
+      double yVel = std::stod(std::wstring(yVelEditBox->getText()));
+      double zVel = std::stod(std::wstring(zVelEditBox->getText()));
+
+      addPlanet(Vector(xPos, yPos, zPos), Vector(xVel, yVel, zVel),
+                planetSelect->getSelected());
+      return true;
+    } catch (const std::exception &e) {
+      guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
+                            L"numerical digits or symbols",
+                            rect<s32>(115, 560, 385, 580), false, false,
+                            addPlanetWindow);
+      return false;
+    }
   }
+
+  else if (inputTypeSelect->getSelected() == 1) {
+    // create orbit based on orbital characteristics
+
+    try {
+
+      double radius = std::stod(std::wstring(radiusEditBox->getText()));
+      double eccentricity =
+          std::stod(std::wstring(eccentriciyEditBox->getText()));
+      double inclination =
+          std::stod(std::wstring(inclinationEditBox->getText()));
+      double argp = std::stod(std::wstring(argpEditBox->getText()));
+      double rightAscension =
+          std::stod(std::wstring(rightAscensionEditBox->getText()));
+      double trueAnomaly =
+          std::stod(std::wstring(trueAnomalyEditBox->getText()));
+
+      // convert angles into radians and make them between 0 and 2pi
+
+      inclination = inclination * CONST_PI / 180;
+      inclination = fmod(inclination, 2 * CONST_PI);
+
+      argp = argp * CONST_PI / 180;
+      argp = fmod(argp, 2 * CONST_PI);
+
+      trueAnomaly = trueAnomaly * CONST_PI / 180;
+      trueAnomaly = fmod(trueAnomaly, 2 * CONST_PI);
+
+      return false;
+    } catch (const std::exception &e) {
+      guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
+                            L"numerical digits or symbols",
+                            rect<s32>(115, 560, 385, 580), false, false,
+                            addPlanetWindow);
+
+      return false;
+    }
+  }
+  std::cerr << "error with drop down selection menu\n";
+  return false;
 }

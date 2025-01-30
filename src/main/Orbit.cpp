@@ -33,57 +33,64 @@ void Orbit::drawOrbit(std::weak_ptr<Planet> orbitedPlanet,
 
   if (p) {
 
-    std::forward_list<irr::core::vector3df> points;
-    // linked list containing all the points of the ellipse
+    if (eccentricity < 1) {
 
-    double storedTrueAnomaly = trueanomaly;
-    // we are going to vary the trueanomaly to draw all the points of the orbit
-    // using the convertovelocity function, so we need to store the old value to
-    // set it back at the end
+      std::forward_list<irr::core::vector3df> points;
+      // linked list containing all the points of the ellipse
 
-    Vector pos = Vector(0, 0, 0);
+      double storedTrueAnomaly = trueanomaly;
+      // we are going to vary the trueanomaly to draw all the points of the
+      // orbit using the convertovelocity function, so we need to store the old
+      // value to set it back at the end
 
-    for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
+      Vector pos = Vector(0, 0, 0);
 
-      trueanomaly = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
-      // we change the true anomaly around 2pi to represent all positions in
-      // orbit
+      for (int i = 0; i < ORBITAL_ACCURARCY; i++) {
 
-      pos = orbitalElementsToStateVectors(orbitedPlanet).position;
+        trueanomaly = i * 2 * CONST_PI / ORBITAL_ACCURARCY;
+        // we change the true anomaly around 2pi to represent all positions in
+        // orbit
 
-      points.push_front(irr::core::vector3df(pos.x, pos.y, pos.z));
+        pos = orbitalElementsToStateVectors(orbitedPlanet).position;
+
+        points.push_front(irr::core::vector3df(pos.x, pos.y, pos.z));
+      }
+
+      auto point = points.begin()++;
+      auto prev = points.begin();
+
+      // since we are manually drawing the lines we need to adjust the material
+      // to be right for drawing lines. we need to do this every time we draw as
+      // other functions will change it
+
+      irr::video::SMaterial material;
+      material.Lighting = false;
+      driver->setTransform(irr::video::ETS_WORLD, irr::core::IdentityMatrix);
+
+      driver->setMaterial(material);
+
+      // we need to now manually draw these points, by drawing a line between
+      // adjacent points
+
+      while (point != points.end()) {
+
+        driver->draw3DLine(*prev, *point,
+                           irr::video::SColor(255, 255, 255, 255));
+
+        prev = point;
+        point++;
+      }
+
+      // draw line between prev and start as otherwise there would be a gap
+      driver->draw3DLine(*prev, *points.begin(),
+                         irr::video::SColor(255, 255, 255, 255));
+
+      // set back the old value of trueanomaly
+      trueanomaly = storedTrueAnomaly;
+    } else {
+      // in this case planet is on hyperbolic or parabolic trajectory, so for
+      // now we will just not draw it's orbit
     }
-
-    auto point = points.begin()++;
-    auto prev = points.begin();
-
-    // since we are manually drawing the lines we need to adjust the material to
-    // be right for drawing lines. we need to do this every time we draw as
-    // other functions will change it
-
-    irr::video::SMaterial material;
-    material.Lighting = false;
-    driver->setTransform(irr::video::ETS_WORLD, irr::core::IdentityMatrix);
-
-    driver->setMaterial(material);
-
-    // we need to now manually draw these points, by drawing a line between
-    // adjacent points
-
-    while (point != points.end()) {
-
-      driver->draw3DLine(*prev, *point, irr::video::SColor(255, 255, 255, 255));
-
-      prev = point;
-      point++;
-    }
-
-    // draw line between prev and start as otherwise there would be a gap
-    driver->draw3DLine(*prev, *points.begin(),
-                       irr::video::SColor(255, 255, 255, 255));
-
-    // set back the old value of trueanomaly
-    trueanomaly = storedTrueAnomaly;
 
   } else {
     std::cerr << "error with weak pointer not locking\n";

@@ -64,7 +64,8 @@ TEST_CASE("orbit test") {
     REQUIRE_THAT(vel.z,
                  Catch::Matchers::WithinAbs(posvel.velocity.z, tolerance));
   }
-  SECTION("conver to velocity test") {
+
+  SECTION("state vectors -> orbital elements test") {
     std::shared_ptr<Planet> p = std::make_shared<Star>(
         Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
     p->setMass(39.86);
@@ -80,7 +81,8 @@ TEST_CASE("orbit test") {
     REQUIRE_THAT(o.argp, Catch::Matchers::WithinAbs(5.289, 0.001));
     REQUIRE_THAT(o.trueanomaly, Catch::Matchers::WithinAbs(2.786, 0.001));
   }
-  SECTION("convert from velocity test") {
+
+  SECTION("orbital elements -> state vectors test") {
     Orbit o =
         Orbit(19646.883, 2.16508094, 3.32694662, 0.948, 5.28991843, 2.78572002);
     std::shared_ptr<Planet> p = std::make_shared<Star>(
