@@ -86,4 +86,6 @@ private:
   IGUIEditBox *argpEditBox;
   IGUIEditBox *rightAscensionEditBox;
   IGUIEditBox *trueAnomalyEditBox;
+
+  IGUIStaticText *warningText;
 };

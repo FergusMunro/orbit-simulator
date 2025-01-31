@@ -1,6 +1,7 @@
 #include "main/GUI.hpp"
 #include "IGUIButton.h"
 #include "IGUIComboBox.h"
+#include "IGUIStaticText.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/Macros.hpp"
@@ -408,8 +409,12 @@ void GUI::createAddPlanetPopUp() {
     x += 32;
     trueAnomalyEditBox = guienv->addEditBox(
         L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+
     createPlanetButton = guienv->addButton(
         rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
+
+    warningText = guienv->addStaticText(L"", rect<s32>(115, 560, 385, 580),
+                                        false, false, addPlanetWindow);
 
     openPopUpFlag = false;
     receiver->setPlanetWindowSate(true);
@@ -433,10 +438,9 @@ bool GUI::createPlanetFromInput() {
                 planetSelect->getSelected());
       return true;
     } catch (const std::exception &e) {
-      guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
-                            L"numerical digits or symbols",
-                            rect<s32>(115, 560, 385, 580), false, false,
-                            addPlanetWindow);
+      warningText->setText(L"Warning: ensure that all text boxes contain only "
+                           L"numerical digits or symbols");
+
       return false;
     }
   }
@@ -468,9 +472,28 @@ bool GUI::createPlanetFromInput() {
       trueAnomaly = trueAnomaly * CONST_PI / 180;
       trueAnomaly = fmod(trueAnomaly, 2 * CONST_PI);
 
-      // check eccentricity is between 0 and 1
+      // check eccentricity is between 0 (inclusive) and 1 (exclusive)
 
-      if (eccentricity < 0 || eccentricity >= 1) {
+      if (eccentricity < 0) {
+
+        warningText->setText(
+            L"Eccentricity must be greater than or equal to 0");
+
+        return false;
+      }
+
+      if (eccentricity >= 1) {
+
+        warningText->setText(L"Eccentricity must be less than 1");
+
+        return false;
+      }
+
+      // check radius is greater than or equal to 0
+
+      if (radius <= 0) {
+
+        warningText->setText(L"Radius Input must be positive");
 
         return false;
       }
@@ -480,7 +503,9 @@ bool GUI::createPlanetFromInput() {
 
       if (selectedPlanet.lock()) {
 
-        double angularMomentum = radius; // todo: update this
+        double mu = selectedPlanet.lock()->getMass() * CONST_G;
+
+        double angularMomentum = sqrt(mu * radius * (1 - pow(eccentricity, 2)));
 
         Orbit o = Orbit(angularMomentum, inclination, eccentricity,
                         rightAscension, argp, trueAnomaly);
@@ -494,10 +519,8 @@ bool GUI::createPlanetFromInput() {
       }
       return true;
     } catch (const std::exception &e) {
-      guienv->addStaticText(L"Warning: ensure that all text boxes contain only "
-                            L"numerical digits or symbols",
-                            rect<s32>(115, 560, 385, 580), false, false,
-                            addPlanetWindow);
+      warningText->setText(L"Warning: ensure that all text boxes contain only "
+                           L"numerical digits or symbols");
 
       return false;
     }
