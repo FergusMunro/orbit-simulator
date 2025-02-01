@@ -27,8 +27,7 @@ void GUI::run() {
 
   GUI gui = GUI();
 
-  gui.createTopBar();
-  gui.addStartingPlanets();
+  gui.openTitleScreen();
 
   // adds some misc utility variables
 
@@ -41,24 +40,36 @@ void GUI::run() {
 
     gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
 
-    gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
-    gui.pm.drawPlanets(gui.driver);
+    if (gui.titleScreenOpen) {
 
-    gui.handleMouseInput();
-    gui.handleButtonPresses();
-    gui.camera->updatePosition();
+      if (gui.startSimulationButton->isPressed()) {
 
-    gui.smgr->drawAll();
+        gui.createTopBar();
+        gui.addStartingPlanets();
+
+        gui.titleScreenOpen = false;
+        gui.startSimulationButton->remove();
+        gui.helpButton->remove();
+      }
+
+    } else {
+
+      gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
+      gui.pm.drawPlanets(gui.driver);
+
+      gui.handleMouseInput();
+      gui.handleButtonPresses();
+      gui.camera->updatePosition();
+
+      gui.smgr->drawAll();
+    }
+
     gui.guienv->drawAll();
 
     gui.driver->endScene();
 
     lastTime = timer->getTime();
     gui.receiver->update();
-
-    if (gui.receiver->getPlanetWindowState()) {
-      gui.planetSelect->getSelected();
-    }
   }
 
   gui.pm.removeAll();
@@ -463,6 +474,7 @@ bool GUI::createPlanetFromInput() {
 
       // convert angles into radians and make them between 0 and 2pi
 
+      inclination -= 90;
       inclination = inclination * CONST_PI / 180;
       inclination = fmod(inclination, 2 * CONST_PI);
 
@@ -527,4 +539,13 @@ bool GUI::createPlanetFromInput() {
   }
   std::cerr << "error with drop down selection menu\n";
   return false;
+}
+
+void GUI::openTitleScreen() {
+
+  startSimulationButton = guienv->addButton(rect<s32>(793, 500, 983, 600),
+                                            nullptr, -1, L"Start Simulation");
+
+  helpButton =
+      guienv->addButton(rect<s32>(793, 630, 983, 730), nullptr, -1, L"Help");
 }

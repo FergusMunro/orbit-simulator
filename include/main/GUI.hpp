@@ -33,13 +33,16 @@ private:
   GUI();
   void addPlanet(const Vector &_position, const Vector &_velocity, int type);
 
+  // decomposed procedues
   void createTopBar();
   void addStartingPlanets();
   void handleMouseInput();
   void handleButtonPresses();
   void createAddPlanetPopUp();
   bool createPlanetFromInput();
+  void openTitleScreen();
 
+  // important variables and attributes
   PlanetManager pm;
   std::unique_ptr<CameraManager> camera;
 
@@ -49,6 +52,9 @@ private:
   std::unique_ptr<EventReceiver> receiver;
   vector2di mousepos;
   bool openPopUpFlag = true;
+  bool titleScreenOpen = true;
+
+  // irrlicht pointers
 
   IrrlichtDevice *device;
 
@@ -56,6 +62,8 @@ private:
   ISceneManager *smgr;
   IGUIEnvironment *guienv;
   ISceneCollisionManager *colmgr;
+
+  // gui elements for top bar
 
   IGUIStaticText *topBar;
 
@@ -67,6 +75,8 @@ private:
   IGUIButton *fastSpeedButton;
   IGUIButton *veryFastButton;
   IGUIButton *extremelyFastButton;
+
+  // gui elements for add planet window
 
   IGUIWindow *addPlanetWindow;
   IGUIComboBox *planetSelect;
@@ -88,4 +98,9 @@ private:
   IGUIEditBox *trueAnomalyEditBox;
 
   IGUIStaticText *warningText;
+
+  // gui elements for title title screen
+
+  IGUIButton *startSimulationButton;
+  IGUIButton *helpButton;
 };
