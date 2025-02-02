@@ -41,17 +41,7 @@ void GUI::run() {
     gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
 
     if (gui.titleScreenOpen) {
-
-      if (gui.startSimulationButton->isPressed()) {
-
-        gui.createTopBar();
-        gui.addStartingPlanets();
-
-        gui.titleScreenOpen = false;
-        gui.startSimulationButton->remove();
-        gui.helpButton->remove();
-      }
-
+      gui.handleTitleScreenButtons();
     } else {
 
       gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
@@ -171,13 +161,27 @@ void GUI::handleButtonPresses() {
     scenePointerMap.clear();
 
     // re-add planets from start of simulation
-    addStartingPlanets();
+
+    switch (startType) {
+    case _Normal:
+
+      addStartingPlanets();
+      break;
+    case _Empty:
+      break;
+    case _Binary:
+      void createBinarySystem();
+      break;
+    }
   }
 
   if (addPlanetButton->isPressed()) {
-    createAddPlanetPopUp();
+    if (!openPopUpFlag) {
+      openPopUpFlag = true;
+      createAddPlanetPopUp();
+    }
   } else {
-    openPopUpFlag = true;
+    openPopUpFlag = false;
   }
 
   if (receiver->getPlanetWindowState()) {
@@ -248,188 +252,184 @@ void GUI::handleMouseInput() {
 
 void GUI::createAddPlanetPopUp() {
 
-  if (openPopUpFlag) {
+  addPlanetWindow =
+      guienv->addWindow(rect<s32>(600, 200, 1100, 800), true, L"Add Planet");
+  addPlanetWindow->setDrawBackground(true);
+  // width = 500, height = 600
 
-    addPlanetWindow =
-        guienv->addWindow(rect<s32>(600, 200, 1100, 800), true, L"Add Planet");
-    addPlanetWindow->setDrawBackground(true);
-    // width = 500, height = 600
+  int x = 70;
+  int y = 55;
 
-    int x = 70;
-    int y = 55;
+  IGUIImage *starImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  starImage->setImage(driver->getTexture("assets/planetIcons/star.png"));
+  starImage->setScaleImage(true);
 
-    IGUIImage *starImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    starImage->setImage(driver->getTexture("assets/planetIcons/star.png"));
-    starImage->setScaleImage(true);
+  x += 135;
 
-    x += 135;
+  IGUIImage *ringedImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  ringedImage->setImage(driver->getTexture("assets/planetIcons/ringed.png"));
+  ringedImage->setScaleImage(true);
 
-    IGUIImage *ringedImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    ringedImage->setImage(driver->getTexture("assets/planetIcons/ringed.png"));
-    ringedImage->setScaleImage(true);
+  x += 135;
 
-    x += 135;
+  IGUIImage *gasImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  gasImage->setImage(driver->getTexture("assets/planetIcons/gas.png"));
+  gasImage->setScaleImage(true);
 
-    IGUIImage *gasImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    gasImage->setImage(driver->getTexture("assets/planetIcons/gas.png"));
-    gasImage->setScaleImage(true);
+  x = 70;
+  y += 110;
 
-    x = 70;
-    y += 110;
+  IGUIImage *telluricImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  telluricImage->setImage(
+      driver->getTexture("assets/planetIcons/telluric.png"));
+  telluricImage->setScaleImage(true);
 
-    IGUIImage *telluricImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    telluricImage->setImage(
-        driver->getTexture("assets/planetIcons/telluric.png"));
-    telluricImage->setScaleImage(true);
+  x += 135;
 
-    x += 135;
+  IGUIImage *asteroidImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  asteroidImage->setImage(
+      driver->getTexture("assets/planetIcons/asteroid.png"));
+  asteroidImage->setScaleImage(true);
 
-    IGUIImage *asteroidImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    asteroidImage->setImage(
-        driver->getTexture("assets/planetIcons/asteroid.png"));
-    asteroidImage->setScaleImage(true);
+  x += 135;
 
-    x += 135;
+  IGUIImage *cometImage =
+      guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
+  cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
+  cometImage->setScaleImage(true);
 
-    IGUIImage *cometImage =
-        guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
-    cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
-    cometImage->setScaleImage(true);
+  planetSelect =
+      guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
 
-    planetSelect =
-        guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
+  planetSelect->addItem(L"Asteroid");
+  planetSelect->addItem(L"Comet");
+  planetSelect->addItem(L"Gas");
+  planetSelect->addItem(L"Ringed");
+  planetSelect->addItem(L"Star");
+  planetSelect->addItem(L"Telluric");
 
-    planetSelect->addItem(L"Asteroid");
-    planetSelect->addItem(L"Comet");
-    planetSelect->addItem(L"Gas");
-    planetSelect->addItem(L"Ringed");
-    planetSelect->addItem(L"Star");
-    planetSelect->addItem(L"Telluric");
+  inputTypeSelect =
+      guienv->addComboBox(rect<s32>(25, 280, 150, 310), addPlanetWindow);
 
-    inputTypeSelect =
-        guienv->addComboBox(rect<s32>(25, 280, 150, 310), addPlanetWindow);
+  inputTypeSelect->addItem(L"Position and Velocity Input");
+  inputTypeSelect->addItem(L"Orbital Characteristics Input");
 
-    inputTypeSelect->addItem(L"Position and Velocity Input");
-    inputTypeSelect->addItem(L"Orbital Characteristics Input");
+  x = 50;
+  y = 350;
 
-    x = 50;
-    y = 350;
+  // add position edit boxes
 
-    // add position edit boxes
+  guienv->addStaticText(L"Position", rect<s32>(x, y, x + 60, y + 15), false,
+                        false, addPlanetWindow);
+  x += 64;
+  guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  xPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  yPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  zPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x = 50;
+  y += 30;
 
-    guienv->addStaticText(L"Position", rect<s32>(x, y, x + 60, y + 15), false,
-                          false, addPlanetWindow);
-    x += 64;
-    guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    xPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+  // add velocity edit boxes
+
+  guienv->addStaticText(L"Velocity", rect<s32>(x, y, x + 60, y + 15), false,
+                        false, addPlanetWindow);
+  x += 64;
+  guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  xVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  yVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  zVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  createPlanetButton = guienv->addButton(rect<s32>(200, 500, 300, 550),
+                                         addPlanetWindow, 1, L"Create Planet");
+
+  x = 50;
+  y += 60;
+
+  // add edit boxes for orbit input
+
+  guienv->addStaticText(L"Orbital Elements", rect<s32>(x, y, x + 60, y + 15),
+                        false, false, addPlanetWindow);
+  x += 64;
+  guienv->addStaticText(L"r:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  radiusEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
                                      addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    yPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
-                                     addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    zPosEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
-                                     addPlanetWindow);
-    x = 50;
-    y += 30;
+  x += 88;
+  guienv->addStaticText(L"e:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  eccentriciyEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15),
+                                          true, addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"i:", rect<s32>(x, y, x + 20, y + 15), false, false,
+                        addPlanetWindow);
+  x += 32;
+  inclinationEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15),
+                                          true, addPlanetWindow);
+  x = 50;
+  y += 30;
 
-    // add velocity edit boxes
+  // add edit boxes for advanced orbital characteristics
 
-    guienv->addStaticText(L"Velocity", rect<s32>(x, y, x + 60, y + 15), false,
-                          false, addPlanetWindow);
-    x += 64;
-    guienv->addStaticText(L"X:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    xVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
-                                     addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"Y:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    yVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
-                                     addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"Z:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    zVelEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15), true,
-                                     addPlanetWindow);
-    createPlanetButton = guienv->addButton(
-        rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
+  guienv->addStaticText(L"Advanced", rect<s32>(x, y, x + 60, y + 15), false,
+                        true, addPlanetWindow);
+  x += 64;
+  guienv->addStaticText(L"ArgP", rect<s32>(x, y, x + 20, y + 45), false, true,
+                        addPlanetWindow);
+  x += 32;
+  argpEditBox = guienv->addEditBox(L"0", rect<s32>(x, y, x + 64, y + 15), true,
+                                   addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"Right Asc", rect<s32>(x, y, x + 20, y + 45), false,
+                        true, addPlanetWindow);
+  x += 32;
+  rightAscensionEditBox = guienv->addEditBox(
+      L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
+  x += 88;
+  guienv->addStaticText(L"True anomaly", rect<s32>(x, y, x + 20, y + 45), false,
+                        true, addPlanetWindow);
+  x += 32;
+  trueAnomalyEditBox = guienv->addEditBox(L"0", rect<s32>(x, y, x + 64, y + 15),
+                                          true, addPlanetWindow);
 
-    x = 50;
-    y += 60;
+  createPlanetButton = guienv->addButton(rect<s32>(200, 500, 300, 550),
+                                         addPlanetWindow, 1, L"Create Planet");
 
-    // add edit boxes for orbit input
+  warningText = guienv->addStaticText(L"", rect<s32>(115, 560, 385, 580), false,
+                                      false, addPlanetWindow);
 
-    guienv->addStaticText(L"Orbital Elements", rect<s32>(x, y, x + 60, y + 15),
-                          false, false, addPlanetWindow);
-    x += 64;
-    guienv->addStaticText(L"r:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    radiusEditBox = guienv->addEditBox(L"", rect<s32>(x, y, x + 64, y + 15),
-                                       true, addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"e:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    eccentriciyEditBox = guienv->addEditBox(
-        L"", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"i:", rect<s32>(x, y, x + 20, y + 15), false, false,
-                          addPlanetWindow);
-    x += 32;
-    inclinationEditBox = guienv->addEditBox(
-        L"", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
-    x = 50;
-    y += 30;
-
-    // add edit boxes for advanced orbital characteristics
-
-    guienv->addStaticText(L"Advanced", rect<s32>(x, y, x + 60, y + 15), false,
-                          true, addPlanetWindow);
-    x += 64;
-    guienv->addStaticText(L"ArgP", rect<s32>(x, y, x + 20, y + 45), false, true,
-                          addPlanetWindow);
-    x += 32;
-    argpEditBox = guienv->addEditBox(L"0", rect<s32>(x, y, x + 64, y + 15),
-                                     true, addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"Right Asc", rect<s32>(x, y, x + 20, y + 45), false,
-                          true, addPlanetWindow);
-    x += 32;
-    rightAscensionEditBox = guienv->addEditBox(
-        L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
-    x += 88;
-    guienv->addStaticText(L"True anomaly", rect<s32>(x, y, x + 20, y + 45),
-                          false, true, addPlanetWindow);
-    x += 32;
-    trueAnomalyEditBox = guienv->addEditBox(
-        L"0", rect<s32>(x, y, x + 64, y + 15), true, addPlanetWindow);
-
-    createPlanetButton = guienv->addButton(
-        rect<s32>(200, 500, 300, 550), addPlanetWindow, 1, L"Create Planet");
-
-    warningText = guienv->addStaticText(L"", rect<s32>(115, 560, 385, 580),
-                                        false, false, addPlanetWindow);
-
-    openPopUpFlag = false;
-    receiver->setPlanetWindowSate(true);
-  }
+  receiver->setPlanetWindowSate(true);
 }
 
 bool GUI::createPlanetFromInput() {
@@ -546,6 +546,99 @@ void GUI::openTitleScreen() {
   startSimulationButton = guienv->addButton(rect<s32>(793, 500, 983, 600),
                                             nullptr, -1, L"Start Simulation");
 
-  helpButton =
-      guienv->addButton(rect<s32>(793, 630, 983, 730), nullptr, -1, L"Help");
+  advancedStartButton = guienv->addButton(rect<s32>(793, 630, 983, 730),
+                                          nullptr, -1, L"Advanced");
+
+  titleText = guienv->addImage(rect<s32>(593, 100, 1183, 400));
+  titleText->setImage(driver->getTexture("assets/titleScreen.png"));
+  titleText->setScaleImage(true);
 }
+
+void GUI::handleTitleScreenButtons() {
+
+  if (advancedStartButton->isPressed()) {
+
+    if (!advancedMenuPressed) { // for not allowing multiple presses to
+                                // be detected from single press
+
+      if (advancedStartsOpen) { // menu already open - close it
+
+        emptySimulationButton->remove();
+        binaryStartButton->remove();
+
+        advancedStartsOpen = false;
+
+      } else { // menu is closed - open it
+
+        emptySimulationButton = guienv->addButton(rect<s32>(793, 760, 983, 860),
+                                                  nullptr, -1, L"Start Empty");
+
+        binaryStartButton = guienv->addButton(rect<s32>(793, 890, 983, 990),
+                                              nullptr, -1, L"Start Binary");
+
+        advancedStartsOpen = true;
+      }
+
+      advancedMenuPressed = true;
+    }
+
+  } else { // button is not pressed, so now a new press can be detected
+    advancedMenuPressed = false;
+  }
+
+  if (startSimulationButton->isPressed()) {
+
+    createTopBar();
+    addStartingPlanets();
+
+    titleScreenOpen = false;
+
+    titleText->remove();
+    startSimulationButton->remove();
+    advancedStartButton->remove();
+
+    if (advancedStartsOpen) {
+
+      emptySimulationButton->remove();
+      binaryStartButton->remove();
+    }
+
+    startType = _Normal;
+  }
+
+  if (advancedStartsOpen) {
+    if (emptySimulationButton->isPressed()) {
+
+      createTopBar();
+
+      titleScreenOpen = false;
+
+      titleText->remove();
+      startSimulationButton->remove();
+      advancedStartButton->remove();
+
+      emptySimulationButton->remove();
+      binaryStartButton->remove();
+
+      startType = _Empty;
+
+    } else if (binaryStartButton->isPressed()) {
+
+      createTopBar();
+      createBinarySystem();
+
+      titleScreenOpen = false;
+
+      titleText->remove();
+      startSimulationButton->remove();
+      advancedStartButton->remove();
+
+      emptySimulationButton->remove();
+      binaryStartButton->remove();
+
+      startType = _Binary;
+    }
+  }
+}
+
+void GUI::createBinarySystem() {}

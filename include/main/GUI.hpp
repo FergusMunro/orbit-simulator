@@ -41,6 +41,8 @@ private:
   void createAddPlanetPopUp();
   bool createPlanetFromInput();
   void openTitleScreen();
+  void handleTitleScreenButtons();
+  void createBinarySystem();
 
   // important variables and attributes
   PlanetManager pm;
@@ -51,7 +53,7 @@ private:
   // reciever, mousepos,
   std::unique_ptr<EventReceiver> receiver;
   vector2di mousepos;
-  bool openPopUpFlag = true;
+  bool openPopUpFlag = false;
   bool titleScreenOpen = true;
 
   // irrlicht pointers
@@ -101,6 +103,16 @@ private:
 
   // gui elements for title title screen
 
+  IGUIImage *titleText;
+
   IGUIButton *startSimulationButton;
-  IGUIButton *helpButton;
+  IGUIButton *advancedStartButton;
+  IGUIButton *emptySimulationButton;
+  IGUIButton *binaryStartButton;
+
+  bool advancedStartsOpen = false;
+  bool advancedMenuPressed = false;
+
+  int startType;
+  ;
 };
