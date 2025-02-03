@@ -4,6 +4,7 @@
 #include "IGUIComboBox.h"
 #include "IGUIEditBox.h"
 #include "IGUIStaticText.h"
+#include "IGUIWindow.h"
 #include "main/CameraManager.hpp"
 #include "main/EventReciever.hpp"
 #include "main/PlanetManager.hpp"
@@ -43,6 +44,7 @@ private:
   void openTitleScreen();
   void handleTitleScreenButtons();
   void createBinarySystem();
+  void createPlanetMenu(std::weak_ptr<Planet> planet);
 
   // important variables and attributes
   PlanetManager pm;
@@ -114,5 +116,12 @@ private:
   bool advancedMenuPressed = false;
 
   int startType;
+
+  // gui elements for planet menu
+
+  IGUIWindow *planetMenu;
+  bool rightClicking = false;
+
+  IGUIScrollBar *massSlider;
   ;
 };

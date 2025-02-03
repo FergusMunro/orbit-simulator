@@ -248,12 +248,37 @@ void GUI::handleMouseInput() {
       }
     }
   }
+
+  // handle opening planet menu
+  if (receiver->GetMouseState().rightButtonDown) {
+
+    if (!rightClicking) {
+
+      mousepos = receiver->GetMouseState().Position;
+      selected = colmgr->getSceneNodeFromScreenCoordinatesBB(
+          vector2d(mousepos.X, mousepos.Y));
+
+      if (selected) { // check that it's not nullptr
+
+        if (empty.compare(selected->getName())) { // check is name is not empty
+                                                  // - if name is empty then we
+                                                  // are clicking on nothing
+          // todo, make popup from this planet
+          createPlanetMenu(
+              pm.getPlanetFromSceneNode(scenePointerMap[selected]));
+        }
+      }
+    }
+    rightClicking = true;
+  } else {
+    rightClicking = false;
+  }
 }
 
 void GUI::createAddPlanetPopUp() {
 
-  addPlanetWindow =
-      guienv->addWindow(rect<s32>(600, 200, 1100, 800), true, L"Add Planet");
+  addPlanetWindow = guienv->addWindow(rect<s32>(600, 200, 1100, 800), true,
+                                      L"Add Planet", nullptr, _AddPlanet);
   addPlanetWindow->setDrawBackground(true);
   // width = 500, height = 600
 
@@ -527,7 +552,9 @@ bool GUI::createPlanetFromInput() {
         addPlanet(posVel.position, posVel.velocity,
                   planetSelect->getSelected());
       } else {
-        std::cerr << "error with weak pointer not locking\n";
+        warningText->setText(L"Please ensure a planet is selected before "
+                             L"trying to add planet");
+        return false;
       }
       return true;
     } catch (const std::exception &e) {
@@ -606,7 +633,7 @@ void GUI::handleTitleScreenButtons() {
     startType = _Normal;
   }
 
-  if (advancedStartsOpen) {
+  else if (advancedStartsOpen) {
     if (emptySimulationButton->isPressed()) {
 
       createTopBar();
@@ -642,3 +669,26 @@ void GUI::handleTitleScreenButtons() {
 }
 
 void GUI::createBinarySystem() {}
+
+void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
+
+  //  std::cout << receiver->getPlanetMenuState() << "\n";
+
+  if (receiver->getPlanetMenuState()) {
+    planetMenu->remove();
+  }
+
+  planetMenu = guienv->addWindow(rect<s32>(400, 400, 800, 800), false,
+                                 L"Planet Menu", nullptr, _PlanetMenu);
+
+  massSlider =
+      guienv->addScrollBar(true, rect<s32>(50, 50, 150, 70), planetMenu);
+  massSlider->setMin(0);
+  massSlider->setMax(9);
+  massSlider->setSmallStep(1);
+  // mass slider is a logarithmic scale, so 0 is 10^0 = 1, and 8 is 10^9 =
+  // billion. however I will probably subtract 1 from this value, so max will be
+  // 8 and min will be -1 (and will override value for -1 to be 0)
+
+  receiver->setPlanetMenuState(true);
+}

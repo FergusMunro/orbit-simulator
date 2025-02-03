@@ -1,6 +1,7 @@
 #include "main/EventReciever.hpp"
 #include "IEventReceiver.h"
 #include "Keycodes.h"
+#include "main/Macros.hpp"
 #include <iostream>
 
 bool EventReceiver::OnEvent(const SEvent &event) {
@@ -28,6 +29,15 @@ bool EventReceiver::OnEvent(const SEvent &event) {
       MouseState.shouldSelectPlanet = false;
       break;
 
+    case EMIE_RMOUSE_PRESSED_DOWN:
+      MouseState.rightButtonDown = true;
+
+      break;
+
+    case EMIE_RMOUSE_LEFT_UP:
+      MouseState.rightButtonDown = false;
+      break;
+
     case EMIE_MOUSE_MOVED:
       MouseState.Position.X = event.MouseInput.X;
       MouseState.Position.Y = event.MouseInput.Y;
@@ -44,7 +54,19 @@ bool EventReceiver::OnEvent(const SEvent &event) {
   if (event.EventType == irr::EET_GUI_EVENT) {
 
     if (event.GUIEvent.EventType == irr::gui::EGET_ELEMENT_CLOSED) {
-      createPlanetWindowIsOpen = false;
+
+      int id = event.GUIEvent.Caller->getID();
+      if (id == _AddPlanet) {
+
+        createPlanetWindowIsOpen = false;
+
+      } else if (id == _PlanetMenu) {
+
+        planetMenuIsOpen = false;
+
+      } else {
+        std::cerr << "problem with closing unknown window\n";
+      }
     }
   }
 

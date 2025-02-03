@@ -2,6 +2,7 @@
 
 enum PlanetType { _Asteroid, _Comet, _Gas, _Ringed, _Star, _Telluric };
 enum StartType { _Normal, _Empty, _Binary };
+enum PopUpType { _AddPlanet, _PlanetMenu };
 
 enum GUI_IDS { _Top_Bar };
 

@@ -9,9 +9,12 @@ public:
   struct SMouseState {
     core::position2di Position;
     bool leftButtonDown;
+    bool rightButtonDown;
     bool shouldSelectPlanet;
     float wheel;
-    SMouseState() : leftButtonDown(false), shouldSelectPlanet(false) {}
+    SMouseState()
+        : leftButtonDown(false), shouldSelectPlanet(false),
+          rightButtonDown(false) {}
   } MouseState;
 
   bool wheelReset;
@@ -26,9 +29,18 @@ public:
   EventReceiver();
 
   bool getPlanetWindowState() { return createPlanetWindowIsOpen; }
-  void setPlanetWindowSate(bool input) { createPlanetWindowIsOpen = input; }
+
+  void setPlanetWindowSate(bool _planetWindowStatus) {
+    createPlanetWindowIsOpen = _planetWindowStatus;
+  }
+
+  bool getPlanetMenuState() { return planetMenuIsOpen; }
+  void setPlanetMenuState(bool _planetMenuStatus) {
+    planetMenuIsOpen = _planetMenuStatus;
+  }
 
 private:
   int KeyIsDown[KEY_KEY_CODES_COUNT];
   bool createPlanetWindowIsOpen = false;
+  bool planetMenuIsOpen = false;
 };
