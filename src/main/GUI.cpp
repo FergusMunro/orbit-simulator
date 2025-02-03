@@ -672,23 +672,54 @@ void GUI::createBinarySystem() {}
 
 void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
 
-  //  std::cout << receiver->getPlanetMenuState() << "\n";
+  if (planet.lock()) {
+    std::shared_ptr<Planet> p = planet.lock();
 
-  if (receiver->getPlanetMenuState()) {
-    planetMenu->remove();
+    if (receiver->getPlanetMenuState()) {
+      planetMenu->remove();
+    }
+
+    planetMenu = guienv->addWindow(rect<s32>(400, 400, 800, 800), false,
+                                   L"Planet Menu", nullptr, _PlanetMenu);
+
+    massSlider =
+        guienv->addScrollBar(true, rect<s32>(50, 50, 150, 70), planetMenu);
+    massSlider->setMin(0);
+    massSlider->setMax(100);
+    massSlider->setSmallStep(1);
+
+    massSlider->setPos(10 * log10((double)p->getMass()));
+    // mass slider uses logarithmic scale
+
+    radiusSlider =
+        guienv->addScrollBar(true, rect<s32>(50, 80, 150, 100), planetMenu);
+    radiusSlider->setMin(0);
+    radiusSlider->setMax(100);
+    radiusSlider->setSmallStep(1);
+
+    radiusSlider->setPos(sqrt(p->getRadius()) / 2.3);
+    // radius slider uses polynomial scale
+
+    eccentricitySlider =
+        guienv->addScrollBar(true, rect<s32>(50, 110, 150, 130), planetMenu);
+    eccentricitySlider->setMin(0);
+    eccentricitySlider->setMax(100);
+    eccentricitySlider->setSmallStep(1);
+
+    eccentricitySlider->setPos(p->getEccentricity() * 100);
+
+    inclinationSlider =
+        guienv->addScrollBar(true, rect<s32>(50, 140, 150, 160), planetMenu);
+    inclinationSlider->setMin(0);
+    inclinationSlider->setMax(100);
+    inclinationSlider->setSmallStep(1);
+
+    inclinationSlider->setPos(
+        fmod(((p->getInclination() * 180 / CONST_PI) - 90), 2 * CONST_PI) * 10 /
+        360);
+
+    receiver->setPlanetMenuState(true);
+  } else {
+    std::cerr << "error with weak pointer not locking\n";
   }
-
-  planetMenu = guienv->addWindow(rect<s32>(400, 400, 800, 800), false,
-                                 L"Planet Menu", nullptr, _PlanetMenu);
-
-  massSlider =
-      guienv->addScrollBar(true, rect<s32>(50, 50, 150, 70), planetMenu);
-  massSlider->setMin(0);
-  massSlider->setMax(9);
-  massSlider->setSmallStep(1);
-  // mass slider is a logarithmic scale, so 0 is 10^0 = 1, and 8 is 10^9 =
-  // billion. however I will probably subtract 1 from this value, so max will be
-  // 8 and min will be -1 (and will override value for -1 to be 0)
-
-  receiver->setPlanetMenuState(true);
 }

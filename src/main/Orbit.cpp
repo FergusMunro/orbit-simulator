@@ -252,3 +252,35 @@ void Orbit::toggleConstantSweeping() {
     keplersSecond *= 3;
   }
 }
+
+// todo
+double Orbit::getRadius(std::weak_ptr<Planet> orbitedPlanet) {
+
+  if (orbitedPlanet.lock()) {
+    std::shared_ptr<Planet> p = orbitedPlanet.lock();
+    double mu = CONST_G * p->getMass();
+
+    return pow(angularMomentum, 2) / (mu * (1 - pow(eccentricity, 2)));
+  } else {
+    std::cerr << "error with weak pointer not locking\n";
+    return 0;
+  }
+}
+void Orbit::setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet) {
+
+  if (orbitedPlanet.lock()) {
+    std::shared_ptr<Planet> p = orbitedPlanet.lock();
+    double mu = CONST_G * p->getMass();
+
+    angularMomentum = sqrt(mu * _radius * (1 - pow(eccentricity, 2)));
+
+  } else {
+    std::cerr << "error with weak pointer not locking\n";
+  }
+}
+
+double Orbit::getEccentricity() { return eccentricity; }
+void Orbit::setEccentricity(double _eccentricity) {}
+
+double Orbit::getInclination() { return inclination; }
+void Orbit::setInclination(double _inclination) {}

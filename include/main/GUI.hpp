@@ -3,6 +3,7 @@
 #include "IGUIButton.h"
 #include "IGUIComboBox.h"
 #include "IGUIEditBox.h"
+#include "IGUIScrollBar.h"
 #include "IGUIStaticText.h"
 #include "IGUIWindow.h"
 #include "main/CameraManager.hpp"
@@ -123,5 +124,8 @@ private:
   bool rightClicking = false;
 
   IGUIScrollBar *massSlider;
+  IGUIScrollBar *radiusSlider;
+  IGUIScrollBar *eccentricitySlider;
+  IGUIScrollBar *inclinationSlider;
   ;
 };

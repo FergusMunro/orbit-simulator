@@ -70,3 +70,18 @@ void Planet::setOrbitedPlanet(std::weak_ptr<Planet> planet) {
   orbitedPlanet = planet;
 }
 std::weak_ptr<Planet> Planet::getOrbitedPlanet() const { return orbitedPlanet; }
+
+double Planet::getRadius() { return orbit.getRadius(orbitedPlanet); }
+void Planet::setRadius(double _radius) {
+  orbit.setRadius(_radius, orbitedPlanet);
+}
+
+double Planet::getEccentricity() { return orbit.getEccentricity(); }
+void Planet::setEccentricity(double _eccentricity) {
+  orbit.setEccentricity(_eccentricity);
+}
+
+double Planet::getInclination() { return orbit.getInclination(); }
+void Planet::setInclination(double _inclination) {
+  orbit.setInclination(_inclination);
+}

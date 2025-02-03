@@ -27,6 +27,15 @@ public:
   void setVelocity(const Vector &_velocity);
   __float128 getSize() const;
 
+  double getRadius();
+  void setRadius(double _radius);
+
+  double getEccentricity();
+  void setEccentricity(double _eccentricity);
+
+  double getInclination();
+  void setInclination(double _inclination);
+
   std::weak_ptr<irr::scene::ISceneNode> getSceneNodePtr();
 
   void setOrbitedPlanet(std::weak_ptr<Planet> orbitedPlanet);

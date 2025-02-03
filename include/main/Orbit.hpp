@@ -29,6 +29,15 @@ public:
   void toggleKeplersSecond();
   void toggleConstantSweeping();
 
+  double getRadius(std::weak_ptr<Planet> orbitedPlanet);
+  void setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet);
+
+  double getEccentricity();
+  void setEccentricity(double _eccentricity);
+
+  double getInclination();
+  void setInclination(double _inclination);
+
   Orbit(const Vector &_position, const Vector &_velocity,
         std::weak_ptr<Planet> orbitedPlanet);
 
