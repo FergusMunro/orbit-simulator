@@ -280,7 +280,9 @@ void Orbit::setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet) {
 }
 
 double Orbit::getEccentricity() { return eccentricity; }
-void Orbit::setEccentricity(double _eccentricity) {}
+void Orbit::setEccentricity(double _eccentricity) {
+  eccentricity = _eccentricity;
+}
 
 double Orbit::getInclination() { return inclination; }
-void Orbit::setInclination(double _inclination) {}
+void Orbit::setInclination(double _inclination) { inclination = _inclination; }

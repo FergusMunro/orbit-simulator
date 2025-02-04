@@ -27,14 +27,14 @@ public:
   void setVelocity(const Vector &_velocity);
   __float128 getSize() const;
 
-  double getRadius();
-  void setRadius(double _radius);
+  virtual double getRadius();
+  virtual void setRadius(double _radius);
 
-  double getEccentricity();
-  void setEccentricity(double _eccentricity);
+  virtual double getEccentricity();
+  virtual void setEccentricity(double _eccentricity);
 
-  double getInclination();
-  void setInclination(double _inclination);
+  virtual double getInclination();
+  virtual void setInclination(double _inclination);
 
   std::weak_ptr<irr::scene::ISceneNode> getSceneNodePtr();
 

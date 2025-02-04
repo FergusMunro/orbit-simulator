@@ -46,6 +46,7 @@ private:
   void handleTitleScreenButtons();
   void createBinarySystem();
   void createPlanetMenu(std::weak_ptr<Planet> planet);
+  void updatePlanetInMenu();
 
   // important variables and attributes
   PlanetManager pm;
@@ -122,6 +123,7 @@ private:
 
   IGUIWindow *planetMenu;
   bool rightClicking = false;
+  std::weak_ptr<Planet> planetInMenu;
 
   IGUIScrollBar *massSlider;
   IGUIScrollBar *radiusSlider;

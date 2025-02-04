@@ -51,6 +51,10 @@ void GUI::run() {
       gui.handleButtonPresses();
       gui.camera->updatePosition();
 
+      if (gui.receiver->getPlanetMenuState()) {
+        gui.updatePlanetInMenu();
+      }
+
       gui.smgr->drawAll();
     }
 
@@ -711,15 +715,54 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     inclinationSlider =
         guienv->addScrollBar(true, rect<s32>(50, 140, 150, 160), planetMenu);
     inclinationSlider->setMin(0);
-    inclinationSlider->setMax(100);
+    inclinationSlider->setMax(180);
     inclinationSlider->setSmallStep(1);
 
-    inclinationSlider->setPos(
-        fmod(((p->getInclination() * 180 / CONST_PI) - 90), 2 * CONST_PI) * 10 /
-        360);
+    double codedInclination = (((p->getInclination() * 180 / CONST_PI)));
+
+    inclinationSlider->setPos(codedInclination);
 
     receiver->setPlanetMenuState(true);
+    planetInMenu = planet;
   } else {
     std::cerr << "error with weak pointer not locking\n";
+  }
+}
+
+void GUI::updatePlanetInMenu() {
+  if (planetInMenu.lock()) {
+    // update the planet attributes based on value of the sliders
+    std::shared_ptr<Planet> p = planetInMenu.lock();
+
+    double m = pow(10, massSlider->getPos() / 10);
+
+    p->setMass(m);
+
+    double r = 5.29 * pow(radiusSlider->getPos(), 2);
+
+    p->setRadius(r);
+
+    double e = (double)eccentricitySlider->getPos() / 100;
+
+    if (e == 1) {
+      e = 0.99; // avoid eccentricity of 1, since that is bad
+    }
+
+    double i_deg = ((double)inclinationSlider->getPos());
+    if (i_deg == 0) {
+      i_deg = 0.01;
+    } else if (i_deg == 180) {
+      i_deg = 179.9;
+    }
+
+    p->setInclination(i_deg * CONST_PI / 180);
+
+    p->setEccentricity(e);
+
+  } else {
+    // delete the menu
+
+    planetMenu->remove();
+    receiver->setPlanetMenuState(false);
   }
 }

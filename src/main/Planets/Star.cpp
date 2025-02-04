@@ -33,3 +33,15 @@ Star::Star(const Vector &_position, const Vector &_velocity,
 void Star::drawPlanet(irr::video::IVideoDriver *driver) {
   obj->setPosition(irr::core::vector3df(position.x, position.y, position.z));
 }
+
+void Star::setInclination(double _inclination) {}
+double Star::getInclination() {
+  return 0.01; // avoid return 0 as this causes many errors
+}
+
+void Star::setEccentricity(double _eccentricity) {}
+double Star::getEccentricity() { return 0.01; }
+
+void Star::setRadius(double _radius) {}
+
+double Star::getRadius() { return 0.01; }
