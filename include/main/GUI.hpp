@@ -135,5 +135,7 @@ private:
   IGUIStaticText *eccentricityText;
   IGUIStaticText *inclinationText;
 
+  IGUIButton *deletePlanetButton;
+
   ;
 };

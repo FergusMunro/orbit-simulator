@@ -50,10 +50,6 @@ PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
   return (**planets.begin()).getSceneNodePtr();
 }
 
-void PlanetManager::removePlanet(Planet &planetToRemove) {
-  // TODO
-}
-
 void PlanetManager::removeAll() { planets.clear(); }
 
 void PlanetManager::updatePositions(double timeDelta) {
@@ -110,6 +106,8 @@ void PlanetManager::updatePositions(double timeDelta) {
     Vector currentAcceleration = Vector(0, 0, 0);
     std::weak_ptr<Planet> orbitedPlanet;
 
+    double energy = 0;
+
     double max;
 
     for (auto &planet : planets) {
@@ -120,16 +118,22 @@ void PlanetManager::updatePositions(double timeDelta) {
 
       max = 0;
 
+      energy = 0;
+
       for (auto &planetExertingGravity : planets) {
 
         if (planet != planetExertingGravity) {
           currentAcceleration = calculateGravitationalAcceleration(
               *planet, *planetExertingGravity);
           acceleration = acceleration + currentAcceleration;
+
           if (currentAcceleration.magnitude() > max) {
             max = currentAcceleration.magnitude();
             orbitedPlanet = planetExertingGravity;
           }
+
+          energy +=
+              calculateGravitationalEnergy(*planet, *planetExertingGravity);
         }
       }
 
@@ -138,6 +142,7 @@ void PlanetManager::updatePositions(double timeDelta) {
       planet->setPosition(planet->getPosition() +
                           planet->getVelocity() * timeDelta * timeSpeed);
       planet->setOrbitedPlanet(orbitedPlanet);
+      planet->setGravitationalEnergy(energy);
 
       planet->updateOrbit();
     }
@@ -182,7 +187,12 @@ PlanetManager::calculateGravitationalAcceleration(const Planet &planet1,
 double
 PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
                                             const Planet &planet2) const {
-  // TODO
+
+  Vector distance = planet2.getPosition() - planet1.getPosition();
+
+  return -1 * CONST_G * planet1.getMass() * planet2.getMass() /
+         distance.magnitude();
+
   return 0;
 }
 
@@ -215,4 +225,25 @@ std::weak_ptr<Planet> PlanetManager::getPlanetFromSceneNode(
   std::cerr << "error: planet not found for scene node\n";
   return std::make_shared<Ringed>(Vector(0, 0, 0), Vector(0, 0, 0), nullptr,
                                   nullptr);
+}
+
+void PlanetManager::removePlanet(std::weak_ptr<Planet> planetToRemove) {
+
+  if (planetToRemove.lock()) {
+    Planet *p = planetToRemove.lock().get();
+
+    auto prev = planets.before_begin();
+    auto planet = planets.begin();
+
+    while (planet != planets.end()) {
+
+      if (planet->get() == p) {
+        planets.erase_after(prev);
+        return;
+      }
+
+      prev = planet;
+      planet++;
+    }
+  }
 }

@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <irrlicht.h>
 
 CameraManager::CameraManager(irr::scene::ISceneManager *smgr) {
@@ -31,6 +32,8 @@ void CameraManager::updatePosition() {
 
     camera->setPosition(position);
     camera->setTarget(selectedPlanet.lock()->getPosition());
+  } else {
+    std::cerr << "not locked on to any planet\n";
   }
 }
 

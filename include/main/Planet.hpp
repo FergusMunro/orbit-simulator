@@ -21,11 +21,19 @@ public:
 
   __float128 getMass() const;
   void setMass(__float128 _mass);
+
   Vector getPosition() const;
   void setPosition(const Vector &_position);
+
   Vector getVelocity() const;
   void setVelocity(const Vector &_velocity);
+
   __float128 getSize() const;
+
+  void setGravitationalEnergy(double _energy);
+  double getGravitationalEnergy();
+
+  double getKineticEnergy();
 
   virtual double getRadius();
   virtual void setRadius(double _radius);
@@ -59,6 +67,7 @@ protected:
   irr::io::path pathToTexture;
 
   std::shared_ptr<irr::scene::ISceneNode> obj;
+  double gravitationalEnergy;
 
   __float128 size;
 

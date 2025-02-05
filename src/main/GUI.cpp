@@ -706,7 +706,7 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     massSlider->setMax(100);
     massSlider->setSmallStep(1);
 
-    massSlider->setPos(10 * log10((double)p->getMass()));
+    massSlider->setPos(round(10 * log10((double)p->getMass())));
     // mass slider uses logarithmic scale
 
     y += 40;
@@ -774,6 +774,10 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
 
     receiver->setPlanetMenuState(true);
     planetInMenu = planet;
+
+    deletePlanetButton = guienv->addButton(rect<s32>(100, 35, 200, 85),
+                                           planetMenu, -1, L"Delete Planet");
+
   } else {
     std::cerr << "error with weak pointer not locking\n";
   }
@@ -786,7 +790,7 @@ void GUI::updatePlanetInMenu() {
 
     // update planet values based on slider positions
 
-    double m = pow(10, massSlider->getPos() / 10);
+    double m = pow(10, massSlider->getPos() / 10.0);
 
     p->setMass(m);
 
@@ -839,6 +843,13 @@ void GUI::updatePlanetInMenu() {
     const wchar_t *inclinationArray = inclinationString.c_str();
 
     inclinationText->setText(inclinationArray);
+
+    if (deletePlanetButton->isPressed()) {
+      pm.removePlanet(planetInMenu);
+
+      planetMenu->remove();
+      receiver->setPlanetMenuState(false);
+    }
 
   } else {
     // delete the menu

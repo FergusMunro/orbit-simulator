@@ -54,16 +54,29 @@ void Planet::updateOrbit() {
 // getters and setters
 __float128 Planet::getMass() const { return mass; }
 void Planet::setMass(__float128 _mass) { mass = _mass; }
+
 Vector Planet::getPosition() const { return position; }
 void Planet::setPosition(const Vector &_position) { position = _position; }
+
 Vector Planet::getVelocity() const { return velocity; }
 void Planet::setVelocity(const Vector &_velocity) { velocity = _velocity; }
+
 __float128 Planet::getSize() const { return size; }
+
 std::weak_ptr<irr::scene::ISceneNode> Planet::getSceneNodePtr() {
   std::weak_ptr<irr::scene::ISceneNode> wk = obj;
   return wk;
   // the reason we can't return obj directly is because that would return a
   // shared poitner which is not what we want
+}
+
+void Planet::setGravitationalEnergy(double _energy) {
+  gravitationalEnergy = _energy;
+}
+double Planet::getGravitationalEnergy() { return gravitationalEnergy; }
+
+double Planet::getKineticEnergy() {
+  return mass * pow(velocity.magnitude(), 2) / 2;
 }
 
 void Planet::setOrbitedPlanet(std::weak_ptr<Planet> planet) {

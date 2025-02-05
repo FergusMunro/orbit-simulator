@@ -16,7 +16,7 @@ public:
             irr::scene::ISceneManager *smgr, irr::video::IVideoDriver *driver,
             int type);
 
-  void removePlanet(Planet &planetToRemove);
+  void removePlanet(std::weak_ptr<Planet> planetToRemove);
   void removeAll();
   void setTimeSpeed(int _timeSpeed);
 
