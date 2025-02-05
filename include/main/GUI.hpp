@@ -129,5 +129,11 @@ private:
   IGUIScrollBar *radiusSlider;
   IGUIScrollBar *eccentricitySlider;
   IGUIScrollBar *inclinationSlider;
+
+  IGUIStaticText *massText;
+  IGUIStaticText *radiusText;
+  IGUIStaticText *eccentricityText;
+  IGUIStaticText *inclinationText;
+
   ;
 };

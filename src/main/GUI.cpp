@@ -683,11 +683,25 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
       planetMenu->remove();
     }
 
-    planetMenu = guienv->addWindow(rect<s32>(400, 400, 800, 800), false,
+    planetMenu = guienv->addWindow(rect<s32>(400, 200, 700, 650), false,
                                    L"Planet Menu", nullptr, _PlanetMenu);
+    // width 350, height 500
 
-    massSlider =
-        guienv->addScrollBar(true, rect<s32>(50, 50, 150, 70), planetMenu);
+    int x = 125;
+    int y = 100;
+
+    guienv->addStaticText(L"Mass:", rect<s32>(x - 100, y, x - 25, y + 25),
+                          false, false, planetMenu);
+
+    std::wstring massString = std::to_wstring((double)p->getMass());
+    const wchar_t *massArray = massString.c_str();
+
+    massText =
+        guienv->addStaticText(massArray, rect<s32>(x - 50, y, x - 25, y + 25),
+                              false, false, planetMenu);
+
+    massSlider = guienv->addScrollBar(true, rect<s32>(x, y, x + 150, y + 25),
+                                      planetMenu);
     massSlider->setMin(0);
     massSlider->setMax(100);
     massSlider->setSmallStep(1);
@@ -695,8 +709,20 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     massSlider->setPos(10 * log10((double)p->getMass()));
     // mass slider uses logarithmic scale
 
-    radiusSlider =
-        guienv->addScrollBar(true, rect<s32>(50, 80, 150, 100), planetMenu);
+    y += 40;
+
+    guienv->addStaticText(L"Radius:", rect<s32>(x - 100, y, x - 25, y + 25),
+                          false, false, planetMenu);
+
+    std::wstring radiusString = std::to_wstring(p->getRadius());
+    const wchar_t *radiusArray = radiusString.c_str();
+
+    radiusText =
+        guienv->addStaticText(radiusArray, rect<s32>(x - 50, y, x - 25, y + 25),
+                              false, false, planetMenu);
+
+    radiusSlider = guienv->addScrollBar(true, rect<s32>(x, y, x + 150, y + 25),
+                                        planetMenu);
     radiusSlider->setMin(0);
     radiusSlider->setMax(100);
     radiusSlider->setSmallStep(1);
@@ -704,16 +730,42 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     radiusSlider->setPos(sqrt(p->getRadius()) / 2.3);
     // radius slider uses polynomial scale
 
-    eccentricitySlider =
-        guienv->addScrollBar(true, rect<s32>(50, 110, 150, 130), planetMenu);
+    y += 40;
+
+    guienv->addStaticText(L"Eccentricity:",
+                          rect<s32>(x - 100, y, x - 25, y + 25), false, false,
+                          planetMenu);
+
+    std::wstring eccentricityString = std::to_wstring(p->getEccentricity());
+    const wchar_t *eccentricityArray = eccentricityString.c_str();
+
+    eccentricityText = guienv->addStaticText(
+        eccentricityArray, rect<s32>(x - 50, y, x - 25, y + 25), false, false,
+        planetMenu);
+
+    eccentricitySlider = guienv->addScrollBar(
+        true, rect<s32>(x, y, x + 150, y + 25), planetMenu);
     eccentricitySlider->setMin(0);
     eccentricitySlider->setMax(100);
     eccentricitySlider->setSmallStep(1);
 
     eccentricitySlider->setPos(p->getEccentricity() * 100);
 
-    inclinationSlider =
-        guienv->addScrollBar(true, rect<s32>(50, 140, 150, 160), planetMenu);
+    y += 40;
+
+    guienv->addStaticText(L"Inclination", rect<s32>(x - 100, y, x - 25, y + 25),
+                          false, false, planetMenu);
+
+    std::wstring inclinationString =
+        std::to_wstring(p->getInclination() * 180 / CONST_PI);
+    const wchar_t *inclinationArray = inclinationString.c_str();
+
+    inclinationText = guienv->addStaticText(
+        inclinationArray, rect<s32>(x - 50, y, x - 25, y + 25), false, false,
+        planetMenu);
+
+    inclinationSlider = guienv->addScrollBar(
+        true, rect<s32>(x, y, x + 150, y + 25), planetMenu);
     inclinationSlider->setMin(0);
     inclinationSlider->setMax(180);
     inclinationSlider->setSmallStep(1);
@@ -731,6 +783,8 @@ void GUI::updatePlanetInMenu() {
   if (planetInMenu.lock()) {
     // update the planet attributes based on value of the sliders
     std::shared_ptr<Planet> p = planetInMenu.lock();
+
+    // update planet values based on slider positions
 
     double m = pow(10, massSlider->getPos() / 10);
 
@@ -762,6 +816,29 @@ void GUI::updatePlanetInMenu() {
     p->setInclination(i_deg * CONST_PI / 180);
 
     p->setEccentricity(e);
+
+    // update text based on planet values
+
+    std::wstring eccentricityString = std::to_wstring(p->getEccentricity());
+    const wchar_t *eccentricityArray = eccentricityString.c_str();
+
+    eccentricityText->setText(eccentricityArray);
+
+    std::wstring massString = std::to_wstring((double)p->getMass());
+    const wchar_t *massArray = massString.c_str();
+
+    massText->setText(massArray);
+
+    std::wstring radiusString = std::to_wstring(p->getRadius());
+    const wchar_t *radiusArray = radiusString.c_str();
+
+    radiusText->setText(radiusArray);
+
+    std::wstring inclinationString =
+        std::to_wstring(p->getInclination() * 180 / CONST_PI);
+    const wchar_t *inclinationArray = inclinationString.c_str();
+
+    inclinationText->setText(inclinationArray);
 
   } else {
     // delete the menu
