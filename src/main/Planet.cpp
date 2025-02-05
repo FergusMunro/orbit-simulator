@@ -72,6 +72,7 @@ void Planet::setOrbitedPlanet(std::weak_ptr<Planet> planet) {
 std::weak_ptr<Planet> Planet::getOrbitedPlanet() const { return orbitedPlanet; }
 
 double Planet::getRadius() { return orbit.getRadius(orbitedPlanet); }
+
 void Planet::setRadius(double _radius) {
   orbit.setRadius(_radius, orbitedPlanet);
   pos_and_vel velpos = orbit.orbitalElementsToStateVectors(orbitedPlanet);
@@ -80,14 +81,16 @@ void Planet::setRadius(double _radius) {
 }
 
 double Planet::getEccentricity() { return orbit.getEccentricity(); }
+
 void Planet::setEccentricity(double _eccentricity) {
-  orbit.setEccentricity(_eccentricity);
+  orbit.setEccentricity(_eccentricity, orbitedPlanet);
   pos_and_vel velpos = orbit.orbitalElementsToStateVectors(orbitedPlanet);
   position = velpos.position;
   velocity = velpos.velocity;
 }
 
 double Planet::getInclination() { return orbit.getInclination(); }
+
 void Planet::setInclination(double _inclination) {
   orbit.setInclination(_inclination);
   pos_and_vel velpos = orbit.orbitalElementsToStateVectors(orbitedPlanet);

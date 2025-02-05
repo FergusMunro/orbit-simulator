@@ -253,7 +253,6 @@ void Orbit::toggleConstantSweeping() {
   }
 }
 
-// todo
 double Orbit::getRadius(std::weak_ptr<Planet> orbitedPlanet) {
 
   if (orbitedPlanet.lock()) {
@@ -266,6 +265,7 @@ double Orbit::getRadius(std::weak_ptr<Planet> orbitedPlanet) {
     return 0;
   }
 }
+
 void Orbit::setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet) {
 
   if (orbitedPlanet.lock()) {
@@ -280,9 +280,22 @@ void Orbit::setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet) {
 }
 
 double Orbit::getEccentricity() { return eccentricity; }
-void Orbit::setEccentricity(double _eccentricity) {
-  eccentricity = _eccentricity;
+
+void Orbit::setEccentricity(double _eccentricity,
+                            std::weak_ptr<Planet> orbitedPlanet) {
+  if (orbitedPlanet.lock()) {
+    std::shared_ptr<Planet> p = orbitedPlanet.lock();
+
+    double mu = CONST_G * p->getMass();
+
+    double radius = pow(angularMomentum, 2) / (mu * (1 - pow(eccentricity, 2)));
+
+    eccentricity = _eccentricity;
+
+    angularMomentum = sqrt(mu * radius * (1 - pow(eccentricity, 2)));
+  }
 }
 
 double Orbit::getInclination() { return inclination; }
+
 void Orbit::setInclination(double _inclination) { inclination = _inclination; }

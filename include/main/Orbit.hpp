@@ -33,7 +33,8 @@ public:
   void setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet);
 
   double getEccentricity();
-  void setEccentricity(double _eccentricity);
+  void setEccentricity(double _eccentricity,
+                       std::weak_ptr<Planet> orbitedPlanet);
 
   double getInclination();
   void setInclination(double _inclination);

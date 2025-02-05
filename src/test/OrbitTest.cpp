@@ -7,6 +7,7 @@
 
 #include "main/Orbit.hpp"
 #include "catch.h"
+#include "main/planets/Asteroid.hpp"
 #include "main/planets/Star.hpp"
 
 #include <memory>
@@ -100,5 +101,38 @@ TEST_CASE("orbit test") {
     REQUIRE_THAT(3, Catch::Matchers::WithinAbs(posvel.velocity.x, 0.01));
     REQUIRE_THAT(4, Catch::Matchers::WithinAbs(posvel.velocity.y, 0.01));
     REQUIRE_THAT(5, Catch::Matchers::WithinAbs(posvel.velocity.z, 0.01));
+  }
+
+  SECTION("planet getter setter testing") {
+
+    std::shared_ptr<Planet> orbited = std::make_shared<Star>(
+        Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    Asteroid a = Asteroid(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+    a.setOrbitedPlanet(orbited);
+
+    a.orbit = Orbit(1000000, 1.4, 0, 0.3, 0, 0);
+
+    pos_and_vel velpos = a.orbit.orbitalElementsToStateVectors(a.orbitedPlanet);
+
+    a.position = velpos.position;
+    a.velocity = velpos.velocity;
+
+    REQUIRE_THAT(a.getRadius(), Catch::Matchers::WithinAbs(109.89, 0.01));
+    REQUIRE_THAT(a.getEccentricity(), Catch::Matchers::WithinAbs(0.3, 0.01));
+    REQUIRE_THAT(a.getInclination(), Catch::Matchers::WithinAbs(1.4, 0.01));
+
+    a.setRadius(200);
+
+    REQUIRE_THAT(a.orbit.angularMomentum,
+                 Catch::Matchers::WithinAbs(1349073.756, 0.01));
+
+    a.setEccentricity(0);
+    a.setInclination(0);
+
+    REQUIRE_THAT(a.orbit.angularMomentum,
+                 Catch::Matchers::WithinAbs(1414213.562, 0.01));
+
+    REQUIRE_THAT(200, Catch::Matchers::WithinAbs(a.getPosition().x, 0.01));
   }
 }

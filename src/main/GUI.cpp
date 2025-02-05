@@ -718,9 +718,7 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     inclinationSlider->setMax(180);
     inclinationSlider->setSmallStep(1);
 
-    double codedInclination = (((p->getInclination() * 180 / CONST_PI)));
-
-    inclinationSlider->setPos(codedInclination);
+    inclinationSlider->setPos(p->getInclination() * 180 / CONST_PI);
 
     receiver->setPlanetMenuState(true);
     planetInMenu = planet;
@@ -744,13 +742,19 @@ void GUI::updatePlanetInMenu() {
 
     double e = (double)eccentricitySlider->getPos() / 100;
 
+    if (e == 0) {
+      // avoid eccentricity of exactly 0, since it causes zero divition
+      e = 0.01;
+    }
+
     if (e == 1) {
-      e = 0.99; // avoid eccentricity of 1, since that is bad
+      e = 0.99; // avoid eccentricity of 1, since it is escape trajectory
     }
 
     double i_deg = ((double)inclinationSlider->getPos());
     if (i_deg == 0) {
-      i_deg = 0.01;
+      i_deg = 0.01; // avoid zero and 180 inclination, as they causes screen
+                    // flickering
     } else if (i_deg == 180) {
       i_deg = 179.9;
     }
