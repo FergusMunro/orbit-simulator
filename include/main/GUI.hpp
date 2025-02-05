@@ -137,5 +137,9 @@ private:
 
   IGUIButton *deletePlanetButton;
 
+  IGUIStaticText *kineticEnergyText;
+  IGUIStaticText *gravitationalEnergyText;
+  IGUIStaticText *totalEnergyText;
+
   ;
 };

@@ -230,14 +230,22 @@ std::weak_ptr<Planet> PlanetManager::getPlanetFromSceneNode(
 void PlanetManager::removePlanet(std::weak_ptr<Planet> planetToRemove) {
 
   if (planetToRemove.lock()) {
+    // check planet not already deleted - if it is nothing needs to be done
+
     Planet *p = planetToRemove.lock().get();
+    // get raw pointer for comparison later
 
     auto prev = planets.before_begin();
     auto planet = planets.begin();
+    // previous planet needed in iteration as linked list is forward only, so
+    // can only remove element if have previous node
 
     while (planet != planets.end()) {
+      // iterate over planets list
 
       if (planet->get() == p) {
+        // if they have same pointer we have found planet to remove, so remove
+        // it
         planets.erase_after(prev);
         return;
       }

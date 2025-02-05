@@ -778,6 +778,44 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     deletePlanetButton = guienv->addButton(rect<s32>(100, 35, 200, 85),
                                            planetMenu, -1, L"Delete Planet");
 
+    x = 25;
+    y += 60;
+
+    guienv->addStaticText(L"Kinetic Energy:", rect<s32>(x, y, x + 100, y + 40),
+                          false, true, planetMenu);
+
+    std::wstring kineticEnergyString = std::to_wstring(p->getKineticEnergy());
+    const wchar_t *kineticEnergyArray = kineticEnergyString.c_str();
+
+    kineticEnergyText = guienv->addStaticText(
+        kineticEnergyArray, rect<s32>(x + 100, y, x + 200, y + 40), false,
+        false, planetMenu);
+    y += 40;
+
+    guienv->addStaticText(L"Gravitational Potential Energy:",
+                          rect<s32>(x, y, x + 100, y + 40), false, true,
+                          planetMenu);
+
+    std::wstring gravitationalEnergyString =
+        std::to_wstring(p->getGravitationalEnergy());
+    const wchar_t *gravitationalEnergyArray = gravitationalEnergyString.c_str();
+
+    gravitationalEnergyText = guienv->addStaticText(
+        gravitationalEnergyArray, rect<s32>(x + 100, y, x + 200, y + 40), false,
+        false, planetMenu);
+    y += 40;
+
+    guienv->addStaticText(L"Total Energy:", rect<s32>(x, y, x + 100, y + 40),
+                          false, true, planetMenu);
+
+    std::wstring totalEnergyString =
+        std::to_wstring(p->getGravitationalEnergy() + p->getKineticEnergy());
+    const wchar_t *totalEnergyArray = totalEnergyString.c_str();
+
+    totalEnergyText = guienv->addStaticText(
+        totalEnergyArray, rect<s32>(x + 100, y, x + 200, y + 40), false, false,
+        planetMenu);
+
   } else {
     std::cerr << "error with weak pointer not locking\n";
   }
@@ -823,11 +861,6 @@ void GUI::updatePlanetInMenu() {
 
     // update text based on planet values
 
-    std::wstring eccentricityString = std::to_wstring(p->getEccentricity());
-    const wchar_t *eccentricityArray = eccentricityString.c_str();
-
-    eccentricityText->setText(eccentricityArray);
-
     std::wstring massString = std::to_wstring((double)p->getMass());
     const wchar_t *massArray = massString.c_str();
 
@@ -838,11 +871,33 @@ void GUI::updatePlanetInMenu() {
 
     radiusText->setText(radiusArray);
 
+    std::wstring eccentricityString = std::to_wstring(p->getEccentricity());
+    const wchar_t *eccentricityArray = eccentricityString.c_str();
+
+    eccentricityText->setText(eccentricityArray);
+
     std::wstring inclinationString =
         std::to_wstring(p->getInclination() * 180 / CONST_PI);
     const wchar_t *inclinationArray = inclinationString.c_str();
 
     inclinationText->setText(inclinationArray);
+
+    std::wstring kineticEnergyString = std::to_wstring(p->getKineticEnergy());
+    const wchar_t *kineticEnergyArray = kineticEnergyString.c_str();
+
+    kineticEnergyText->setText(kineticEnergyArray);
+
+    std::wstring gravitationalEnergyString =
+        std::to_wstring(p->getGravitationalEnergy());
+    const wchar_t *gravitationalEnergyArray = gravitationalEnergyString.c_str();
+
+    gravitationalEnergyText->setText(gravitationalEnergyArray);
+
+    std::wstring totalEnergyString =
+        std::to_wstring(p->getGravitationalEnergy() + p->getKineticEnergy());
+    const wchar_t *totalEnergyArray = totalEnergyString.c_str();
+
+    totalEnergyText->setText(totalEnergyArray);
 
     if (deletePlanetButton->isPressed()) {
       pm.removePlanet(planetInMenu);
