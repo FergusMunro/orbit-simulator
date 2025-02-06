@@ -1,4 +1,6 @@
 #include "main/Macros.hpp"
+#include "main/planets/Asteroid.hpp"
+#include "main/planets/Star.hpp"
 #include <iostream>
 #define private public
 #define protected public
@@ -27,45 +29,23 @@ TEST_CASE("planet Manager Tests") {
     REQUIRE((**it).getMass() == 100);
   }
 
-  SECTION("gravity test") {
+  SECTION("gravitational acceleration test") {
 
     // TODO: fix this for new sets of values
 
-    /*
+    Telluric a1 = Telluric(Vector(4, 4, 4), Vector(0, 0, 0), nullptr, nullptr);
 
-    Telluric a1 = Telluric(Vector(4, 4, 4), Vector(0, 0, 0), nullptr);
-
-    Telluric a2 = Telluric(Vector(6, 11, 30), Vector(0, 0, 0), nullptr);
+    Telluric a2 =
+        Telluric(Vector(6, 11, 30), Vector(0, 0, 0), nullptr, nullptr);
 
     Vector acceleration = pm.calculateGravitationalAcceleration(a1, a2);
 
     REQUIRE_THAT(acceleration.magnitude(),
-                 Catch::Matchers::WithinAbs(0.00018299, 0.00000001));
+                 Catch::Matchers::WithinAbs(1371.74211, 0.01));
 
-    REQUIRE_THAT(acceleration.x,
-                 Catch::Matchers::WithinAbs(1.35548e-5, 0.00000001));
-    REQUIRE_THAT(acceleration.y,
-                 Catch::Matchers::WithinAbs(4.7442e-5, 0.00000001));
-    REQUIRE_THAT(acceleration.z,
-                 Catch::Matchers::WithinAbs(1.76213e-4, 0.00000001));
-
-    a2.setMass(1e30);
-
-    a1.setPosition(Vector(0, 0, 0));
-    a2.setPosition(Vector(3000000, 16000000, 24000000));
-
-    acceleration = pm.calculateGravitationalAcceleration(a1, a2);
-
-    REQUIRE_THAT(acceleration.magnitude(),
-                 Catch::Matchers::WithinAbs(79310.34483, 0.00001));
-
-    REQUIRE_THAT(acceleration.x,
-                 Catch::Matchers::WithinAbs(8204.51843, 0.0001));
-    REQUIRE_THAT(acceleration.y,
-                 Catch::Matchers::WithinAbs(43757.43163, 0.0001));
-    REQUIRE_THAT(acceleration.z,
-                 Catch::Matchers::WithinAbs(65636.14744, 0.0001));
-    */
+    REQUIRE_THAT(acceleration.x, Catch::Matchers::WithinAbs(101.611, 0.01));
+    REQUIRE_THAT(acceleration.y, Catch::Matchers::WithinAbs(355.637, 0.01));
+    REQUIRE_THAT(acceleration.z, Catch::Matchers::WithinAbs(1320.94, 0.01));
   }
 
   SECTION("intersection test") {
@@ -128,5 +108,45 @@ TEST_CASE("planet Manager Tests") {
     REQUIRE_THAT(extremelyFastSpeed,
                  Catch::Matchers::WithinAbs(8 * normalSpeed, 0.001));
     REQUIRE_THAT(zeroSpeed, Catch::Matchers::WithinAbs(0, 0.001));
+  }
+
+  SECTION("graviational energy test") {
+    Star s = Star(Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+    Telluric t =
+        Telluric(Vector(1000, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    double energy = pm.calculateGravitationalEnergy(t, s);
+
+    REQUIRE_THAT(energy, Catch::Matchers::WithinAbs(-1e9, 0.01));
+
+    t.setPosition(Vector(2000, 0, 0));
+
+    energy = pm.calculateGravitationalEnergy(t, s);
+
+    REQUIRE_THAT(energy, Catch::Matchers::WithinAbs(-5e8, 0.01));
+
+    Asteroid a = Asteroid(Vector(100, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    energy = pm.calculateGravitationalEnergy(a, s);
+
+    REQUIRE_THAT(energy, Catch::Matchers::WithinAbs(-1e6, 0.01));
+  }
+
+  SECTION("remove planet testing") {
+    std::weak_ptr<Planet> planetToDelete = pm.planets.front();
+
+    std::shared_ptr<Planet> randomPlanet = std::make_shared<Planet>(
+        Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
+
+    std::weak_ptr<Planet> randomPlanetWk = randomPlanet;
+
+    pm.removePlanet(randomPlanetWk);
+    // no removal should happen
+
+    REQUIRE(distance(pm.planets.begin(), pm.planets.end()) == 1);
+
+    pm.removePlanet(planetToDelete);
+
+    REQUIRE(distance(pm.planets.begin(), pm.planets.end()) == 0);
   }
 }

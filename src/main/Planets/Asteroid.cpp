@@ -11,7 +11,7 @@ Asteroid::Asteroid(const Vector &_position, const Vector &_velocity,
     : Planet(_position, _velocity, smgr, driver) {
 
   size = 1;
-  mass = 0;
+  mass = 0.01;
   rotation_rate = 10;
   pathToTexture = "assets/planetTextures/asteroid.jpg";
   // mass and radius of typical medium asteroid

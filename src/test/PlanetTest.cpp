@@ -6,6 +6,7 @@
  */
 
 #include "catch.h"
+#include "main/planets/Asteroid.hpp"
 #include "main/planets/Gas.hpp"
 #include "main/planets/Telluric.hpp"
 
@@ -30,5 +31,26 @@ TEST_CASE("Planet Testing") {
 
     REQUIRE(g.getSize() == 120);
     REQUIRE(g.getMass() == 1000);
+  }
+
+  SECTION("kinetic energy testing") {
+    t.setVelocity(Vector(0, 100, 0));
+
+    REQUIRE_THAT(t.getKineticEnergy(),
+                 Catch::Matchers::WithinAbs(500000, 0.01));
+
+    t.setMass(50);
+
+    REQUIRE_THAT(t.getKineticEnergy(),
+                 Catch::Matchers::WithinAbs(250000, 0.01));
+
+    t.setVelocity(Vector(0, 200, 0));
+
+    REQUIRE_THAT(t.getKineticEnergy(), Catch::Matchers::WithinAbs(1e6, 0.01));
+
+    Asteroid a =
+        Asteroid(Vector(0, 0, 0), Vector(0, 0, 1000), nullptr, nullptr);
+
+    REQUIRE_THAT(a.getKineticEnergy(), Catch::Matchers::WithinAbs(5000, 0.01));
   }
 }
