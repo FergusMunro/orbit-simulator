@@ -756,8 +756,9 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     guienv->addStaticText(L"Inclination", rect<s32>(x - 100, y, x - 25, y + 25),
                           false, false, planetMenu);
 
-    std::wstring inclinationString =
-        std::to_wstring(p->getInclination() * 180 / CONST_PI);
+    double inclination = fmod((p->getInclination() * 180 / CONST_PI) - 90, 180);
+
+    std::wstring inclinationString = std::to_wstring(inclination);
     const wchar_t *inclinationArray = inclinationString.c_str();
 
     inclinationText = guienv->addStaticText(
@@ -770,7 +771,7 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     inclinationSlider->setMax(180);
     inclinationSlider->setSmallStep(1);
 
-    inclinationSlider->setPos(p->getInclination() * 180 / CONST_PI);
+    inclinationSlider->setPos(inclination);
 
     receiver->setPlanetMenuState(true);
     planetInMenu = planet;
@@ -847,15 +848,18 @@ void GUI::updatePlanetInMenu() {
       e = 0.99; // avoid eccentricity of 1, since it is escape trajectory
     }
 
-    double i_deg = ((double)inclinationSlider->getPos());
-    if (i_deg == 0) {
-      i_deg = 0.01; // avoid zero and 180 inclination, as they causes screen
-                    // flickering
-    } else if (i_deg == 180) {
-      i_deg = 179.9;
+    double inclination = inclinationSlider->getPos() + 90;
+
+    inclination = fmod(inclination, 180);
+
+    if (inclination == 0) {
+      inclination = 0.01; // avoid zero and 180 inclination, as they causes
+                          // screen flickering
+    } else if (inclination == 180) {
+      inclination = 179.9;
     }
 
-    p->setInclination(i_deg * CONST_PI / 180);
+    p->setInclination(inclination * CONST_PI / 180);
 
     p->setEccentricity(e);
 
@@ -877,7 +881,7 @@ void GUI::updatePlanetInMenu() {
     eccentricityText->setText(eccentricityArray);
 
     std::wstring inclinationString =
-        std::to_wstring(p->getInclination() * 180 / CONST_PI);
+        std::to_wstring(inclinationSlider->getPos());
     const wchar_t *inclinationArray = inclinationString.c_str();
 
     inclinationText->setText(inclinationArray);

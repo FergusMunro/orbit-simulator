@@ -1,7 +1,3 @@
-#include "main/Macros.hpp"
-#include "main/planets/Asteroid.hpp"
-#include "main/planets/Star.hpp"
-#include <iostream>
 #define private public
 #define protected public
 /*
@@ -11,9 +7,13 @@
 
 #include "catch.h"
 
+#include "main/Macros.hpp"
 #include "main/PlanetManager.hpp"
 #include "main/Vector.hpp"
+#include "main/planets/Asteroid.hpp"
+#include "main/planets/Star.hpp"
 #include "main/planets/Telluric.hpp"
+
 #include <cmath>
 #include <memory>
 
@@ -135,7 +135,7 @@ TEST_CASE("planet Manager Tests") {
   SECTION("remove planet testing") {
     std::weak_ptr<Planet> planetToDelete = pm.planets.front();
 
-    std::shared_ptr<Planet> randomPlanet = std::make_shared<Planet>(
+    std::shared_ptr<Planet> randomPlanet = std::make_shared<Asteroid>(
         Vector(0, 0, 0), Vector(0, 0, 0), nullptr, nullptr);
 
     std::weak_ptr<Planet> randomPlanetWk = randomPlanet;
