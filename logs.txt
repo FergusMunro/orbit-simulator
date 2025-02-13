@@ -1,0 +1,419 @@
+commit ec72a25154133632edf4066b4914eacf51f91464
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Feb 10 20:00:13 2025 +0000
+
+    finished project
+
+commit d1c1b30a48f18d9daa0fb35ee8ff1baa8b4112a2
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Feb 6 12:32:45 2025 +0000
+
+    added unit tests for energy
+
+commit d10fa77e7596772f2f58b539cbf8f5a850812bd8
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Feb 5 20:13:24 2025 +0000
+
+    added energy to planet menu
+
+commit 8408ab009da41ee200f9f11c8dc4cf6577f3aced
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Feb 5 18:18:07 2025 +0000
+
+    added code for energy
+
+commit 98c62f156e010b680fb4d9926b7171287ca39056
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Feb 5 12:52:54 2025 +0000
+
+    made sliders look better
+
+commit 779232f617c55db440040970e751785df9e0bdd5
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Feb 5 12:14:17 2025 +0000
+
+    fixed bugs in planet menu
+
+commit 6b5e9a39b2f822681f34c5b7111231ab883a8e95
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Feb 4 16:47:21 2025 +0000
+
+    fixed bugs with planet menu
+
+commit f4e41a435d1279ba4008eaa7b45323d15562f11f
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Feb 3 18:55:59 2025 +0000
+
+    added basic sliders logic
+
+commit 21ba3f08c48ce8e99eff824b3b83ddd8b1d80b38
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Feb 3 17:53:54 2025 +0000
+
+    added skeleton logic for planet menu
+
+commit dd1c6d732998abb0840509bd3be1a1ab25b03b89
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sun Feb 2 19:15:59 2025 +0000
+
+    created all features for title screen
+
+commit 09622295c4b2b44d9b8486380c7ce5f0d4198f6e
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sat Feb 1 12:10:06 2025 +0000
+
+    added title screen
+
+commit a824494d5e885da2ef9e1f56eca0c64d6bf9a7ca
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Fri Jan 31 18:03:59 2025 +0000
+
+    added some feedback for failed user input
+
+commit 6852e1d03937fe1bf35f4e2471a49a034282422e
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Jan 30 16:21:30 2025 +0000
+
+    added orbit add planet buttons
+
+commit 8905e90ed2e4cfedf708f3348a95561b1388c2bb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Jan 30 12:41:55 2025 +0000
+
+    added orbital add planet buttons
+
+commit 380480d53a34f263d657a84a66682b062a3cb4b1
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 29 18:22:22 2025 +0000
+
+    added comments
+
+commit 908973148f1a68dc5820cd9b2b4bef1840407111
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 29 17:58:58 2025 +0000
+
+    renamed orbit functions to better names
+
+commit e3a252b166eeaeccbd752972e46919e634c69ba2
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 29 13:23:23 2025 +0000
+
+    changed draw orbit to be less repetetive
+
+commit 15c8ae3f0c5717ebcbaeb0952195071bcf5fe928
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 29 12:50:53 2025 +0000
+
+    added some comments
+
+commit a9c21ff8058a1296d22d36e838a70e442d6a8534
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Jan 28 18:00:29 2025 +0000
+
+    created orbital line feature
+
+commit 92d5ae3d2f82067610bf7572f220d579ff0974f4
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Jan 28 15:32:18 2025 +0000
+
+    added more orbit test
+
+commit b5e86b1a60df40e52b00b9351a838096e36617d9
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 27 19:40:30 2025 +0000
+
+    created orbit advanced functions
+
+commit b1a39db69014a80b7b3e1a651080953651aeecb9
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 27 17:25:27 2025 +0000
+
+    added orbit functions
+
+commit 5648b44e020c939eb08a3b940f2b3de2157cd182
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 27 10:03:07 2025 +0000
+
+    changed stoi to stod and added text box for bad users
+
+commit 3179e05945d7f2f5e1bd5ec9bf1463d4e8c3d893
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sat Jan 25 12:38:17 2025 +0000
+
+    added timespeed unit test
+
+commit f4ac213be7446e258256d9552536c8a488b857a2
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Fri Jan 24 13:12:07 2025 +0000
+
+    added actually being able to add the planets
+
+commit a51bcedefa0fec5f0b569fac5968c1e5767b4ae7
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Fri Jan 24 12:30:49 2025 +0000
+
+    added edit boxes
+
+commit 49e266443f9d1d28f8e223f4830b5053b1825c5c
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Jan 23 16:08:49 2025 +0000
+
+    added icons and stuff
+
+commit 72535904ebff64dfe1eeb6bde72e6d28b8dea4cb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 22 20:22:58 2025 +0000
+
+    added start of add planet window
+
+commit 77dd8f56acea0cbeb60bc515304376d651de2c93
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Jan 22 12:38:30 2025 +0000
+
+    made code a bit cleaner
+
+commit 71f3253c03f6f9d43533eef17ab9f926f3441266
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Jan 21 19:15:50 2025 +0000
+
+    simplified main loop
+
+commit 971af48c9589a2e04e85517018c9b80996287830
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Jan 21 18:39:00 2025 +0000
+
+    added reset button
+
+commit 2fbb69951eecd43579223565f5ea57eb6e4bc08a
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Jan 21 16:33:32 2025 +0000
+
+    changed variable names for buttons to be more appropriate
+
+commit afbae59b39882726538ec84354aec3abe593aeb0
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 20 19:53:06 2025 +0000
+
+    added buttons
+
+commit d90aea276fd19958793a8b808381e1bdae13af71
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 20 09:18:46 2025 +0000
+
+    added control click
+
+commit b77099044bf96e217d5adcf35413f3c82d09008c
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Jan 9 08:49:47 2025 +0000
+
+    added gui elements and changed screen size
+
+commit 06086bdafdf100800c75c8b1bbb068c7a192738d
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 6 17:23:16 2025 +0000
+
+    added full solar system, made fullscreen
+
+commit e89cfd136a60e6b11e3160bb575cf12e4b626d16
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 6 09:06:05 2025 +0000
+
+    fixed scrolling
+
+commit b40a731e89697ed8000a39993766e3d2077d6f17
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Jan 6 08:56:28 2025 +0000
+
+    scroll wheel functionality added
+
+commit 51202eaf48e6efc20c29de0e4dec88613e591e51
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Thu Dec 26 17:23:04 2024 +0000
+
+    made camera rotationable
+
+commit 7600fcef5edf13611ff3e2494d682a517fa2cc94
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sun Dec 22 12:35:02 2024 +0000
+
+    changed weak pointer storage to hashmap
+
+commit 69ef7c34ac89b2085009bf81593285d53aa8b665
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Dec 18 10:42:38 2024 +0000
+
+    got camera working except part where is works
+
+commit bcec08c17d5d9c1f0420d72d1a999248b4c7c135
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Dec 10 09:26:56 2024 +0000
+
+    added click on planet
+
+commit 4d572ca06da4ce22bfdf35dcee0ee9cf34049e1a
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Dec 9 12:09:19 2024 +0000
+
+    added event reciever and mouse input stuff
+
+commit 23def2208e87d9a98a4e4c2f9a76690b6d2e158f
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Dec 2 20:11:14 2024 +0000
+
+    did some more shite
+
+commit ffeeba6dd62e713df2abb4226783d5f1cd2f4f17
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Dec 2 17:54:37 2024 +0000
+
+    changed stuff
+
+commit 0ab6796f3eecdac07f87fe9c8d079cb029fca1c0
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Dec 2 11:41:00 2024 +0000
+
+    added update planet positions algorithm and refactored planet class and derived classes of it
+
+commit a3231f00b4b8632ea64ac413fad647ecf59b7234
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sun Dec 1 16:01:26 2024 +0000
+
+    added some tests and stuff
+
+commit 15e74b6ed398ec5e8bf78c2b90b584bdc934c881
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 26 20:08:08 2024 +0000
+
+    added some comments
+
+commit 786424b2c8a2aed91bd272ca8f5a530e0fbc75a5
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 26 20:02:01 2024 +0000
+
+    added intersection function and moved size variable into abstract class
+
+commit 76ab01b56f6f62a501624f28b6e935448e23f3f5
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 26 09:55:37 2024 +0000
+
+    added gravity algorithm
+
+commit 2fcb6beb51a751af3aa81299897c53d16d86cbea
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 26 09:42:09 2024 +0000
+
+    fixed problem where functions where not returned const but return values were
+
+commit 02cca6ed68c9b3188571dc3b61a71c6296538cfb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 25 10:11:05 2024 +0000
+
+    added gui code to all planet derivatives
+
+commit 444705ce5502bc3f49cc0641bd6b79b6aaf473cf
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Fri Nov 22 11:53:27 2024 +0000
+
+    made it so can add planets to gui without segfault
+
+commit c35a22bfc1336f953b772ffb07bbc2864bd176bd
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 20 17:06:04 2024 +0000
+
+    removed jermaface
+
+commit c624bc803ef73cc649850c4251f7c141220e7c0b
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 20 17:00:58 2024 +0000
+
+    added amazing jerma ball face
+
+commit 902c7e311265c62450655a45d22e0d1a12b915e3
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 20 12:55:45 2024 +0000
+
+    added super basic gui
+
+commit c9921b381d8707075a4c5d2f628661b183dee180
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 19 15:06:37 2024 +0000
+
+    added irrchlight to compile stuff
+
+commit c6b2dc24d0caee46e009b7eafcb06d8a0997db2c
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 18 10:58:12 2024 +0000
+
+    changed variables to __float128 for prescision
+
+commit 6b34b4eec93364be1e6374c403d3f8dda82949d7
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 18 10:05:35 2024 +0000
+
+    added add planet function
+
+commit de1d5413143f792b9c9fa65e1b9fc2b513fae6cb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sat Nov 16 09:15:58 2024 +0000
+
+    added orbit tests
+
+commit cffee19a5e99e2023e010a1ed0da44932320d111
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 13 18:18:28 2024 +0000
+
+    misc changes
+
+commit 00953614c8c3a5d208eb98d2d5b42db8231068f7
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 11 19:20:49 2024 +0000
+
+    did something idk
+
+commit 09709aed97dbdb5f9dcda4b34dbd3aca63c2ecfb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 11 11:19:02 2024 +0000
+
+    added planet tests, some function definitions and fixed weird bug in cmake file
+
+commit 814f68c331b9292b5b29649f3910ef1f2a505f01
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Sun Nov 10 11:19:41 2024 +0000
+
+    added orbited planet to planet class and miscelaneous changes
+
+commit 9cc9d5e7acd21b3cd918bab01dacfbcfe5e633c7
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 6 17:38:06 2024 +0000
+
+    added functions for planet manager
+
+commit 4bd9c3abce5b6e97dac8df5ed7eaa92394d4c7cb
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 6 17:25:24 2024 +0000
+
+    added orbit class functions
+
+commit 7b134f3c983641e7d01f753ec6fec7c5869343b6
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 6 13:48:31 2024 +0000
+
+    added planet constructors
+
+commit 4a3b4a8f0deab6b2ae69c14feca8dc3b514da681
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Wed Nov 6 12:27:01 2024 +0000
+
+    finished vector class and added tests
+
+commit 1d2ee78b51860093a32364a5b159ea7d61a75129
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Tue Nov 5 09:59:57 2024 +0000
+
+    Added empty cpp files and completed vector class
+
+commit 9d3e0a5e8050ea45d4f531d4d0ea51139f8d2e5c
+Author: FergusMunro <nintendoisnotpoo@outlook.com>
+Date:   Mon Nov 4 18:39:48 2024 +0000
+
+    Added basic file strucure, cmake and header files

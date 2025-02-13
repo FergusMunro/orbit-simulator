@@ -39,10 +39,13 @@ void GUI::run() {
   while (gui.device->run()) {
 
     gui.driver->beginScene(true, true, SColor(255, 10, 10, 10));
+    // start drawing
 
     if (gui.titleScreenOpen) {
+      // if in title screen
       gui.handleTitleScreenButtons();
     } else {
+      // if in main simulation
 
       gui.pm.updatePositions((timer->getTime() - lastTime) / 1000);
       gui.pm.drawPlanets(gui.driver);
@@ -60,6 +63,7 @@ void GUI::run() {
 
     gui.guienv->drawAll();
 
+    // stop drawing
     gui.driver->endScene();
 
     lastTime = timer->getTime();
@@ -72,6 +76,7 @@ void GUI::run() {
 }
 
 GUI::GUI() {
+  // constructor mostly just initalises variables
   device = createDevice(video::EDT_OPENGL,
                         dimension2d<u32>(SCREEN_WIDTH, SCREEN_HEIGHT), 16, true,
                         false, false, 0);
@@ -101,12 +106,14 @@ GUI::GUI() {
 
 void GUI::createTopBar() {
 
+  // create top bar
   topBar = guienv->addStaticText(
       L"", rect<s32>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 10), true, true);
 
   topBar->setDrawBackground(true);
   topBar->setBackgroundColor(video::SColor(255, 50, 50, 50));
 
+  // create time control buttons
   pauseButton = guienv->addButton(rect<s32>(1100, 25, 1150, 75), topBar);
   pauseButton->setImage(driver->getTexture("assets/buttons/pause.png"));
   pauseButton->setScaleImage();
@@ -129,10 +136,12 @@ void GUI::createTopBar() {
       driver->getTexture("assets/buttons/extremelyfast.png"));
   extremelyFastButton->setScaleImage();
 
+  // create reset button
   resetButton = guienv->addButton(rect<s32>(300, 25, 350, 75), topBar);
   resetButton->setImage(driver->getTexture("assets/buttons/reset.jpg"));
   resetButton->setScaleImage();
 
+  // create add planet button
   addPlanetButton = guienv->addButton(rect<s32>(600, 25, 650, 75), topBar);
   addPlanetButton->setImage(driver->getTexture("assets/buttons/add.jpg"));
   addPlanetButton->setScaleImage();
@@ -140,6 +149,7 @@ void GUI::createTopBar() {
 
 void GUI::handleButtonPresses() {
 
+  // mostly just lots of if statements that do code based on button presses
   if (pauseButton->isPressed()) {
     pm.setTimeSpeed(0);
   }
@@ -188,6 +198,7 @@ void GUI::handleButtonPresses() {
     openPopUpFlag = false;
   }
 
+  // if planet window is open
   if (receiver->getPlanetWindowState()) {
     if (createPlanetButton->isPressed()) {
 
@@ -202,9 +213,10 @@ void GUI::handleButtonPresses() {
 
 void GUI::addStartingPlanets() {
 
+  // add star
   addPlanet(Vector(0, 0, 0), Vector(0, 0, 0), _Star);
 
-  // 1825
+  // add planets
   addPlanet(Vector(0, 0, 3000), Vector(1825, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 6000), Vector(1290, 0, 0), _Telluric);
   addPlanet(Vector(0, 0, 6050), Vector(1401, 0, 0), _Comet);
@@ -228,12 +240,14 @@ void GUI::handleMouseInput() {
   ISceneNode *selected = nullptr;
   std::string empty = "";
 
+  // if left mouse pressed, update the camera
   if (receiver->GetMouseState().leftButtonDown) {
     camera->updateAngles(receiver->GetMouseState().Position);
   } else {
     camera->resetDelta();
   }
 
+  // update camera radius based on scroll wheel state
   camera->updateRadius(receiver->GetMouseState().wheel);
 
   // handle selection of planet
@@ -288,6 +302,9 @@ void GUI::createAddPlanetPopUp() {
 
   int x = 70;
   int y = 55;
+  // these variables are used for formatting the positions of gui elements
+
+  // add images
 
   IGUIImage *starImage =
       guienv->addImage(rect<s32>(x, y, x + 90, y + 90), addPlanetWindow);
@@ -332,6 +349,7 @@ void GUI::createAddPlanetPopUp() {
   cometImage->setImage(driver->getTexture("assets/planetIcons/comet.png"));
   cometImage->setScaleImage(true);
 
+  // add drop-down planet type select
   planetSelect =
       guienv->addComboBox(rect<s32>(180, 280, 320, 310), addPlanetWindow);
 
@@ -342,6 +360,7 @@ void GUI::createAddPlanetPopUp() {
   planetSelect->addItem(L"Star");
   planetSelect->addItem(L"Telluric");
 
+  // add drop down for position/orbital attributes input
   inputTypeSelect =
       guienv->addComboBox(rect<s32>(25, 280, 150, 310), addPlanetWindow);
 
@@ -467,6 +486,10 @@ bool GUI::createPlanetFromInput() {
     // create orbit based on state vectors
 
     try {
+      // use try as if non-digits are input then stod will return error which we
+      // must catch
+
+      // for each edit box, convert them to integer
       double xPos = std::stod(std::wstring(xPosEditBox->getText()));
       double yPos = std::stod(std::wstring(yPosEditBox->getText()));
       double zPos = std::stod(std::wstring(zPosEditBox->getText()));
@@ -489,6 +512,10 @@ bool GUI::createPlanetFromInput() {
     // create orbit based on orbital characteristics
 
     try {
+      // use try as if non-digits are input then stod will return error which we
+      // must catch
+
+      // for each edit box, convert them to integer
 
       double radius = std::stod(std::wstring(radiusEditBox->getText()));
       double eccentricity =
@@ -503,7 +530,8 @@ bool GUI::createPlanetFromInput() {
 
       // convert angles into radians and make them between 0 and 2pi
 
-      inclination -= 90;
+      inclination -=
+          90; // to fix discrepancy between orbital plane and coordinates
       inclination = inclination * CONST_PI / 180;
       inclination = fmod(inclination, 2 * CONST_PI);
 
@@ -543,6 +571,7 @@ bool GUI::createPlanetFromInput() {
           pm.getPlanetFromSceneNode(camera->getPlanet()).lock();
 
       if (selectedPlanet.lock()) {
+        // if the planet that the camera targets is a real planet
 
         double mu = selectedPlanet.lock()->getMass() * CONST_G;
 
@@ -556,12 +585,15 @@ bool GUI::createPlanetFromInput() {
         addPlanet(posVel.position, posVel.velocity,
                   planetSelect->getSelected());
       } else {
+        // if no planet is targeted by camera
         warningText->setText(L"Please ensure a planet is selected before "
                              L"trying to add planet");
         return false;
       }
       return true;
     } catch (const std::exception &e) {
+      // if at any point a non-numerical character is input we can catch it and
+      // not have program crash
       warningText->setText(L"Warning: ensure that all text boxes contain only "
                            L"numerical digits or symbols");
 
@@ -574,6 +606,7 @@ bool GUI::createPlanetFromInput() {
 
 void GUI::openTitleScreen() {
 
+  // create starting text + buttons
   startSimulationButton = guienv->addButton(rect<s32>(793, 500, 983, 600),
                                             nullptr, -1, L"Start Simulation");
 
@@ -619,15 +652,20 @@ void GUI::handleTitleScreenButtons() {
 
   if (startSimulationButton->isPressed()) {
 
+    // create stuff for simulation
+
     createTopBar();
     addStartingPlanets();
 
     titleScreenOpen = false;
 
+    // remove title screen gui elements
+
     titleText->remove();
     startSimulationButton->remove();
     advancedStartButton->remove();
 
+    // check if drop down is open - if so remove drop down gui elements
     if (advancedStartsOpen) {
 
       emptySimulationButton->remove();
@@ -637,11 +675,14 @@ void GUI::handleTitleScreenButtons() {
     startType = _Normal;
   }
 
-  else if (advancedStartsOpen) {
+  else if (advancedStartsOpen) { // if drop down open check if buttons in drop
+                                 // down are pressed
     if (emptySimulationButton->isPressed()) {
 
+      // create stuff for simulation - add no planets
       createTopBar();
 
+      // remove title screen elements
       titleScreenOpen = false;
 
       titleText->remove();
@@ -655,9 +696,11 @@ void GUI::handleTitleScreenButtons() {
 
     } else if (binaryStartButton->isPressed()) {
 
+      // create stuff for simulation - create binary system
       createTopBar();
       createBinarySystem();
 
+      // remove title screen elements
       titleScreenOpen = false;
 
       titleText->remove();
@@ -672,13 +715,17 @@ void GUI::handleTitleScreenButtons() {
   }
 }
 
-void GUI::createBinarySystem() {}
+void GUI::createBinarySystem() {
+  addPlanet(Vector(0, 0, 2500), Vector(1000, 0, 0), _Star);
+  addPlanet(Vector(0, 0, -2500), Vector(-1000, 0, 0), _Star);
+}
 
 void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
 
-  if (planet.lock()) {
+  if (planet.lock()) { // just to check if the planet actually exists
     std::shared_ptr<Planet> p = planet.lock();
 
+    // if the planet menu is already open, remove the old one
     if (receiver->getPlanetMenuState()) {
       planetMenu->remove();
     }
@@ -687,14 +734,19 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
                                    L"Planet Menu", nullptr, _PlanetMenu);
     // width 350, height 500
 
+    // these variables are used for formatting the menu
     int x = 125;
     int y = 100;
 
+    // add sliders and slider text
     guienv->addStaticText(L"Mass:", rect<s32>(x - 100, y, x - 25, y + 25),
                           false, false, planetMenu);
 
     std::wstring massString = std::to_wstring((double)p->getMass());
     const wchar_t *massArray = massString.c_str();
+    // need to first get a wstring, then get the wchar_t pointer and finally can
+    // put this in variables can't just do this in the addStaticText() function
+    // as it the pointer would go out of scope, so must store as variable
 
     massText =
         guienv->addStaticText(massArray, rect<s32>(x - 50, y, x - 25, y + 25),
@@ -714,6 +766,9 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     guienv->addStaticText(L"Radius:", rect<s32>(x - 100, y, x - 25, y + 25),
                           false, false, planetMenu);
 
+    // need to first get a wstring, then get the wchar_t pointer and finally can
+    // put this in variables can't just do this in the addStaticText() function
+    // as it the pointer would go out of scope, so must store as variable
     std::wstring radiusString = std::to_wstring(p->getRadius());
     const wchar_t *radiusArray = radiusString.c_str();
 
@@ -738,6 +793,9 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
 
     std::wstring eccentricityString = std::to_wstring(p->getEccentricity());
     const wchar_t *eccentricityArray = eccentricityString.c_str();
+    // need to first get a wstring, then get the wchar_t pointer and finally can
+    // put this in variables can't just do this in the addStaticText() function
+    // as it the pointer would go out of scope, so must store as variable
 
     eccentricityText = guienv->addStaticText(
         eccentricityArray, rect<s32>(x - 50, y, x - 25, y + 25), false, false,
@@ -760,6 +818,9 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
 
     std::wstring inclinationString = std::to_wstring(inclination);
     const wchar_t *inclinationArray = inclinationString.c_str();
+    // need to first get a wstring, then get the wchar_t pointer and finally can
+    // put this in variables can't just do this in the addStaticText() function
+    // as it the pointer would go out of scope, so must store as variable
 
     inclinationText = guienv->addStaticText(
         inclinationArray, rect<s32>(x - 50, y, x - 25, y + 25), false, false,
@@ -779,6 +840,9 @@ void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
     deletePlanetButton = guienv->addButton(rect<s32>(100, 35, 200, 85),
                                            planetMenu, -1, L"Delete Planet");
 
+    // add energy text boxes
+
+    // reset formatting variables
     x = 25;
     y += 60;
 

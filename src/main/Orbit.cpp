@@ -255,10 +255,13 @@ void Orbit::toggleConstantSweeping() {
 
 double Orbit::getRadius(std::weak_ptr<Planet> orbitedPlanet) {
 
-  if (orbitedPlanet.lock()) {
+  if (orbitedPlanet.lock()) { // check orbited planet still exists
+
     std::shared_ptr<Planet> p = orbitedPlanet.lock();
     double mu = CONST_G * p->getMass();
+    // calculate mu
 
+    // apply and return formula
     return pow(angularMomentum, 2) / (mu * (1 - pow(eccentricity, 2)));
   } else {
     std::cerr << "error with weak pointer not locking\n";
@@ -268,10 +271,12 @@ double Orbit::getRadius(std::weak_ptr<Planet> orbitedPlanet) {
 
 void Orbit::setRadius(double _radius, std::weak_ptr<Planet> orbitedPlanet) {
 
-  if (orbitedPlanet.lock()) {
+  if (orbitedPlanet.lock()) { // check orbited planet still exists
+
     std::shared_ptr<Planet> p = orbitedPlanet.lock();
     double mu = CONST_G * p->getMass();
 
+    // apply formula for radius -> angularMomentum
     angularMomentum = sqrt(mu * _radius * (1 - pow(eccentricity, 2)));
 
   } else {
@@ -288,10 +293,14 @@ void Orbit::setEccentricity(double _eccentricity,
 
     double mu = CONST_G * p->getMass();
 
+    // calculate old radius
     double radius = pow(angularMomentum, 2) / (mu * (1 - pow(eccentricity, 2)));
 
+    // set eccentricity
     eccentricity = _eccentricity;
 
+    // calculate new angularMomentum using new eccentricity and old radius -
+    // otherwise this doesn't behave as expected
     angularMomentum = sqrt(mu * radius * (1 - pow(eccentricity, 2)));
   }
 }

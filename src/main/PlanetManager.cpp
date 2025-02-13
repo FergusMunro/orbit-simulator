@@ -21,6 +21,7 @@ PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
                          irr::scene::ISceneManager *smgr,
                          irr::video::IVideoDriver *driver, int type) {
 
+  // switch statement to add different planet based on provided type
   switch (type) {
   case _Asteroid:
     planets.push_front(
@@ -47,6 +48,10 @@ PlanetManager::addPlanet(const Vector &_position, const Vector &_velocity,
         std::make_shared<Telluric>(_position, _velocity, smgr, driver));
     break;
   }
+  // return a weak pointer to the scene node pointer. this is stored by the gui
+  // and used to find which planet is clicked on by linking the planet to its
+  // scene node pointer, however we need to give it the weak pointer first to
+  // make sure it doesn't cause crashes if one gets deleted
   return (**planets.begin()).getSceneNodePtr();
 }
 
@@ -58,7 +63,10 @@ void PlanetManager::updatePositions(double timeDelta) {
 
     // handle collions section
 
-    auto prev1 = planets.before_begin();
+    auto prev1 =
+        planets.before_begin(); // need to keep track of previous as when
+                                // wanting to delete current node, need to
+                                // previous node since is a singly linked list
     auto planet1 = planets.begin();
     while (planet1 != planets.end()) {
 
@@ -69,13 +77,18 @@ void PlanetManager::updatePositions(double timeDelta) {
       int p1delete = 0;
 
       while (planet2 != planets.end()) {
+        // second loop - same as before
 
         if (areIntersecting(**planet1, **planet2) && planet1 != planet2) {
+          // if they are intersecting
           if ((**planet1).getMass() >= (**planet2).getMass()) {
             planet2->reset();
             planet2 = planets.erase_after(prev2);
           } else {
-            p1delete = 1;
+            p1delete = 1; // cant delete planet 1 straight away, as this would
+                          // cause crash as we need to iterate over planet2
+                          // first and compare with planet 1 which if planet 1
+                          // is deleted would cause crash
             break;
           }
         } else {
@@ -84,6 +97,7 @@ void PlanetManager::updatePositions(double timeDelta) {
         }
       }
       if (p1delete) {
+        // delete first planet
         planet1->reset();
         planet1 = planets.erase_after(prev1);
       } else {
@@ -111,6 +125,7 @@ void PlanetManager::updatePositions(double timeDelta) {
     double max;
 
     for (auto &planet : planets) {
+      // since no deleting is needed here, can use simpler iterator
 
       acceleration.x = 0;
       acceleration.y = 0;
@@ -123,20 +138,26 @@ void PlanetManager::updatePositions(double timeDelta) {
       for (auto &planetExertingGravity : planets) {
 
         if (planet != planetExertingGravity) {
+          // don't have planet apply gravity to itself
+
+          // caluclate acceleration
           currentAcceleration = calculateGravitationalAcceleration(
               *planet, *planetExertingGravity);
           acceleration = acceleration + currentAcceleration;
 
+          // keep track of maximum acceleration for finding orbited planet
           if (currentAcceleration.magnitude() > max) {
             max = currentAcceleration.magnitude();
             orbitedPlanet = planetExertingGravity;
           }
 
+          // calculate energy
           energy +=
               calculateGravitationalEnergy(*planet, *planetExertingGravity);
         }
       }
 
+      // update velocity, position, orbited planet and energy for this planet
       planet->setVelocity(planet->getVelocity() +
                           acceleration * timeDelta * timeSpeed);
       planet->setPosition(planet->getPosition() +
@@ -144,13 +165,14 @@ void PlanetManager::updatePositions(double timeDelta) {
       planet->setOrbitedPlanet(orbitedPlanet);
       planet->setGravitationalEnergy(energy);
 
+      // update orbital characteristics based on new information
       planet->updateOrbit();
     }
   }
 }
 
 void PlanetManager::drawPlanets(irr::video::IVideoDriver *driver) const {
-  if (!planets.empty()) {
+  if (!planets.empty()) { // check planets not empty as otherwise would crash
 
     for (auto &planet : planets) {
       planet->drawPlanet(driver);
@@ -161,7 +183,7 @@ void PlanetManager::drawPlanets(irr::video::IVideoDriver *driver) const {
 void PlanetManager::setTimeSpeed(int _timeSpeed) {
 
   if (_timeSpeed < 0) {
-    // do nothing
+    // do nothing - stops negative timespeed
   } else {
     timeSpeed = _timeSpeed;
   }
@@ -189,11 +211,11 @@ PlanetManager::calculateGravitationalEnergy(const Planet &planet1,
                                             const Planet &planet2) const {
 
   Vector distance = planet2.getPosition() - planet1.getPosition();
+  // find distance
 
   return -1 * CONST_G * planet1.getMass() * planet2.getMass() /
          distance.magnitude();
-
-  return 0;
+  // apply and return formula
 }
 
 bool PlanetManager::areIntersecting(const Planet &planet1,
@@ -212,17 +234,24 @@ bool PlanetManager::areIntersecting(const Planet &planet1,
 
 std::weak_ptr<Planet> PlanetManager::getPlanetFromSceneNode(
     std::weak_ptr<irr::scene::ISceneNode> sceneNode) {
+  // this function is a linear search to return a planet based on its scene node
+  // pointer, which is given as a parameter
 
-  for (auto &planet : planets) {
+  for (auto &planet : planets) { // iterate over planets
 
     if (planet->getSceneNodePtr().lock() && sceneNode.lock()) {
 
+      // if scene node raw pointer for input and planet are equal, must be
+      // planet to return
+      // otherwise keep searching
       if (planet->getSceneNodePtr().lock().get() == sceneNode.lock().get()) {
         return planet;
       }
     }
   }
   std::cerr << "error: planet not found for scene node\n";
+  // just return a random planet to keep the compiler happy, this code should
+  // never run
   return std::make_shared<Ringed>(Vector(0, 0, 0), Vector(0, 0, 0), nullptr,
                                   nullptr);
 }

@@ -18,6 +18,7 @@ bool EventReceiver::OnEvent(const SEvent &event) {
       MouseState.leftButtonDown = true;
 
       if (IsKeyDown(irr::KEY_LCONTROL)) {
+        // if control pressed, also set a variable true for selecting planet
 
         MouseState.shouldSelectPlanet = true;
       }
@@ -77,6 +78,10 @@ void EventReceiver::update() {
   MouseState.wheel = 0;
 
   MouseState.shouldSelectPlanet = false;
+  // run this every frame. this is so that the wheel value used is not stored
+  // from previous frames, as we can only measure when wheel is moved, not when
+  // it stops moving. also, cannot measure when left control + left mouse stops
+  // being pressed, so we also need to reset this every frame
 }
 
 int EventReceiver::IsKeyDown(EKEY_CODE keyCode) const {
@@ -85,6 +90,8 @@ int EventReceiver::IsKeyDown(EKEY_CODE keyCode) const {
 
 EventReceiver::EventReceiver() {
 
+  // we need to initialise the KeyIsDown array as zero, otherwise at start it
+  // will think all keys are pressed
   for (int i = 0; i < (sizeof(KeyIsDown) / sizeof(int)); i++) {
 
     KeyIsDown[i] = 0;
