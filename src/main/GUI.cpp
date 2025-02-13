@@ -716,8 +716,12 @@ void GUI::handleTitleScreenButtons() {
 }
 
 void GUI::createBinarySystem() {
+  // create stars
   addPlanet(Vector(0, 0, 2500), Vector(1000, 0, 0), _Star);
   addPlanet(Vector(0, 0, -2500), Vector(-1000, 0, 0), _Star);
+
+  // create one planet
+  addPlanet(Vector(0, 0, 25000), Vector(2000, 0, 0), _Gas);
 }
 
 void GUI::createPlanetMenu(std::weak_ptr<Planet> planet) {
