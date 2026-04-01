@@ -1,6 +1,6 @@
 # Orbital Simulator
 
-This was my A Level Computer Science Coursework, that aimed to bring the excellent intuition that games like Kerbal Space Program provide about orbital mechanics into an educational setting.
+This was my A Level Computer Science Coursework, that aimed to bring the excellent intuition that games like Kerbal Space Program provide about orbital mechanics into an educational setting. My final mark was 67/70.
 
 ## Features
 
